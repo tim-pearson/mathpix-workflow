@@ -8,6 +8,7 @@ Fixes:
   - $$ blocks: delimiters on their own lines, one `\\` row per line,
     hard-wrapped lines inside a block re-joined, aligned -> align
   - inline $...$ maths never spans more than one line
+  - tables: rows kept on consecutive lines, `|` inside maths -> \\vert
   - dotted leaders (\\cdots / \\ldots chains) removed
   - hard-wrapped prose lines re-joined
   - parts split onto separate lines and bolded: letters (**a**) AND
@@ -93,6 +94,19 @@ def join_inline_math(s: str) -> str:
 
 text = join_inline_math(text)
 
+# ---------- 1c. tables: a literal | inside maths would end the cell ----------
+def escape_table_pipes(s: str) -> str:
+    def fix_math(m):
+        return "$" + re.sub(r"(?<!\\)\|", r"\\vert ", m.group(1)) + "$"
+    res = []
+    for ln in s.split("\n"):
+        if ln.lstrip().startswith("|"):
+            ln = re.sub(r"(?<!\\)\$([^$]*)\$", fix_math, ln)
+        res.append(ln)
+    return "\n".join(res)
+
+text = escape_table_pipes(text)
+
 # ---------- 2. unwrap hard-wrapped prose ----------
 ROMAN = ["i", "ii", "iii", "iv", "v", "vi", "vii", "viii"]
 ROMAN_RE = r"(?:iv|vi{0,3}|i{1,3})"
@@ -105,9 +119,10 @@ START = re.compile(
 raw = []
 for l in text.split("\n"):
     l = l.strip()
-    # put the exam-source citation on its own line
+    # put the exam-source citation on its own line (never touch table rows)
     m = re.search(r"\s+(Cambridge International .*)$", l)
-    if m and not l.startswith("Cambridge International"):
+    if (m and not l.startswith("Cambridge International")
+            and not l.startswith("|")):
         raw.append(l[:m.start()].strip())
         raw.append(m.group(1).strip())
     else:
@@ -120,7 +135,8 @@ for l in raw:
         continue
     prev = lines[-1] if lines else ""
     if (prev and len(prev) >= 70 and not re.search(r"[.:?!\]]$|@@$", prev)
-            and not prev.startswith(("#", "@@", "![", "Cambridge International"))
+            and not prev.startswith(("#", "@@", "![", "Cambridge International", "|"))
+            and not l.startswith("|")
             and not START.match(l)):
         lines[-1] = prev + " " + l
     else:
@@ -191,9 +207,16 @@ def split_labels(line):
         end = cuts[k + 1][0] if k + 1 < len(cuts) else len(line)
         res.append(f"**{lab}** {line[e:end].strip()}".rstrip())
     return res
+
 for l in lines:
     if not l:
         continue
+
+    # table rows pass straight through (kept consecutive in step 4)
+    if l.startswith("|"):
+        out.append(l)
+        continue
+
     m = re.match(r"^#*\s*(EXERCISE \d+[A-Z])\s*$", l)
     if m:
         out.append(f"### {m.group(1)}"); reset(); continue
@@ -246,8 +269,14 @@ for l in lines:
 
     out.extend(split_labels(l))
 
-# ---------- 4. restore blocks, one blank line between everything ----------
-result = "\n\n".join(out)
+# ---------- 4. restore blocks, blank line between items (tables stay tight) ----------
+parts = []
+for k, item in enumerate(out):
+    if k:
+        both_table = item.startswith("|") and out[k - 1].startswith("|")
+        parts.append("\n" if both_table else "\n\n")
+    parts.append(item)
+result = "".join(parts)
 result = re.sub(r"@@MATH(\d+)@@", lambda m: stash[int(m.group(1))], result)
 result = re.sub(r"\n{3,}", "\n\n", result).strip() + "\n"
 
