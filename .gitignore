@@ -1,11 +1,20 @@
-.env
-.env.*
-!.env.example
+# python
 __pycache__/
-*.py[cod]
+*.pyc
 .venv/
 venv/
-node_modules/
-dist/
-build/
+
+# editor / OS
+*.swp
+*~
 .DS_Store
+
+# archives and source PDFs
+*.zip
+*.pdf
+
+# Copyrighted textbook content: keep out of any remote.
+# Uncomment if you don't want the converted books in git at all.
+# *_MD/
+# split/
+# images/
