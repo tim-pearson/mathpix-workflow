@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Build a local MkDocs Material site from the split book + images.
-Usage: python build_site.py [book_dir] [--local-mathjax]
+Usage: python build_site.py [book_dir] [--local-mathjax] [--boldsymbol-to-mathbf]
 Everything is generated under ./site/ and the book files are never modified.
 """
 import argparse
@@ -13,17 +13,52 @@ from pathlib import Path
 
 BOOK_DEFAULT = Path("Maths Pure 2 & 3-clean_MD")
 MATHJAX_CDN = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
-MJ_JS_LOCAL = "javascripts/tex-mml-chtml.js"
+BOLDSYMBOL_EXT = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/input/tex/" \
+                 "extensions/boldsymbol.js"
 
 CH_RE = re.compile(r"^ch(\d+)-")
 H1_RE = re.compile(r"^#\s+(.*)$")
 
-# normalise inline maths arithmatex rejects: "$ x $", "$x $", "$ x$" -> "$x$"
-# opener $ must be at line-start or after whitespace so "$x$ and $y$" is safe.
-SLOPPY_INLINE = re.compile(
-    r"(?<![\S])\$[ \t]+([^$]+?)[ \t]+\$(?=[ \t.,;:!?)\]}]|$)")
+# normalise inline maths arithmatex rejects: "$ x" / "x $" cases ->
+# "$x".  Openers are guarded by (start|whitespace) before the $ and
+# non-space after, so "$x$ and $y$" is never touched.
+OPEN_SPACE = re.compile(r"(?<![\S])\$[ \t]+(?=[^ \t])")
+CLOSE_SPACE = re.compile(r"[ \t]+\$(?=[ \t.,;:!?)\]}]|$)")
 # "$ x = 2 $" written on one line -> its own $$..$$ block
 SAME_LINE_DOLLARS = re.compile(r"\$\$(?:\s*)([^$]+?)(?:\s*)\$\$")
+
+# crude LaTeX -> plain text for maths inside headings (sidebar/TOC can't
+# typeset).  Ordered: operatorname first (may be spaced/nested), then the
+# unbrace-able formatting commands, then \frac/\sqrt, then a symbol map.
+HEAD_MATH = re.compile(r"\$([^$\n]+?)\$")
+
+SYMBOLS = {"pm": "\u00b1", "cdot": "\u00b7", "cdots": "\u2026",
+           "ldots": "\u2026", "to": "\u2192", "Rightarrow": "\u21d2",
+           "Leftrightarrow": "\u21d4", "ne": "\u2260", "le": "\u2264",
+           "ge": "\u2265", "leq": "\u2264", "geq": "\u2265",
+           "infty": "\u221e", "times": "\u00d7", "div": "\u00f7",
+           "circ": "\u00b0", "prime": "\u2032", "alpha": "\u03b1",
+           "beta": "\u03b2", "theta": "\u03b8", "gamma": "\u03b3",
+           "delta": "\u03b4", "pi": "\u03c0", "mu": "\u03bc",
+           "lambda": "\u03bb", "phi": "\u03c6", "omega": "\u03c9"}
+
+
+def math_to_plain(s):
+    s = re.sub(r"\\(?:operatorname)\s*\{\s*([^{}]*?)\s*\}",
+               lambda m: re.sub(r"\s+", "", m.group(1)), s)
+    for cmd in ("boldsymbol", "mathbf", "mathbb", "mathrm", "text"):
+        s = re.sub(r"\\" + cmd + r"\s*\{([^{}]*)\}", r"\1", s)
+    brace = r"([^{}]*(?:\{[^{}]*\}[^{}]*)*)"
+    s = re.sub(r"\\frac\s*\{" + brace + r"\}\s*\{" + brace + r"\}",
+               lambda m: m.group(1) + "/" + m.group(2), s)
+    s = re.sub(r"\\sqrt(?:\[[^\]]*\])?\s*\{([^{}]*(?:\{[^{}]*\}[^{}]*)*)\}",
+               lambda m: "sqrt(" + m.group(1) + ")", s)
+    for cmd, rep in SYMBOLS.items():
+        s = s.replace("\\" + cmd, rep)
+    s = re.sub(r"\\(?:left|right)\b", "", s)
+    s = re.sub(r"\\[a-zA-Z@]+\b", "", s)
+    return re.sub(r"\s+", " ", s.replace("\\", "").replace("{", "")
+                  .replace("}", "").replace("~", "")).strip()
 
 
 def page_title(path):
@@ -34,7 +69,7 @@ def page_title(path):
     return path.stem.replace("-", " ").title()
 
 
-def copy_md(src, dst):
+def copy_md(src, dst, boldsymbol_to_mathbf=False, changed_headings=None):
     text = src.read_text(encoding="utf-8")
     align_n = sum(text.count(p) for p in (
         "\\begin{align}", "\\end{align}",
@@ -43,6 +78,9 @@ def copy_md(src, dst):
                 .replace("\\end{align*}", "\\end{aligned*}")
                 .replace("\\begin{align}", "\\begin{aligned}")
                 .replace("\\end{align}", "\\end{aligned}"))
+    bm_n = text.count("\\boldsymbol")
+    if boldsymbol_to_mathbf:
+        text = text.replace("\\boldsymbol", "\\mathbf")
 
     out, in_block, trim_n, dollars_n = [], False, 0, 0
     for ln in text.split("\n"):
@@ -54,20 +92,27 @@ def copy_md(src, dst):
         if in_block:
             out.append(ln)
             continue
-        new, t = SLOPPY_INLINE.subn(
-            lambda m: "$" + m.group(1) + "$", ln)
-        trim_n += t
+        new, t = OPEN_SPACE.subn("", ln)
+        new, t2 = CLOSE_SPACE.subn("", new)
+        trim_n += t + t2
         if not s.startswith("|"):          # never reflow table rows
             new, n = SAME_LINE_DOLLARS.subn(
                 lambda m: "$$\n" + m.group(1) + "\n$$", new)
             dollars_n += n
+        # headings: strip maths so the sidebar/TOC shows plain text
+        if ln.lstrip().startswith("#") and "$" in new:
+            conv = HEAD_MATH.sub(lambda m: math_to_plain(m.group(1)), new)
+            if conv != new and changed_headings is not None:
+                changed_headings.append((src.name, new.strip(), conv.strip()))
+            new = conv
         out.append(new)
 
     dst.write_text("\n".join(out), encoding="utf-8")
-    return align_n, trim_n, dollars_n
+    return align_n, trim_n, dollars_n, bm_n
 
 
 def fetch(url, dest, timeout=60):
+    dest.parent.mkdir(parents=True, exist_ok=True)
     try:
         with urllib.request.urlopen(url, timeout=timeout) as r:
             dest.write_bytes(r.read())
@@ -81,8 +126,10 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("book", nargs="?", default=str(BOOK_DEFAULT))
     ap.add_argument("--local-mathjax", action="store_true",
-                    help="download the MathJax es5 bundle into "
-                         "site/docs/javascripts/ and use it instead of the CDN")
+                    help="bundle MathJax + the boldsymbol extension into "
+                         "site/docs/javascripts/ instead of using the CDN")
+    ap.add_argument("--boldsymbol-to-mathbf", action="store_true",
+                    help="replace \\boldsymbol with \\mathbf in the copies")
     args = ap.parse_args()
 
     book = Path(args.book)
@@ -101,13 +148,15 @@ def main():
             shutil.copy2(img, docs / "images" / img.name)
             images_copied += 1
 
-    pages, chmap = {}, {}
-    align_n = trim_n = dollars_n = 0
+    pages, chmap, changed_headings = {}, {}, []
+    align_n = trim_n = dollars_n = bm_n = 0
     for md in sorted(split.glob("*.md")):
-        a, t, d = copy_md(md, docs / "split" / md.name)
+        a, t, d, b = copy_md(md, docs / "split" / md.name,
+                             args.boldsymbol_to_mathbf, changed_headings)
         align_n += a
         trim_n += t
         dollars_n += d
+        bm_n += b
         pages[md.name] = page_title(md)
         m = CH_RE.match(md.name)
         if m:
@@ -141,10 +190,12 @@ def main():
         lines.append(f"- [Index](split/{index})" if index else "- Index")
     (docs / "index.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
-    # ---- mathjax.js (exact Material recipe, class must match arithmatex) ----
+    # ---- mathjax.js: boldsymbol extension + arithmatex class hook ---------
     (docs / "javascripts" / "mathjax.js").write_text(
         "window.MathJax = {\n"
+        '  loader: { load: ["[tex]/boldsymbol"] },\n'
         "  tex: {\n"
+        '    packages: { "[+]": ["boldsymbol"] },\n'
         '    inlineMath: [["\\\\(", "\\\\)"]],\n'
         '    displayMath: [["\\\\[", "\\\\]"]],\n'
         "    processEscapes: true,\n"
@@ -163,16 +214,22 @@ def main():
         "  MathJax.typesetPromise();\n"
         "});\n", encoding="utf-8")
 
-    # ---- mathjax loader: pinned jsDelivr CDN, or a local copy ------------
+    # ---- mathjax loader: pinned jsDelivr CDN, or bundled locally ----------
     loader = MATHJAX_CDN
     if args.local_mathjax:
-        dest = docs / "javascripts" / "tex-mml-chtml.js"
-        if fetch(MATHJAX_CDN, dest):
-            loader = MJ_JS_LOCAL
-            print(f"[local-mathjax] saved {dest} ({dest.stat().st_size} bytes)")
+        bundle = docs / "javascripts" / "tex-mml-chtml.js"
+        if fetch(MATHJAX_CDN, bundle):
+            loader = "javascripts/tex-mml-chtml.js"
+            print(f"[local-mathjax] saved {bundle} "
+                  f"({bundle.stat().st_size} bytes)")
+            ext = (docs / "javascripts" / "input" / "tex" / "extensions"
+                   / "boldsymbol.js")
+            if fetch(BOLDSYMBOL_EXT, ext):
+                print(f"[local-mathjax] saved {ext}")
         else:
-            print(f"[local-mathjax] using CDN instead. To vendor it yourself: "
-                  f"curl -L -o {dest} {MATHJAX_CDN}")
+            print(f"[local-mathjax] using CDN instead. To vendor it yourself:\n"
+                  f"  curl -L -o {bundle} {MATHJAX_CDN}\n"
+                  f"  curl -L -o {ext} {BOLDSYMBOL_EXT}")
 
     # ---- mkdocs.yml ----
     nav = ["  - Home: index.md"]
@@ -228,6 +285,12 @@ def main():
     print(f"align->aligned replacements: {align_n}")
     print(f"inline-$ space trims: {trim_n}")
     print(f"same-line $$ blocks split: {dollars_n}")
+    print(f"\\boldsymbol occurrences in source: {bm_n}"
+          + (" -> replaced with \\mathbf" if args.boldsymbol_to_mathbf else ""))
+    if changed_headings:
+        print(f"headings with maths made plain ({len(changed_headings)}):")
+        for f, before, after in changed_headings:
+            print(f"  {f}:\n    - {before}\n    + {after}")
     print(f"mathjax loader: {loader}")
     print(f"intent: cd {site} && mkdocs serve")
 
