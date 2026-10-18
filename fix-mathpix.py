@@ -56,6 +56,10 @@ stash = []
 
 def block(m):
     inner = clean(" ".join(m.group(1).split()))
+    inner = inner.replace(r"\begin{aligned*}", r"\begin{align}")
+    inner = inner.replace(r"\end{aligned*}", r"\end{align}")
+    inner = inner.replace(r"\begin{align*}", r"\begin{align}")
+    inner = inner.replace(r"\end{align*}", r"\end{align}")
     inner = inner.replace(r"\begin{aligned}", r"\begin{align}")
     inner = inner.replace(r"\end{aligned}", r"\end{align}")
     inner = re.sub(r"\s*\\begin\{align\}\s*", lambda _: "\\begin{align}\n", inner)

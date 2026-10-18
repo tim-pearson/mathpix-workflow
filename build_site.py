@@ -69,21 +69,24 @@ def page_title(path):
     return path.stem.replace("-", " ").title()
 
 
-def copy_md(src, dst, boldsymbol_to_mathbf=False, changed_headings=None):
-    text = src.read_text(encoding="utf-8")
-    align_n = sum(text.count(p) for p in (
-        "\\begin{align}", "\\end{align}",
-        "\\begin{align*}", "\\end{align*}"))
-    text = (text.replace("\\begin{align*}", "\\begin{aligned*}")
-                .replace("\\end{align*}", "\\end{aligned*}")
-                .replace("\\begin{align}", "\\begin{aligned}")
-                .replace("\\end{align}", "\\end{aligned}"))
-    bm_n = text.count("\\boldsymbol")
-    if boldsymbol_to_mathbf:
-        text = text.replace("\\boldsymbol", "\\mathbf")
+ALIGN_SUBS = [("\\begin{align*}", "\\begin{aligned*}"),
+              ("\\end{align*}", "\\end{aligned*}"),
+              ("\\begin{align}", "\\begin{aligned}"),
+              ("\\end{align}", "\\end{aligned}")]
 
+
+def align_fix(text):
+    for a, b in ALIGN_SUBS:
+        text = text.replace(a, b)
+    return text
+
+
+def reflow(lines, changed_headings=None, fname=None):
+    """Per-line markdown normalisation shared by every generated page:
+    `$ x $` trims, same-line `$$..$$` blocks, and heading-maths stripping.
+    Returns (out_lines, trim_count, dollar_block_count)."""
     out, in_block, trim_n, dollars_n = [], False, 0, 0
-    for ln in text.split("\n"):
+    for ln in lines:
         s = ln.lstrip()
         if s.startswith("$$"):
             in_block = not in_block
@@ -99,15 +102,25 @@ def copy_md(src, dst, boldsymbol_to_mathbf=False, changed_headings=None):
             new, n = SAME_LINE_DOLLARS.subn(
                 lambda m: "$$\n" + m.group(1) + "\n$$", new)
             dollars_n += n
-        # headings: strip maths so the sidebar/TOC shows plain text
-        if ln.lstrip().startswith("#") and "$" in new:
+        if s.startswith("#") and "$" in new:   # headings: plain text for TOC
             conv = HEAD_MATH.sub(lambda m: math_to_plain(m.group(1)), new)
             if conv != new and changed_headings is not None:
-                changed_headings.append((src.name, new.strip(), conv.strip()))
+                changed_headings.append((fname, new.strip(), conv.strip()))
             new = conv
         out.append(new)
+    return out, trim_n, dollars_n
 
-    dst.write_text("\n".join(out), encoding="utf-8")
+
+def copy_md(src, dst, boldsymbol_to_mathbf=False, changed_headings=None):
+    text = src.read_text(encoding="utf-8")
+    align_n = sum(text.count(p) for p, _ in ALIGN_SUBS)
+    text = align_fix(text)
+    bm_n = text.count("\\boldsymbol")
+    if boldsymbol_to_mathbf:
+        text = text.replace("\\boldsymbol", "\\mathbf")
+    out, trim_n, dollars_n = reflow(text.split("\n"), changed_headings,
+                                    src.name)
+    dst.write_text("\n".join(out) + "\n", encoding="utf-8")
     return align_n, trim_n, dollars_n, bm_n
 
 
@@ -130,6 +143,9 @@ def main():
                          "site/docs/javascripts/ instead of using the CDN")
     ap.add_argument("--boldsymbol-to-mathbf", action="store_true",
                     help="replace \\boldsymbol with \\mathbf in the copies")
+    ap.add_argument("--full-keypoints", action="store_true",
+                    help="key point bodies use the full next-anchor slice "
+                         "instead of the tight rule (see build_site.py)")
     args = ap.parse_args()
 
     book = Path(args.book)
@@ -174,6 +190,8 @@ def main():
     lines = ["# Pure Mathematics 2 & 3",
              "",
              "MkDocs Material build of the coursebook. Math via MathJax.",
+             "", "## Practice", "",
+             "- [Exercise pages and key points](practice/index.md)",
              "", "## Chapters", ""]
     for n in chapters:
         chf = chmap[n]
@@ -231,6 +249,12 @@ def main():
                   f"  curl -L -o {bundle} {MATHJAX_CDN}\n"
                   f"  curl -L -o {ext} {BOLDSYMBOL_EXT}")
 
+    # ---- practice pages (build_practice.py) ------------------------------
+    import build_practice
+    info = build_practice.generate(docs, book,
+                                   full_keypoints=args.full_keypoints,
+                                   boldsymbol_to_mathbf=args.boldsymbol_to_mathbf)
+
     # ---- mkdocs.yml ----
     nav = ["  - Home: index.md"]
     fm = "00-front-matter.md" if "00-front-matter.md" in pages else None
@@ -242,6 +266,13 @@ def main():
         an = next((f for f in pages if f.startswith(f"ans{n:02d}-")), None)
         if an:
             nav.append(f"  - {json.dumps(pages[an])}: split/{an}")
+    nav.append("  - Practice:")
+    nav.append('      - Overview: practice/index.md')
+    for c in info["chapters"]:
+        nav.append(f"      - {json.dumps(c['title'])}:")
+        nav.append(f"          - Exercises: practice/{c['exercises']}")
+        nav.append(f"          - Key points: practice/{c['keypoints']}")
+    nav.append("      - All key points: practice/all-keypoints.md")
     for p in papers:
         nav.append(f"  - {json.dumps(pages[p])}: split/{p}")
     if glossary:
@@ -268,9 +299,12 @@ def main():
         "  - pymdownx.details\n"
         "  - pymdownx.arithmatex:\n"
         "      generic: true\n"
+        "extra_css:\n"
+        "  - stylesheets/practice.css\n"
         "extra_javascript:\n"
         "  - javascripts/mathjax.js\n"
         "  - " + loader + "\n"
+        "  - javascripts/practice-filter.js\n"
         "nav:\n" + "\n".join(nav) + "\n", encoding="utf-8")
 
     # ---- .gitignore ----
@@ -292,6 +326,13 @@ def main():
         for f, before, after in changed_headings:
             print(f"  {f}:\n    - {before}\n    + {after}")
     print(f"mathjax loader: {loader}")
+    # practice pages summary (printed by build_practice; mirror totals here)
+    print("practice: "
+          f"{info['totals']['exercise_pages']} exercise pages, "
+          f"{info['totals']['questions']} questions "
+          f"({info['totals']['linked']} linked answers, "
+          f"{info['totals']['unlinked']} not linked), "
+          f"{info['totals']['keypoints']} key points")
     print(f"intent: cd {site} && mkdocs serve")
 
 
