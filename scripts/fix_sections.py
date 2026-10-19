@@ -82,6 +82,9 @@ MARK_RE = re.compile(r"\s\[(\d{1,2})\]\s*$")
 # answer-file lines that carry the question number inside an inline maths
 # span: "$2 \frac{1}{5}$", "$6 x=...$", "$1 w=0.02r^{3}$"
 MATH_NUM = re.compile(r"^\$(\d+)\s+([^$]*)\$")
+# bare/glued answer-number lines: "316 x+y=32" or "316x+y=32" (the leading
+# number may itself be a question number glued to a longer answer)
+BARE_NUM = re.compile(r"^(\d+)(.*)$")
 # bare part labels in answers: "b 4", "c 1", ...
 LABEL_BARE = re.compile(r"^([a-z])\s+(\S.*)$")
 LABEL_BOLD = re.compile(r"^\*\*([a-z])\*\*(\s|$)")
@@ -92,9 +95,9 @@ CALL_TYPE = {"KEY POINT": "IMPORTANT", "EXPLORE": "NOTE", "REWIND": "NOTE",
              "FAST FORWARD": "NOTE", "DID YOU KNOW": "TIP", "TIP": "TIP"}
 
 # question numbers in non-bold forms, seen on the chapter side:
-# "(7) 14", "(E) 4", ") 5", "E1", "e 3", "PS 10.", "PS $9", "$4 z="
+# "(7) 14", "(E) 4", ") 5", "E1", "e 3", "Ex 13", "EX 11", "PS 10.", "PS $9", "$4 z="
 CH_FORM = re.compile(
-    r"^(?:\(\s*(?:[EePpMm]|\d+)\s*\)\s*|\)\s*|[Ee]\s*|"
+    r"^(?:\(\s*(?:[EePpMm]|\d+)\s*\)\s*|\)\s*|[Ee][Xx]?\s*|"
     r"(?:[Pp][Ss])\s+\$?\s*|\$\s*)(\d+)")
 MESSY_NUM = re.compile(r"^(\d+\.?\d*)\s*$")
 
@@ -159,6 +162,7 @@ class FileProcessor:
         self.block_log = []              # per block: base + accepted numbers
         self.notes = []                  # file:line list of lines this feature touches
         self.ans_mathsplit = 0           # answer headings created from $N math
+        self.ans_bare = 0                # answer headings from bare/glued N rest
         self.ans_label = 0               # bare labels bolded
         self.orig = path.read_text(encoding="utf-8")
 
@@ -321,6 +325,76 @@ class FileProcessor:
                           "(earlier answers likely used unlabelled/math forms)")
         return self._emit_question(tag, n, rest, line_no)
 
+    def _digit_hits(self, digits, rest):
+        """Every way a leading digit run `digits` (glued to `rest`) can be read
+        as a question number for this block: split the run at each point, take
+        the prefix as the number and the suffix + `rest` as the answer body.
+        `rest` is the raw remainder after `digits` (may start with the space
+        that separated the two).  A reading counts when the body is non-empty
+        and the number is the next expected answer (prev+1 / 1) or is a
+        chapter question number for this block that has not been emitted yet.
+        Returns [(n, body), ...]."""
+        expected = 1 if self.prev is None else self.prev + 1
+        ch_block = re.sub(r"-ans-", "-", self.block_base or "", count=1)
+        ch_nums = self.ch_qnums.get(ch_block, set())
+        hits = []
+        for k in range(1, len(digits) + 1):
+            n = int(digits[:k])
+            body = (digits[k:] + rest).strip()
+            if not body:
+                continue
+            if n == expected \
+                    or (n in ch_nums and (self.prev is None or n > self.prev)):
+                hits.append((n, body))
+        return hits
+
+    def _would_resplit(self, n, emitted):
+        """True if emitting `Answer n` with body line `emitted` is unsafe: a
+        re-run would split the body again (a glued-number cascade, e.g.
+        "$36 a=...$" -> Answer 3 + "$6 a=...$" -> Answer 6).  Such a split
+        would break idempotency, so callers must refuse it and flag it."""
+        save_prev = self.prev
+        self.prev = n
+        try:
+            s = emitted.strip()
+            if s.startswith("$"):
+                m = MATH_NUM.match(s)
+                if not m:
+                    return False
+                sep = s[m.start(1) + len(m.group(1)):m.start(2)]
+                return len(self._digit_hits(m.group(1), sep + m.group(2))) >= 1
+            m = BARE_NUM.match(s)
+            if not m:
+                return False
+            return len(self._digit_hits(m.group(1), m.group(2))) >= 1
+        finally:
+            self.prev = save_prev
+
+    def _split_emitted(self, n, body, line, line_no, math_trailing, kind):
+        """Emit a `##### Answer N` heading + body for a bare/glued number
+        split.  kind is "math" (math-span line, body re-wrapped in `$...$`
+        with `math_trailing` appended) or "bare" (plain line, body verbatim).
+        The full-number reading of a math line counts as a [math-split]; every
+        other reading (a shorter prefix that is a real question number) counts
+        as a [bare-split]."""
+        self.prev = n
+        self.part = None
+        self.log_num(n)
+        self.cnt["answer"] += 1
+        if kind == "math":
+            self.ans_mathsplit += 1
+            tag = "math-split"
+        else:
+            self.ans_bare += 1
+            tag = "bare-split"
+        self.notes.append(
+            f"{self.name}:{line_no} [{tag}] {line.strip()[:64]}")
+        self.add_heading(f"{self.block_base}-q{n}", f"##### Answer {n}")
+        if math_trailing is not None:
+            body = "$" + body + "$" + math_trailing
+        if body.strip():
+            self.out.append(wrap_marks(body))
+
     def answer_plain_line(self, line, line_no):
         """Answer-file plain lines: part labels and $N-in-maths question
         numbers. Only fires while a question block is active."""
@@ -330,34 +404,53 @@ class FileProcessor:
             return line
         mm = MATH_NUM.match(line)
         if mm:
-            n = int(mm.group(1))
-            rest_math = mm.group(2).strip()
             expected = 1 if self.prev is None else self.prev + 1
             # ground truth: the chapter question numbers for this block.  A
-            # `$N <answer>$` line is a clean, unambiguous answer start when N
-            # is the next expected chapter question (not just prev+1), so
-            # answers that the OCR numbered inline are split correctly even
-            # when earlier answers were skipped/mangled.
-            ch_block = re.sub(r"-ans-", "-", self.block_base or "", count=1)
-            ch_nums = self.ch_qnums.get(ch_block, set())
-            matches_chapter = n in ch_nums and (self.prev is None or n > self.prev)
-            if rest_math and (n == expected or matches_chapter):
-                self.prev = n
-                self.part = None
-                self.log_num(n)
-                self.cnt["answer"] += 1
-                self.ans_mathsplit += 1
-                self.notes.append(
-                    f"{self.name}:{line_no} [math-split] {line.strip()[:64]}")
-                self.add_heading(f"{self.block_base}-q{n}",
-                                 f"##### Answer {n}")
-                body = "$" + rest_math + "$" + line[mm.end():]
-                if body.strip():
-                    self.out.append(wrap_marks(body))
+            # `$N <answer>$` line is an unambiguous answer start when exactly
+            # one reading of the leading number matches an expected question
+            # (the whole number, or a glued prefix like the "3" in
+            # "$316 x+y=32$"), so answers that the OCR numbered inline are
+            # split correctly even when earlier answers were skipped/mangled.
+            sep = line[mm.start(1) + len(mm.group(1)):mm.start(2)]
+            hits = self._digit_hits(mm.group(1), sep + mm.group(2))
+            if len(hits) == 1:
+                n, body = hits[0]
+                emitted = "$" + body + "$" + line[mm.end():]
+                if self._would_resplit(n, emitted):
+                    self.flag(line_no, "math-split-ambiguous",
+                              f"{line.strip()[:40]} "
+                              f"(ambiguous: {n} would re-split)")
+                    return line
+                kind = "math" if n == int(mm.group(1)) else "bare"
+                self._split_emitted(n, body, line, line_no,
+                                    line[mm.end():], kind)
                 return None
+            if len(hits) > 1:
+                cands = " or ".join(str(h[0]) for h in hits)
+                self.flag(line_no, "math-split-ambiguous",
+                          f"{line.strip()[:40]} (ambiguous: {cands})")
+                return line
             self.flag(line_no, "math-split-ambiguous",
                       f"{line.strip()[:50]} (expected {expected})")
             return line
+        mn = BARE_NUM.match(line)
+        if mn:
+            # bare/glued numbered answer line, e.g. "316 x+y=32" or "316x+y=32"
+            hits = self._digit_hits(mn.group(1), mn.group(2))
+            if len(hits) == 1:
+                n, body = hits[0]
+                if self._would_resplit(n, body):
+                    self.flag(line_no, "bare-num-ambiguous",
+                              f"{line.strip()[:40]} "
+                              f"(ambiguous: {n} would re-split)")
+                    return line
+                self._split_emitted(n, body, line, line_no, None, "bare")
+                return None
+            if len(hits) > 1:
+                cands = " or ".join(str(h[0]) for h in hits)
+                self.flag(line_no, "bare-num-ambiguous",
+                          f"{line.strip()[:40]} (ambiguous: {cands})")
+                return line
         ml = LABEL_BARE.match(line)
         if ml and "a" <= ml.group(1) <= "z":
             expected_part = "a" if self.part is None \
@@ -653,14 +746,15 @@ def add_next_ids(entries):
 def report(results, files, entries):
     print("per-file counts:")
     hdr_keys = ["sections", "exercises", "reviews", "cross", "prereq",
-                "boxes", "we", "kp", "question", "answer", "msplit", "lbl",
-                "citations", "generic", "flags"]
+                "boxes", "we", "kp", "question", "answer", "msplit", "bare",
+                "lbl", "citations", "generic", "flags"]
     width = max(len(f) for f in files) + 2
     print(("  " + "file").ljust(width + 7), *hdr_keys)
     grand = Counter()
     for f in files:
         c = results[f].cnt
         c["msplit"], c["lbl"] = results[f].ans_mathsplit, results[f].ans_label
+        c["bare"] = results[f].ans_bare
         grand.update(c)
         print("  " + f.ljust(width),
               *[str(c.get(k, "")).rjust(9 if k == "flags" else 2)

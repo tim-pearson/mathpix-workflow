@@ -129,6 +129,45 @@ def test_chapter_promotion_exam_form_untagged():
        "E 12 body kept")
 
 
+CH_EXEX = """# Chapter 8: Test
+
+## 8.1 Section
+
+<a id="ch08-review"></a>
+### END-OF-CHAPTER REVIEW EXERCISE 8
+
+<a id="ch08-review-q1"></a>
+##### Question 1
+Question one.
+
+EX 11 Solve the equation $2\\sin x=1$.
+
+Ex 13 Find the exact value of $\\int_{0}^{1} 3 \\tan x \\, \\mathrm{d}x$.
+"""
+
+
+def test_chapter_promotion_ex_ex_forms():
+    # CH_FORM accepts "Ex N" / "EX N" (exam prefix with optional x)
+    fp, out = run_fp("ch08-test.md", CH_EXEX,
+                     ans_nums={"ch08-review": {1, 11, 13}})
+    eq('<a id="ch08-review-q11"></a>' in out, True,
+       "EX 11 promoted with plain q11 anchor (no tag)")
+    eq("##### Question 11" in out, True, "EX 11 heading")
+    eq("Solve the equation $2\\sin x=1$" in out, True, "EX 11 body kept")
+    eq('<a id="ch08-review-q13"></a>' in out, True,
+       "Ex 13 promoted with plain q13 anchor (no tag)")
+    eq("##### Question 13" in out, True, "Ex 13 heading")
+    eq("Find the exact value of $\\int_{0}^{1} 3 \\tan x \\, \\mathrm{d}x$"
+       in out, True, "Ex 13 body kept")
+    # not promoted when the number is not in the answer set
+    fp2, out2 = run_fp("ch08-test.md", CH_EXEX,
+                       ans_nums={"ch08-review": {1}})
+    eq("##### Question 11" in out2, False,
+       "EX 11 NOT promoted when 11 is not an answer")
+    eq("##### Question 13" in out2, False,
+       "Ex 13 NOT promoted when 13 is not an answer")
+
+
 # --------------------------------------------------------------------------
 # answer-side $N <answer>$ split with/without chapter ground truth
 # --------------------------------------------------------------------------
@@ -174,11 +213,143 @@ def test_answer_split_prev_plus_one_still_works():
     eq("##### Answer 4" in out, True, "n == prev+1 splits without ground truth")
 
 
+# --------------------------------------------------------------------------
+# answer-side bare/glued numbered lines (digit-run resolution)
+# --------------------------------------------------------------------------
+ANS_BARE = """# Answers: 4 Test
+
+<a id="ch04-ans-ex4A"></a>
+### EXERCISE 4A
+
+<a id="ch04-ans-ex4A-q1"></a>
+##### Answer 1
+body one.
+
+<a id="ch04-ans-ex4A-q2"></a>
+##### Answer 2
+$316 x+y=32$
+
+45
+
+7a
+
+b 2
+"""
+
+
+def test_answer_bare_split_unique_math():
+    # "$316 x+y=32$" = question 3 glued to "$16 x+y=32$"; 31/316 are not
+    # chapter questions so the reading is unique.
+    fp, out = run_fp("ans04-test.md", ANS_BARE,
+                     ch_qnums={"ch04-ex4A": {1, 2, 3, 4, 5, 6, 7, 8}})
+    lines = out.split("\n")
+    eq('<a id="ch04-ans-ex4A-q3"></a>' in out, True,
+       "Answer 3 anchor created from $316 x+y=32$")
+    eq("##### Answer 3" in out, True, "Answer 3 heading created")
+    eq("$16 x+y=32$" in lines, True, "glued remainder kept as Answer 3 body")
+
+
+def test_answer_bare_split_unique_plain():
+    # bare/glued non-math lines split on a unique expected number
+    text = ANS_BARE.replace("$316 x+y=32$", "316 x+y=32")
+    fp, out = run_fp("ans04-test.md", text,
+                     ch_qnums={"ch04-ex4A": {1, 2, 3, 4, 5, 6, 7, 8}})
+    lines = out.split("\n")
+    eq('<a id="ch04-ans-ex4A-q3"></a>' in out, True,
+       "Answer 3 anchor created from bare '316 x+y=32'")
+    eq("16 x+y=32" in lines, True, "plain glued remainder as Answer 3 body")
+    eq('<a id="ch04-ans-ex4A-q4"></a>' in out, True,
+       "'45' split as Answer 4 (4 == prev+1)")
+    eq("5" in lines, True, "'45' -> Answer 4 body '5'")
+    eq('<a id="ch04-ans-ex4A-q7"></a>' in out, True,
+       "'7a' split as Answer 7 (7 in chapter set)")
+    eq("a" in lines, True, "'7a' -> Answer 7 body 'a'")
+
+
+def test_answer_bare_split_ambiguous_math():
+    # 3, 31 AND 316 are all plausible -> no split, flagged ambiguous
+    fp, out = run_fp("ans04-test.md", ANS_BARE,
+                     ch_qnums={"ch04-ex4A": {1, 2, 3, 31, 316}})
+    eq("##### Answer 3" in out, False,
+       "no split when 3/31/316 are all plausible")
+    eq("$316 x+y=32$" in out, True, "ambiguous math line left untouched")
+    eq(any("math-split-ambiguous" in fl and "ambiguous:" in fl
+           for fl in fp.flags), True, "math ambiguity flagged")
+
+
+def test_answer_bare_split_ambiguous_glued():
+    fp, out = run_fp("ans04-test.md",
+                     ANS_BARE.replace("$316 x+y=32$", "316x+y=32"),
+                     ch_qnums={"ch04-ex4A": {1, 2, 3, 31, 316}})
+    eq("##### Answer 3" in out, False,
+       "no split when several readings for glued line")
+    eq("316x+y=32" in out, True, "ambiguous glued line left untouched")
+    eq(any("bare-num-ambiguous" in fl for fl in fp.flags), True,
+       "glued ambiguity flagged")
+
+
+def test_answer_bare_split_requires_remainder():
+    # a dangling "45" (Answer 45 with no content) must NOT split, even when 45
+    # is a chapter question, because the only full-number reading has an empty
+    # remainder.
+    text = """# Answers: 4 Test
+
+<a id="ch04-ans-ex4A"></a>
+### EXERCISE 4A
+
+<a id="ch04-ans-ex4A-q1"></a>
+##### Answer 1
+body one.
+
+45
+"""
+    fp, out = run_fp("ans04-test.md", text,
+                     ch_qnums={"ch04-ex4A": {1, 45}})
+    eq("##### Answer 45" in out, False, "no split when remainder is empty")
+    eq("45" in out, True, "dangling number left in place")
+
+
+def test_answer_bare_split_cascade_rejected():
+    # "$36 a=...$" = 3 + "$6 a=...$" where 6 is ALSO a question: splitting as
+    # Answer 3 would leave a body that re-splits as Answer 6, so the cascade
+    # is refused and flagged instead (keeps re-runs a no-op).
+    text = """# Answers: 9 Test
+
+<a id="ch09-ans-ex9C"></a>
+### EXERCISE 9C
+
+<a id="ch09-ans-ex9C-q2"></a>
+##### Answer 2
+$36 a+(-2)(4)+(5)(-2)=0 a=3$
+"""
+    fp, out = run_fp("ans09-test.md", text,
+                     ch_qnums={"ch09-ex9C": {1, 2, 3, 4, 5, 6}})
+    eq("##### Answer 3" in out, False, "cascading split refused")
+    eq("$36 a+(-2)(4)+(5)(-2)=0 a=3$" in out, True, "line left untouched")
+    eq(any("would re-split" in fl for fl in fp.flags), True, "cascade flagged")
+
+
+def test_answer_bare_split_idempotent():
+    # running the splitter on its own output must produce identical text
+    kw = {"ch_qnums": {"ch04-ex4A": {1, 2, 3, 4, 5, 6, 7, 8}}}
+    fp1, out1 = run_fp("ans04-test.md", ANS_BARE, **kw)
+    fp2, out2 = run_fp("ans04-test.md", out1, **kw)
+    eq(out1, out2, "second run on own output is a no-op")
+
+
 if __name__ == "__main__":
     test_form_tag()
     test_chapter_promotion_tagged()
     test_chapter_promotion_exam_form_untagged()
+    test_chapter_promotion_ex_ex_forms()
     test_answer_split_with_chapter_ground_truth()
     test_answer_no_split_without_ground_truth()
     test_answer_split_prev_plus_one_still_works()
+    test_answer_bare_split_unique_math()
+    test_answer_bare_split_unique_plain()
+    test_answer_bare_split_ambiguous_math()
+    test_answer_bare_split_ambiguous_glued()
+    test_answer_bare_split_requires_remainder()
+    test_answer_bare_split_cascade_rejected()
+    test_answer_bare_split_idempotent()
     print("ALL FIX_SECTIONS TESTS PASSED")
