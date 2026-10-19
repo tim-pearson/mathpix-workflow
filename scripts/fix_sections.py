@@ -132,7 +132,7 @@ def wrap_marks(line):
 
 
 class FileProcessor:
-    def __init__(self, path, callouts=False):
+    def __init__(self, path, callouts=False, ans_nums=None):
         self.path = path
         self.name = path.name
         mch = CH_RE.match(self.name)
@@ -142,6 +142,7 @@ class FileProcessor:
         self.full = bool(mch or mans)      # structural pass (ch/ans files)
         self.ch_side = bool(mch)           # questions (True) vs answers
         self.callouts = callouts and bool(mch or mans)
+        self.ans_nums = ans_nums or {}     # block base -> set of answer numbers
         self.out = []
         self.cnt = Counter()
         self.flags = []
@@ -160,6 +161,17 @@ class FileProcessor:
 
     def flag(self, line_no, kind, snippet):
         self.flags.append(f"{self.name}:{line_no} [{kind}] {snippet[:70]}")
+
+    def accept_question(self, n):
+        """Resync rule for the chapter side: accept N if N == 1 (block
+        start), or last < N <= last+3, or N is one of the answer numbers for
+        the same block (answer side is ground truth for which numbers exist).
+        Never accepts N <= last accepted."""
+        block_nums = self.ans_nums.get(self.block_base, ())
+        if self.prev is None:
+            return n == 1 or n in block_nums
+        return (self.prev < n <= self.prev + 3) \
+            or (n in block_nums and n > self.prev)
 
     def anchor(self, aid):
         if self.out and self.out[-1] == ANCHOR.format(aid):
@@ -209,27 +221,33 @@ class FileProcessor:
                 return line
             return self.answer_plain_line(line, line_no)
         tag, n, rest = m.group(1), int(m.group(2)), m.group(3)
-        if self.prev is not None and n <= self.prev:
-            self.flag(line_no, "question-skip",
-                      f"number {n} <= previous {self.prev}")
-            return line
-        if self.prev is None:
-            if self.ch_side and n != 1:
-                self.flag(line_no, "question-skip",
-                          f"block starts at {n} (expected 1)")
+        if self.ch_side:
+            # resync rule (accept_question) replaces the old "+3 of previous"
+            # rejection which could cascade: one miss rejected every later
+            # question.
+            if not self.accept_question(n):
+                if self.prev is not None and n <= self.prev:
+                    reason = f"number {n} <= previous {self.prev}"
+                elif self.prev is None:
+                    reason = f"block starts at {n} (expected 1 or in answer set)"
+                else:
+                    reason = (f"number {n} more than +3 past {self.prev} "
+                              "and not in answer set")
+                self.flag(line_no, "question-skip", reason)
                 return line
-        elif n - self.prev > 3:
-            if self.ch_side:
+        else:
+            if self.prev is not None and n <= self.prev:
                 self.flag(line_no, "question-skip",
-                          f"number {n} more than +3 past {self.prev}")
+                          f"number {n} <= previous {self.prev}")
                 return line
-            if n - self.prev > 15:
+            if self.prev is not None and n - self.prev > 15:
                 self.flag(line_no, "question-skip",
                           f"number {n} implausible after {self.prev}")
                 return line
-            self.flag(line_no, "question-gap",
-                      f"answer numbering jumps {self.prev} -> {n} "
-                      "(earlier answers likely used unlabelled/math forms)")
+            if self.prev is not None and n - self.prev > 3:
+                self.flag(line_no, "question-gap",
+                          f"answer numbering jumps {self.prev} -> {n} "
+                          "(earlier answers likely used unlabelled/math forms)")
         self.prev = n
         self.part = None
         self.log_num(n)
@@ -430,6 +448,18 @@ class FileProcessor:
                              f"### EXERCISE {m.group(1)}{m.group(2)}")
             return
         if stripped.startswith("#"):
+            if self.ch_side and self.block is not None \
+                    and stripped.startswith("##### Question"):
+                qm = re.match(r"^##### Question(?:\s+(PS|P))?\s+(\d+)\s*$",
+                              stripped)
+                if qm:
+                    # already-converted question: keep the block active so a
+                    # later raw **N** can still be attributed to this block
+                    self.prev = int(qm.group(2))
+                    self.part = None
+                    self.log_num(int(qm.group(2)))
+                    self.out.append(stripped)
+                    return
             if not self.ch_side and self.block is not None \
                     and stripped.startswith("##### Answer"):
                 am = re.match(r"^##### Answer(?: PS| P)? (\d+)\s*$", stripped)
@@ -440,7 +470,9 @@ class FileProcessor:
                     self.out.append(stripped)
                     return
             if EMPTY_H.match(stripped):
-                self.end_block()
+                # an empty heading is just a separator inside a review block;
+                # keep the block active (do NOT end_block) so questions after
+                # it are still attributed to the same block.
                 self.flag(i, "empty-heading", stripped)
                 self.out.append(stripped)
                 return
@@ -649,10 +681,25 @@ def main(argv=None):
     if not files:
         sys.exit(f"no .md files in {p_dir}")
 
-    results = {f: FileProcessor(p_dir / f, callouts=args.callouts)
-               for f in files}
+    results = {}
     text_of = {}
+    ans_nums = {}   # block base (e.g. "ch02-ex2E") -> set of answer numbers
+    # pass 1: answer files, so their per-block numbers can act as ground
+    # truth for the chapter-side resync rule
     for f in files:
+        if f.startswith("ans"):
+            results[f] = FileProcessor(p_dir / f, callouts=args.callouts)
+            results[f].run()
+            text_of[f] = results[f].new_text
+            for rec in results[f].block_log:
+                base = re.sub(r"-ans-", "-", rec["base"], count=1)
+                ans_nums.setdefault(base, set()).update(rec["nums"])
+    # pass 2: chapters (and everything else), with the answer numbers
+    for f in files:
+        if f.startswith("ans"):
+            continue
+        results[f] = FileProcessor(p_dir / f, callouts=args.callouts,
+                                   ans_nums=ans_nums)
         results[f].run()
         text_of[f] = results[f].new_text
 
