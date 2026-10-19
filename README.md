@@ -8,12 +8,13 @@ key-point round-ups).
 ## Layout
 
 ```
-fix-mathpix.py     raw Mathpix .md        -> <book>/<name>-fixed.md
-split_chapter.py   <name>-fixed.md        -> <book>/split/*.md  (one file per chapter / answers / back matter)
-fix_sections.py    <book>/split/*.md      -> headings + anchors, <book>/split/index.json
-build_site.py      <book>                 -> ./site/   (docs/ + mkdocs.yml, calls build_practice.py)
-build_practice.py  (called by build_site) -> ./site/docs/practice/* (exercises, key points, filter JS/CSS)
-build_all.py       one command for everything above
+scripts/fix-mathpix.py     raw Mathpix .md        -> <book>/<name>-fixed.md
+scripts/split_chapter.py   <name>-fixed.md        -> <book>/split/*.md  (one file per chapter / answers / back matter)
+scripts/fix_sections.py    <book>/split/*.md      -> headings + anchors, <book>/split/index.json
+scripts/build_site.py      <book>                 -> ./site/   (docs/ + mkdocs.yml, calls build_practice.py)
+scripts/build_practice.py  (called by build_site) -> ./site/docs/practice/* (exercises, key points, filter JS/CSS)
+scripts/make_stats.py      <book>                 -> ./stats/*.json + ./site-structure.md  (for planning views/searches)
+build_all.py               one command for everything above
 ```
 
 `book` defaults to `Maths Pure 2 & 3-clean_MD` (the folder containing the raw
@@ -32,30 +33,49 @@ Or step by step:
 ```sh
 pip install -r requirements.txt              # only needed for mkdocs build/serve
 
-python fix-mathpix.py "Maths Pure 2 & 3-clean_MD/<name>.md"
-python split_chapter.py "Maths Pure 2 & 3-clean_MD/<name>-fixed.md" -o "Maths Pure 2 & 3-clean_MD/split"
-python fix_sections.py "Maths Pure 2 & 3-clean_MD/split"
-python build_site.py "Maths Pure 2 & 3-clean_MD"
+python scripts/fix-mathpix.py "Maths Pure 2 & 3-clean_MD/<name>.md"
+python scripts/split_chapter.py "Maths Pure 2 & 3-clean_MD/<name>-fixed.md" -o "Maths Pure 2 & 3-clean_MD/split"
+python scripts/fix_sections.py "Maths Pure 2 & 3-clean_MD/split"
+python scripts/build_site.py "Maths Pure 2 & 3-clean_MD"
 
 cd site && mkdocs serve                      # then open http://127.0.0.1:8000
 ```
 
+## Site stats / structure (for planning views & searches)
+
+```sh
+python scripts/make_stats.py                 # writes stats/ + site-structure.md
+```
+
+- `stats/overview.json` — totals and a per-chapter breakdown.
+- `stats/connections.json` — every id and what it links to: questions → answers
+  (id rule `ch<NN>-<block>-qN` ↔ `ch<NN>-ans-<block>-qN`, `psN`/`pN` normalise
+  to `qN`), exercise blocks → their question ids, key points with their
+  `next_id` slice boundaries, worked examples, unlinked questions and orphan
+  answers.
+- `site-structure.md` — a dump of the current MkDocs front end: the generated
+  `nav:`, the page list, the anchor inventory per file, and a short
+  “how content connects” section.
+
+PREREQUISITE KNOWLEDGE answers are excluded from the stats/answer inventory
+(the answers themselves are kept).
+
 ## What each step does
 
-### 1. `fix-mathpix.py` — clean the raw export
+### 1. `scripts/fix-mathpix.py` — clean the raw export
 Runs inside `$$…$$` display blocks and cleans prose: joins hard-wrapped lines,
 normalises `aligned`/`align*` → `align` (so MathJax gets plain `aligned` later),
 fixes inline `$…$` spans, escapes table pipes, tidies bolded question numbers
 (`**1**`, `**a**`, `**i**`), puts exam-source citations on their own line, and
 normalises headings. Idempotent; writes `<name>-fixed.md`.
 
-### 2. `split_chapter.py` — one file per section
+### 2. `scripts/split_chapter.py` — one file per section
 Splits the fixed book into `split/`: one file per chapter (`chNN-…`), one per
 answers section (`ansNN-…`), practice papers (`paper-pm2/3`, `anspaper-pm2/3`),
 plus `00-front-matter.md`, `zz-glossary.md`, `zz-index.md`. Rewrites image links
 for the folder layout.
 
-### 3. `fix_sections.py` — stable structure + anchors
+### 3. `scripts/fix_sections.py` — stable structure + anchors
 Runs over `split/*.md` (chapters + answers) and applies a consistent heading
 scheme (`#` chapter, `##` numbered sections, `###` exercises/reviews/prereq,
 `####` boxes, `##### Question N` / `Answer N`), inserts stable `<a id="…">`
@@ -66,7 +86,7 @@ exam citations, and wraps trailing `[marks]` in backticks. Writes
 anchor”* without trusting line numbers. Re-run with `--check` to verify
 idempotency, unique anchors and question↔answer matching.
 
-### 4. `build_site.py` — the site
+### 4. `scripts/build_site.py` — the site
 Recreates `site/` from scratch:
 - copies `split/` → `site/docs/split/` and `images/` → `site/docs/images/`
   (the `../images/…` links keep working);
@@ -79,7 +99,7 @@ Recreates `site/` from scratch:
 - optional `--local-mathjax` downloads the MathJax bundle + boldsymbol
   extension into `site/docs/javascripts/`.
 
-### 5. `build_practice.py` — the Practice section
+### 5. `scripts/build_practice.py` — the Practice section
 Per-chapter pages under `site/docs/practice/`:
 - `chNN-exercises.md` — one `##` section per exercise/review/prereq block; each
   question is `### Question N` with its body, a source link, and a collapsible

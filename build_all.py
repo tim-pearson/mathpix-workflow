@@ -3,11 +3,11 @@
 
     python build_all.py [book_dir] [--local-mathjax] [--full-keypoints]
 
-Steps (in order):
-  1. fix-mathpix.py     raw Mathpix export  -> <book>/<raw>-fixed.md
-  2. split_chapter.py   fixed markdown      -> <book>/split/*.md
-  3. fix_sections.py    split/*.md          -> headings/anchors + index.json
-  4. build_site.py      book dir            -> ./site/ (incl. practice pages)
+Steps (in order) — the pipeline scripts live in ./scripts:
+  1. scripts/fix-mathpix.py     raw Mathpix export  -> <book>/<raw>-fixed.md
+  2. scripts/split_chapter.py   fixed markdown      -> <book>/split/*.md
+  3. scripts/fix_sections.py    split/*.md          -> headings/anchors + index.json
+  4. scripts/build_site.py      book dir            -> ./site/ (incl. practice pages)
 
 Only the stdlib is needed to run this; `mkdocs-material` (requirements.txt)
 is required for `mkdocs build` / `mkdocs serve`, which build_site.py does not
@@ -19,10 +19,11 @@ import sys
 from pathlib import Path
 
 BOOK_DEFAULT = Path("Maths Pure 2 & 3-clean_MD")
+SCRIPTS = Path(__file__).resolve().parent / "scripts"
 
 
 def run(step, *args):
-    cmd = [sys.executable, step, *[str(a) for a in args]]
+    cmd = [sys.executable, str(SCRIPTS / step), *[str(a) for a in args]]
     print(f"\n$ {' '.join(cmd)}")
     r = subprocess.run(cmd)
     if r.returncode:
@@ -61,7 +62,9 @@ def main():
     run("build_site.py", book, *extra)
 
     print("\nPipeline complete. Serve locally with:")
-    print("  cd site && pip install -r requirements.txt && mkdocs serve")
+    print("  pip install -r requirements.txt")
+    print("  cd site && mkdocs serve")
+    print("Stats / structure for planning:  python scripts/make_stats.py")
 
 
 if __name__ == "__main__":
