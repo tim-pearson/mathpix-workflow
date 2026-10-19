@@ -20,7 +20,12 @@ function walk(dir) {
 }
 
 if (!statSync(src).isDirectory()) {
-  console.error(`sync-data: source not found: ${src}`);
+  console.error(
+    `sync-data: source not found: ${src}\n` +
+      `  The exported data bundle is missing. Regenerate it from the repo root:\n` +
+      `    python scripts/export_data.py\n` +
+      `  then re-run this script (or npm run dev / npm run build).`
+  );
   process.exit(1);
 }
 

@@ -9,8 +9,23 @@ export interface StoredSearchResult {
   text: string;
 }
 
+interface IndexedDoc extends SearchEntry {
+  /** Unique per-document key for MiniSearch; the exported search index has
+   * duplicate `id` values (a question appears once as a section block and once
+   * as a question), and MiniSearch rejects duplicate ids. */
+  uid: number;
+}
+
 export function createSearchIndex(entries: SearchEntry[]): MiniSearch<SearchEntry> {
+  const docs: IndexedDoc[] = [];
+  for (let i = 0; i < entries.length; i += 1) {
+    const e = entries[i];
+    if (e && typeof e.id === "string" && typeof e.title === "string") {
+      docs.push({ ...e, uid: i });
+    }
+  }
   const ms = new MiniSearch<SearchEntry>({
+    idField: "uid",
     fields: ["title", "text"],
     storeFields: ["id", "title", "type", "chapter", "text"],
     searchOptions: {
@@ -20,7 +35,7 @@ export function createSearchIndex(entries: SearchEntry[]): MiniSearch<SearchEntr
       combineWith: "AND",
     },
   });
-  ms.addAll(entries);
+  ms.addAll(docs);
   return ms;
 }
 

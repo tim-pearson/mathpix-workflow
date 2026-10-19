@@ -57,14 +57,19 @@ export function SearchBox({ manifest, className }: SearchBoxProps) {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
-  // load the search index on first interaction with the field
+  // load the search index on first interaction with the field (retry allowed)
   const ensureIndex = async () => {
     if (index) return;
     try {
       const entries = await loadSearchIndex();
       setIndex(createSearchIndex(entries));
+      setError(null);
     } catch (e) {
-      setError("Search index failed to load.");
+      console.error("[search] failed to initialise search index:", e);
+      setError(
+        "Search is unavailable: the search index could not be loaded. " +
+          "In frontend/ run `npm run sync-data`, then try again."
+      );
     }
   };
 

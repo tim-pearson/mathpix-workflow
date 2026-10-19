@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { createSearchIndex, groupResults, type StoredSearchResult } from "../src/lib/search";
 import type { SearchEntry } from "../src/types";
@@ -32,5 +34,35 @@ describe("search grouping", () => {
     expect(grouped.length).toBeGreaterThan(0);
     const snips = grouped.flatMap((g) => g.items.map((i) => i.snippet));
     expect(snips.some((s) => s.includes("logarithm"))).toBe(true);
+  });
+
+  it("indexes the real exported search index (which has duplicate ids)", () => {
+    const path = resolve(
+      process.cwd(),
+      "public",
+      "data",
+      "search-index.json"
+    );
+    const real = JSON.parse(readFileSync(path, "utf-8")) as SearchEntry[];
+    // sanity: the export does contain duplicate ids
+    const ids = new Set(real.map((e) => e.id));
+    expect(real.length).toBeGreaterThan(ids.size);
+    // the constructor must not throw (MiniSearch rejects duplicate ids)
+    expect(() => createSearchIndex(real)).not.toThrow();
+    const ms = createSearchIndex(real);
+    const raw = ms.search("logarithm") as unknown as Result[];
+    expect(raw.length).toBeGreaterThan(0);
+  });
+
+  it("ignores malformed entries without fabricating results", () => {
+    const dirty = [
+      ...entries,
+      null as unknown as SearchEntry,
+      {} as SearchEntry,
+      { chapter: 2 } as unknown as SearchEntry,
+    ];
+    const ms = createSearchIndex(dirty);
+    const raw = ms.search("Solve") as unknown as Result[];
+    expect(raw.some((r) => r.id === "ch02-ex2E-q1")).toBe(true);
   });
 });

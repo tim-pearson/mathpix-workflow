@@ -19,7 +19,10 @@ export function dataUrl(path: string): string {
 
 export function loadManifest(): Promise<Manifest> {
   if (!manifestPromise) {
-    manifestPromise = fetchJson<Manifest>(dataUrl("manifest.json"));
+    manifestPromise = fetchJson<Manifest>(dataUrl("manifest.json")).catch((e) => {
+      manifestPromise = null; // allow retry
+      throw e;
+    });
   }
   return manifestPromise;
 }
@@ -27,7 +30,10 @@ export function loadManifest(): Promise<Manifest> {
 export function loadChapter(slug: string): Promise<ChapterData> {
   let p = chapterCache.get(slug);
   if (!p) {
-    p = fetchJson<ChapterData>(dataUrl(`chapters/${slug}.json`));
+    p = fetchJson<ChapterData>(dataUrl(`chapters/${slug}.json`)).catch((e) => {
+      chapterCache.delete(slug); // allow retry
+      throw e;
+    });
     chapterCache.set(slug, p);
   }
   return p;
@@ -35,14 +41,20 @@ export function loadChapter(slug: string): Promise<ChapterData> {
 
 export function loadSearchIndex(): Promise<SearchEntry[]> {
   if (!searchPromise) {
-    searchPromise = fetchJson<SearchEntry[]>(dataUrl("search-index.json"));
+    searchPromise = fetchJson<SearchEntry[]>(dataUrl("search-index.json")).catch((e) => {
+      searchPromise = null; // allow retry
+      throw e;
+    });
   }
   return searchPromise;
 }
 
 export function loadStats(): Promise<Stats> {
   if (!statsPromise) {
-    statsPromise = fetchJson<Stats>(dataUrl("stats.json"));
+    statsPromise = fetchJson<Stats>(dataUrl("stats.json")).catch((e) => {
+      statsPromise = null; // allow retry
+      throw e;
+    });
   }
   return statsPromise;
 }
