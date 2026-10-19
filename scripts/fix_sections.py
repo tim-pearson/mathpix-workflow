@@ -134,7 +134,7 @@ def wrap_marks(line):
 
 
 class FileProcessor:
-    def __init__(self, path, callouts=False, ans_nums=None):
+    def __init__(self, path, callouts=False, ans_nums=None, ch_qnums=None):
         self.path = path
         self.name = path.name
         mch = CH_RE.match(self.name)
@@ -145,6 +145,7 @@ class FileProcessor:
         self.ch_side = bool(mch)           # questions (True) vs answers
         self.callouts = callouts and bool(mch or mans)
         self.ans_nums = ans_nums or {}     # block base -> set of answer numbers
+        self.ch_qnums = ch_qnums or {}     # block base -> set of chapter question numbers
         self.out = []
         self.cnt = Counter()
         self.flags = []
@@ -216,24 +217,79 @@ class FileProcessor:
                 return "M", int(mm.group(1)), mm.group(2)
         return None
 
+    def _form_tag(self, line):
+        """Detect a PS / P / M tag on a non-bold question-number form line."""
+        s = line.lstrip()
+        if re.match(r"^\(\s*[Pp][Ss]\s*\)", s) or re.match(r"^[Pp][Ss]\b", s):
+            return "PS"
+        if re.match(r"^\(\s*[Pp]\s*\)", s) or re.match(r"^[Pp]\s+\$?\d", s):
+            return "P"
+        if re.match(r"^\(\s*[Mm]\s*\)", s) or re.match(r"^[Mm]\s+\$?\d", s):
+            return "M"
+        return None
+
+    def _emit_question(self, tag, n, rest, line_no):
+        """Create a `##### Question/Answer N` heading + anchor for a number we
+        have accepted, then append the (stripped) rest as the first body line."""
+        self.prev = n
+        self.part = None
+        self.log_num(n)
+        sfx = f"{tag.lower()}{n}" if tag else f"q{n}"
+        pid = f"{self.block_base}-{sfx}"
+        head = f"##### {'Question' if self.ch_side else 'Answer'}"
+        head += f" {tag + ' ' if tag else ''}{n}"
+        self.cnt["question" if self.ch_side else "answer"] += 1
+        self.add_heading(pid, head)
+        rest = rest.strip()
+        if rest:
+            if not self.ch_side:
+                mb = LABEL_BOLD.match(rest)
+                if mb:
+                    self.part = mb.group(1)
+                else:
+                    ml = LABEL_BARE.match(rest)
+                    if ml:
+                        expected_part = "a" if self.part is None \
+                            else chr(ord(self.part) + 1)
+                        if ml.group(1) == expected_part:
+                            self.part = ml.group(1)
+                            rest = f"**{ml.group(1)}** {ml.group(2)}"
+            self.out.append(wrap_marks(rest))
+        return None
+
+    def _note_or_promote_form(self, line, line_no):
+        """Chapter-side non-bold question-number forms.  When the number is a
+        real question for this block (the answer set is ground truth), promote
+        it to a proper `##### Question N` heading + anchor instead of just
+        flagging it.  Otherwise keep the existing note/flag behaviour."""
+        n = None
+        rest = ""
+        fm = CH_FORM.match(line)
+        if fm:
+            n = int(fm.group(1))
+            rest = line[fm.end():]
+            if line.lstrip().startswith("$"):
+                rest = "$" + rest            # restore the inline-math span
+        else:
+            mn = MESSY_NUM.match(line)
+            if mn:
+                n = int(float(mn.group(1)))
+        if n is None:
+            return line
+        block_nums = self.ans_nums.get(self.block_base, set())
+        if n in block_nums and (self.prev is None or n > self.prev):
+            return self._emit_question(self._form_tag(line), n, rest, line_no)
+        if self.prev is None or n > self.prev:
+            self.prev = n
+        self.cnt["noted"] += 1
+        self.flag(line_no, "question-number-form", line)
+        return line
+
     def process_block_question(self, line, line_no):
         qm = self.match_question(line)
         if qm is None:
             if self.ch_side:
-                n = None
-                fm = CH_FORM.match(line)
-                if fm:
-                    n = int(fm.group(1))
-                else:
-                    mn = MESSY_NUM.match(line)
-                    if mn:
-                        n = int(float(mn.group(1)))
-                if n is not None:
-                    if self.prev is None or n > self.prev:
-                        self.prev = n
-                    self.cnt["noted"] += 1
-                    self.flag(line_no, "question-number-form", line)
-                return line
+                return self._note_or_promote_form(line, line_no)
             return self.answer_plain_line(line, line_no)
         tag, n, rest = qm
         if self.ch_side:
@@ -263,31 +319,7 @@ class FileProcessor:
                 self.flag(line_no, "question-gap",
                           f"answer numbering jumps {self.prev} -> {n} "
                           "(earlier answers likely used unlabelled/math forms)")
-        self.prev = n
-        self.part = None
-        self.log_num(n)
-        sfx = f"{tag.lower()}{n}" if tag else f"q{n}"
-        pid = f"{self.block_base}-{sfx}"
-        head = f"##### {'Question' if self.ch_side else 'Answer'}"
-        head += f" {tag + ' ' if tag else ''}{n}"
-        self.cnt["question" if self.ch_side else "answer"] += 1
-        self.add_heading(pid, head)
-        rest = rest.strip()
-        if rest:
-            if not self.ch_side:
-                mb = LABEL_BOLD.match(rest)
-                if mb:
-                    self.part = mb.group(1)
-                else:
-                    ml = LABEL_BARE.match(rest)
-                    if ml:
-                        expected_part = "a" if self.part is None \
-                            else chr(ord(self.part) + 1)
-                        if ml.group(1) == expected_part:
-                            self.part = ml.group(1)
-                            rest = f"**{ml.group(1)}** {ml.group(2)}"
-            self.out.append(wrap_marks(rest))
-        return None
+        return self._emit_question(tag, n, rest, line_no)
 
     def answer_plain_line(self, line, line_no):
         """Answer-file plain lines: part labels and $N-in-maths question
@@ -301,7 +333,15 @@ class FileProcessor:
             n = int(mm.group(1))
             rest_math = mm.group(2).strip()
             expected = 1 if self.prev is None else self.prev + 1
-            if n == expected and rest_math:
+            # ground truth: the chapter question numbers for this block.  A
+            # `$N <answer>$` line is a clean, unambiguous answer start when N
+            # is the next expected chapter question (not just prev+1), so
+            # answers that the OCR numbered inline are split correctly even
+            # when earlier answers were skipped/mangled.
+            ch_block = re.sub(r"-ans-", "-", self.block_base or "", count=1)
+            ch_nums = self.ch_qnums.get(ch_block, set())
+            matches_chapter = n in ch_nums and (self.prev is None or n > self.prev)
+            if rest_math and (n == expected or matches_chapter):
                 self.prev = n
                 self.part = None
                 self.log_num(n)
@@ -698,25 +738,54 @@ def main(argv=None):
 
     results = {}
     text_of = {}
-    ans_nums = {}   # block base (e.g. "ch02-ex2E") -> set of answer numbers
-    # pass 1: answer files, so their per-block numbers can act as ground
-    # truth for the chapter-side resync rule
-    for f in files:
-        if f.startswith("ans"):
-            results[f] = FileProcessor(p_dir / f, callouts=args.callouts)
+
+    def collect_nums(fprocs, normalize_ans):
+        """block base -> set of numbers, from the final run of each file."""
+        nums = {}
+        for f in fprocs:
+            for rec in fprocs[f].block_log:
+                base = rec["base"]
+                if normalize_ans:
+                    base = re.sub(r"-ans-", "-", base, count=1)
+                nums.setdefault(base, set()).update(rec["nums"])
+        return nums
+
+    ans_nums = {}
+    ch_qnums = {}
+    # Converge to a fixed point: the chapter-side promotion uses the answer
+    # set as ground truth and the answer-side split uses the chapter question
+    # set, so the two can feed each other (each pass only adds numbers, so it
+    # terminates quickly).
+    def freeze(nums):
+        return frozenset((k, frozenset(v)) for k, v in nums.items())
+
+    converged = False
+    for _ in range(10):
+        prev = (freeze(ans_nums), freeze(ch_qnums))
+        # pass A: answer files (chapter questions as ground truth for $N splits)
+        for f in files:
+            if f.startswith("ans"):
+                results[f] = FileProcessor(p_dir / f, callouts=args.callouts,
+                                           ch_qnums=ch_qnums)
+                results[f].run()
+                text_of[f] = results[f].new_text
+        ans_nums = collect_nums(results, normalize_ans=True)
+        # pass B: chapter files (answer set as ground truth for promotion)
+        for f in files:
+            if f.startswith("ans"):
+                continue
+            results[f] = FileProcessor(p_dir / f, callouts=args.callouts,
+                                       ans_nums=ans_nums)
             results[f].run()
             text_of[f] = results[f].new_text
-            for rec in results[f].block_log:
-                base = re.sub(r"-ans-", "-", rec["base"], count=1)
-                ans_nums.setdefault(base, set()).update(rec["nums"])
-    # pass 2: chapters (and everything else), with the answer numbers
-    for f in files:
-        if f.startswith("ans"):
-            continue
-        results[f] = FileProcessor(p_dir / f, callouts=args.callouts,
-                                   ans_nums=ans_nums)
-        results[f].run()
-        text_of[f] = results[f].new_text
+        ch_qnums = collect_nums(results, normalize_ans=False)
+        if (freeze(ans_nums), freeze(ch_qnums)) == prev:
+            converged = True
+            break
+    if not converged:
+        print("WARNING: fix_sections fixed-point loop did not converge after "
+              "10 iterations; chapter/answer numbers kept changing. The last "
+              "round's output was used.", file=sys.stderr)
 
     if args.check:
         disk = {f: (p_dir / f).read_text(encoding="utf-8") for f in files}
