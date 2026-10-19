@@ -41,8 +41,31 @@ we211_mj = mn.normalise(WE211, "mathjax")
 eq("\\begin{align}" not in we211_mj, True, "mathjax must replace align")
 eq(we211_mj.count("\\begin{aligned}"), 2, "two blocks aligned")
 we211_kx = mn.normalise(WE211, "katex")
-eq("\\begin{align}" in we211_kx, True, "katex keeps align")
-eq("\\begin{aligned}" in we211_kx, False, "katex never makes aligned")
+eq("\\begin{align}" not in we211_kx, True,
+   "katex must replace align too (KaTeX has no align)")
+eq(we211_kx.count("\\begin{aligned}"), 2, "katex makes aligned")
+
+# --------------------------------------------------------------------------
+# 1b. equation / equation* wrappers dropped by katex, kept by mathjax
+# --------------------------------------------------------------------------
+EQ1 = """$$
+\\begin{equation}
+x+5=2 \\tag{1}
+\\end{equation}
+$$"""
+eq_kx = mn.normalise(EQ1, "katex")
+eq("\\begin{equation}" not in eq_kx, True, "katex drops begin{equation}")
+eq("\\end{equation}" not in eq_kx, True, "katex drops end{equation}")
+eq("x+5=2 \\tag{1}" in eq_kx, True, "equation content kept inside $$")
+eq(mn.normalise(EQ1, "mathjax"), EQ1, "mathjax keeps equation wrapper")
+EQ2 = """$$
+\\begin{equation*}
+y-5=0
+\\end{equation*}
+$$"""
+eq2_kx = mn.normalise(EQ2, "katex")
+eq("equation*" not in eq2_kx, True, "katex drops equation* wrapper")
+eq("y-5=0" in eq2_kx, True, "equation* content kept")
 
 # --------------------------------------------------------------------------
 # 2. KEY POINT 2.3 tables (inline \\begin{aligned} in cells + pipes)
@@ -129,15 +152,15 @@ eq("after $y$ fine" in fenced, True, "prose after fence still normalised")
 # --------------------------------------------------------------------------
 # line-count / blank-line invariant
 # --------------------------------------------------------------------------
-blobs = [SAMPLE, WE211, KP23, FENCE]
+blobs = [SAMPLE, WE211, KP23, FENCE, EQ1, EQ2]
 for b in blobs:
     a = b.split("\n")
     for target in ("mathjax", "katex"):
         c = mn.normalise(b, target).split("\n")
         eq(len(c), len(a), f"line count preserved ({target})")
         for x, y in zip(a, c):
-            eq(bool(x.strip()), bool(y.strip()),
-               f"blank-line positions preserved ({target})")
+            eq(not bool(x.strip()) and bool(y.strip()), False,
+               f"blank lines stay blank ({target})")
 
 # --------------------------------------------------------------------------
 # check() reports problems

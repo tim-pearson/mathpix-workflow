@@ -8,11 +8,13 @@ lives here and nowhere else.
 Usage as a library:
     import math_normalize as mn
     mn.normalise(text, "mathjax")     # text with maths fixes applied
-    mn.normalise(text, "katex")       # same but align untouched, heading
+    mn.normalise(text, "katex")       # same, plus align->aligned and
+                                     # equation/equation* wrappers dropped
+                                     # (KaTeX supports neither); heading
                                      # maths kept (reported via check())
     mn.normalise(text, "nvim")        # identity (source form)
     mn.check(text)                    # list of problems, each a dict:
-                                      #   {"line": N, "kind": str, "msg": str}
+                                       #   {"line": N, "kind": str, "msg": str}
 
 CLI:
     python math_normalize.py FILE [--target mathjax|katex|nvim] [--check] [--diff]
@@ -147,14 +149,18 @@ def normalise(text, target="nvim"):
       "mathjax" align->aligned, `$ x $` trims, `<`/`>`->\\lt/\\gt,
                 `|`->\\vert in table-row maths, stray `$` rebalancing,
                 heading maths stripped to plain text, \\boldsymbol kept
-      "katex"   same as mathjax EXCEPT align is left alone and heading
-                maths is kept (report it via check() instead)
+      "katex"   same as mathjax PLUS equation/equation* wrappers are
+                dropped (the content stays inside the $$ block), heading
+                maths is kept (report it via check() instead).  KaTeX
+                supports neither align nor equation environments, so
+                align->aligned applies to both targets.
     Never changes line counts or blank-line positions; never touches code
     fences.
     """
     if target == "nvim":
         return text
-    do_align = (target == "mathjax")
+    do_align = (target in ("mathjax", "katex"))
+    do_equation = (target == "katex")
     strip_headings = (target == "mathjax")
     in_fence = in_block = False
     out = []
@@ -176,6 +182,10 @@ def normalise(text, target="nvim"):
             if do_align:
                 for a, b in ALIGN_SUBS:
                     fixed = fixed.replace(a, b)
+            if do_equation:
+                for a in ("\\begin{equation*}", "\\end{equation*}",
+                          "\\begin{equation}", "\\end{equation}"):
+                    fixed = fixed.replace(a, "")
             fixed = fixed.replace("<", r"\lt ").replace(">", r"\gt ")
             out.append(fixed)
             continue
