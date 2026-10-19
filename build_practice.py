@@ -92,6 +92,50 @@ def answer_id_for(qid):
     return f"{m.group(1)}-ans-{m.group(2)}-q{m.group(3)}"
 
 
+def parse_prereq(blk):
+    """Extract questions from the PREREQUISITE KNOWLEDGE table.  Questions
+    live in the last cell of each row, split by <br>, with the number at the
+    start of a line (optionally embedded in a $.. span) and a/b/c parts on
+    following lines."""
+    out = []
+    for ln in blk:
+        s = ln.lstrip()
+        if not s.startswith("|"):
+            continue
+        cells = [c.strip() for c in s.split("|")]
+        cells = [c for c in cells if c]
+        if len(cells) < 3:
+            continue
+        skill = cells[-1]
+        if not skill or skill.startswith(":--") or "Check your skills" in skill \
+                or skill.startswith("Where it comes from"):
+            continue
+        text = re.sub(r"<br\s*/?>", "\n",
+                      skill.replace("&#160;", " ").replace("&nbsp;", " "))
+        cur = None
+        for raw in text.split("\n"):
+            ln = raw.strip()
+            if not ln:
+                continue
+            mb = re.match(r"^\$(\d{1,2})\s+(.*)$", ln)
+            mn = re.match(r"^(\d{1,2})\s+(.*)$", ln)
+            if mb:
+                cur = [int(mb.group(1)), ["$" + mb.group(2)]]
+                out.append(cur)
+                continue
+            if mn:
+                cur = [int(mn.group(1)), [mn.group(2)]]
+                out.append(cur)
+                continue
+            mp = re.match(r"^([a-z])\s+(.*)$", ln)
+            if mp and cur is not None:
+                cur[1].append("**%s** %s" % (mp.group(1), mp.group(2).strip()))
+                continue
+            if cur is not None:
+                cur[1].append(ln)
+    return [{"num": q[0], "body": q[1]} for q in out]
+
+
 def first_heading(lines):
     for ln in lines:
         m = HEAD_RE.match(ln.strip())
@@ -112,7 +156,9 @@ def attr(s):
 
 
 def blockquote(lines, cls, data_section):
-    return lines
+    """Top-level `<div class markdown="1">` container for key points."""
+    return ['<div class="%s" markdown="1" data-section="%s">' %
+            (cls, attr(data_section)), ""] + lines + ["", "</div>"]
 
 
 def toolbar_html():
@@ -127,7 +173,62 @@ def toolbar_html():
             '</div>')
 
 
-def exercise_page(lines, fname, ch_title, idx):
+IMG_RE = re.compile(r'!\[[^\]]*\]\([^)]*\)')
+
+
+def pull_images(lines):
+    """Take images out of body lines (images break markdown-in-html divs):
+    returns (text_lines, image_markdown_tokens)."""
+    text, imgs = [], []
+    for ln in lines:
+        hits = list(IMG_RE.finditer(ln))
+        if not hits:
+            text.append(ln)
+            continue
+        pos = 0
+        for m in hits:
+            seg = ln[pos:m.start()].strip()
+            if seg:
+                text.append(seg)
+            imgs.append(m.group(0).strip())
+            pos = m.end()
+        rest = ln[pos:].strip()
+        if rest:
+            text.append(rest)
+    return text, imgs
+
+
+def emit_question(out, stats, idx, fname, sec_title, qid, num, tag, body,
+                  source_anchor):
+    body, images = pull_images(body)
+    for img in images:
+        out += ["", f"{img}{{data-section=\"{attr(sec_title)}\"}}"]
+    out += ['<div class="qa" markdown="1" '
+            f'data-section="{attr(sec_title)}">', "",
+            f"### Question {tag + ' ' if tag else ''}{num}", ""]
+    out += body
+    out += ["", f"[source](../split/{fname}#{source_anchor})", "", "</div>"]
+    aid = answer_id_for(qid)
+    if aid and aid in idx:
+        an = idx[aid]
+        ans_lines = slice_to_next(file_lines(an["file"]), aid,
+                                  an.get("next_id"))
+        ans_body = strip_headings_and_anchors(ans_lines)
+        while ans_body and not ans_body[0].strip():
+            ans_body.pop(0)
+        while ans_body and not ans_body[-1].strip():
+            ans_body.pop()
+        details = ['??? success "Answer"']
+        details += [("    " + ln) if ln.strip() else "" for ln in ans_body]
+        out += ["", *details, ""]
+        stats["linked"] += 1
+    else:
+        out += ["", "*Answer not linked*", ""]
+        stats["unlinked"].append(qid)
+    stats["questions"] += 1
+
+
+def exercise_page(lines, fname, ch_title, idx, ch_num):
     out = [f"# {ch_title} — Exercises", "", toolbar_html(), ""]
     stats = {"questions": 0, "linked": 0, "unlinked": []}
     entries = []
@@ -147,6 +248,17 @@ def exercise_page(lines, fname, ch_title, idx):
             sec_title = first_heading(blk) or iid
             out += ["", f"## {sec_title} "
                         f'{{data-section="{attr(sec_title)}"}}', ""]
+            if e.get("kind") == "prerequisite":
+                # questions live in the table, not as anchored blocks
+                questions = parse_prereq(blk)
+                if questions:
+                    pending_note = None
+                    for q in questions:
+                        emit_question(out, stats, idx, fname, sec_title,
+                                      f"ch{ch_num:02d}-prerequisite-q{q['num']}",
+                                      q["num"], "", q["body"],
+                                      f"ch{ch_num:02d}-prerequisite")
+                    continue
             pending_note = ("*No question blocks here — the questions appear "
                             "in a table on the source page.*")
             continue
@@ -166,31 +278,8 @@ def exercise_page(lines, fname, ch_title, idx):
             body.pop(0)
         while body and not body[-1].strip():
             body.pop()
-
-        qa = [f"### Question {tag + ' ' if tag else ''}{num}", ""]
-        qa += body
-        qa += ["", f"[source](../split/{fname}#{iid})"]
-        out += ['<div class="qa" markdown="1" '
-                f'data-section="{attr(sec_title)}">', ""] + qa + ["",
-                                                                    "</div>"]
-        aid = answer_id_for(iid)
-        if aid and aid in idx:
-            an = idx[aid]
-            ans_lines = slice_to_next(file_lines(an["file"]), aid,
-                                      an.get("next_id"))
-            ans_body = strip_headings_and_anchors(ans_lines)
-            while ans_body and not ans_body[0].strip():
-                ans_body.pop(0)
-            while ans_body and not ans_body[-1].strip():
-                ans_body.pop()
-            details = ['??? success "Answer"']
-            details += [("    " + ln) if ln.strip() else "" for ln in ans_body]
-            out += ["", *details, ""]
-            stats["linked"] += 1
-        else:
-            out += ["", "*Answer not linked*", ""]
-            stats["unlinked"].append(iid)
-        stats["questions"] += 1
+        emit_question(out, stats, idx, fname, sec_title, iid, num, tag,
+                      body, iid)
     if pending_note is not None:
         out += ["", pending_note, ""]
     return out, stats
@@ -216,6 +305,42 @@ def balance_dollars(lines):
         if ln.count("$") % 2 == 1:
             k = ln.rfind("$")
             ln = ln[:k] + ln[k + 1:]
+        out.append(ln)
+    return out
+
+
+def _escape_inline(ln):
+    out, i, n = [], 0, len(ln)
+    while i < n:
+        c = ln[i]
+        if c == "$" and i + 1 < n and ln[i + 1] != "$":
+            j = ln.find("$", i + 1)
+            if j == -1:
+                out.append(ln[i:])
+                break
+            inner = ln[i + 1:j].replace("<", r"\lt ").replace(">", r"\gt ")
+            out.append("$" + inner + "$")
+            i = j + 1
+            continue
+        out.append(c)
+        i += 1
+    return "".join(out)
+
+
+def escape_lt(lines):
+    """Replace literal `<`/`>` inside maths with \\lt / \\gt.  A raw `<` in
+    an inline $..$ span inside a markdown="1" div breaks Python-Markdown's
+    parsing of the following raw <div> blocks, so the display-equivalent
+    \\lt is used (renders as '<' via MathJax)."""
+    out, in_block = [], False
+    for ln in lines:
+        s = ln.strip()
+        if s.startswith("$$"):
+            in_block = not in_block
+        elif in_block:
+            ln = ln.replace("<", r"\lt ").replace(">", r"\gt ")
+        else:
+            ln = _escape_inline(ln)
         out.append(ln)
     return out
 
@@ -268,10 +393,10 @@ def generate(docs_dir, book_dir=None, full_keypoints=False,
         lines = file_lines(fname)
 
         # ---- exercise page --------------
-        md, st = exercise_page(lines, fname, ch_title, idx)
+        md, st = exercise_page(lines, fname, ch_title, idx, n)
         text = align_fix("\n".join(md) + "\n")
         out, _, _ = reflow(text.split("\n"))
-        out = balance_dollars(out)
+        out = escape_lt(balance_dollars(out))
         ex_file = f"ch{n:02d}-exercises.md"
         (practice / ex_file).write_text("\n".join(out) + "\n",
                                         encoding="utf-8")
@@ -300,13 +425,16 @@ def generate(docs_dir, book_dir=None, full_keypoints=False,
         kp_md = [f"# {ch_title} — Key points", "", toolbar_html(), ""]
         for ktitle, body, iid in kps:
             kq = [f"## {ktitle}", ""]
+            body, images = pull_images(body)
+            for img in images:
+                kq += ["", f"{img}{{data-section=\"{attr(ktitle)}\"}}"]
             kq += body
             kq += ["", f"[see in context](../split/{fname}#{iid})"]
             kp_md += blockquote(kq, "kp", ktitle)
             kp_md += [""]
         text = align_fix("\n".join(kp_md) + "\n")
         out, _, _ = reflow(text.split("\n"))
-        out = balance_dollars(out)
+        out = escape_lt(balance_dollars(out))
         kp_file = f"ch{n:02d}-keypoints.md"
         (practice / kp_file).write_text("\n".join(out) + "\n",
                                         encoding="utf-8")
@@ -327,13 +455,16 @@ def generate(docs_dir, book_dir=None, full_keypoints=False,
         ak += ["", f"## {ch_title} {{data-section=\"{attr(ch_title)}\"}}", ""]
         for ktitle, body, iid in chapter_kps[n]:
             kq = [f"### {ktitle}", ""]
+            body, images = pull_images(body)
+            for img in images:
+                kq += ["", f"{img}{{data-section=\"{attr(ch_title)}\"}}"]
             kq += body
             kq += ["", f"[see in context](../split/{chmap[n]}#{iid})"]
             ak += blockquote(kq, "kp", ch_title)
             ak += [""]
     text = align_fix("\n".join(ak) + "\n")
     out, _, _ = reflow(text.split("\n"))
-    out = balance_dollars(out)
+    out = escape_lt(balance_dollars(out))
     (practice / "all-keypoints.md").write_text("\n".join(out) + "\n",
                                                encoding="utf-8")
 
@@ -348,7 +479,7 @@ def generate(docs_dir, book_dir=None, full_keypoints=False,
     pl += ["", "- [All key points](all-keypoints.md)", ""]
     text = align_fix("\n".join(pl) + "\n")
     out, _, _ = reflow(text.split("\n"))
-    out = balance_dollars(out)
+    out = escape_lt(balance_dollars(out))
     (practice / "index.md").write_text("\n".join(out) + "\n",
                                        encoding="utf-8")
 
@@ -382,16 +513,11 @@ CSS = """\
 }
 #practice-toolbar input[type=search] { flex: 1 1 12rem; min-width: 8rem; }
 #pt-count { margin-left: auto; color: var(--md-default-fg-color--light); }
-.qa, .kp {
-  padding: .2rem 1rem .6rem; margin: 1rem 0;
-  background: var(--md-default-bg-color);
-  border-left: .25rem solid var(--md-primary-fg-color);
-}
-.qa > details.success > summary { cursor: pointer; font-weight: 700; }
-@media (min-width: 900px) {
-  .qa { display: grid; grid-template-columns: 1fr 1fr;
-        column-gap: 1.6rem; }
-  .qa > details { grid-column: 2; grid-row: 1 / -1; }
+/* Always a single column: question on top, collapsed answer below it. */
+.qa, .kp { margin-bottom: 1.4rem; }
+.qa > details.success > summary,
+#practice-toolbar ~ details.success > summary {
+  cursor: pointer; font-weight: 700;
 }
 """
 
@@ -405,11 +531,23 @@ JS = """\
     var expand = document.getElementById('pt-expand');
     var collapse = document.getElementById('pt-collapse');
     var count = document.getElementById('pt-count');
-    var items = Array.prototype.slice.call(
-      document.querySelectorAll('.qa, .kp'));
+
+    // questions are .qa divs; each answer <details> follows its .qa as a
+    // sibling, so a filter must hide/show the question and its answer together
+    var items = [];
+    document.querySelectorAll('.qa, .kp').forEach(function (q) {
+      var d = null;
+      if (q.className && q.className.indexOf('qa') !== -1) {
+        d = q.nextElementSibling;
+        if (!d || d.tagName !== 'DETAILS') d = null;
+      }
+      items.push({ q: q, d: d });
+    });
     var headings = Array.prototype.slice.call(
       document.querySelectorAll('h1, h2, h3, h4, h5, h6[data-section]'));
-    var hasAnswers = !!document.querySelector('.qa details');
+    var images = Array.prototype.slice.call(
+      document.querySelectorAll('img[data-section]'));
+    var hasAnswers = !!document.querySelector('details');
 
     var order = [], seen = {};
     document.querySelectorAll('[data-section]').forEach(function (el) {
@@ -429,20 +567,28 @@ JS = """\
       var sel = select.value;
       var vis = 0;
       items.forEach(function (it) {
-        var sec = it.getAttribute('data-section') || '';
+        var sec = it.q.getAttribute('data-section') || '';
         var secOk = (sel === 'All' || sec === sel);
-        var txtOk = !q || it.textContent.toLowerCase().indexOf(q) !== -1;
-        it.style.display = (secOk && txtOk) ? '' : 'none';
-        if (secOk && txtOk) vis++;
+        var txtOk = !q || it.q.textContent.toLowerCase().indexOf(q) !== -1;
+        var show = secOk && txtOk;
+        it.q.style.display = show ? '' : 'none';
+        if (it.d) it.d.style.display = show ? '' : 'none';
+        if (show) vis++;
       });
-      headings.forEach(function (el) {
+headings.forEach(function (el) {
         var sec = el.getAttribute('data-section') || '';
-        var secOk = (sel === 'All' || sel === sec);
+        var secOk = (sel === 'All' || sec === sel);
         if (!secOk) { el.style.display = 'none'; return; }
         var any = items.some(function (it) {
-          return it.getAttribute('data-section') === sec &&
-                 it.style.display !== 'none';
+          return it.q.getAttribute('data-section') === sec &&
+                 it.q.style.display !== 'none';
         });
+        el.style.display = (!q || any) ? '' : 'none';
+      });
+      images.forEach(function (el) {
+        var sec = el.getAttribute('data-section') || '';
+        el.style.display = (sel === 'All' || sec === sel) ? '' : 'none';
+      });
         el.style.display = (!q || any) ? '' : 'none';
       });
       if (count) count.textContent = vis ? (vis + ' shown') : '0 shown';
@@ -450,12 +596,12 @@ JS = """\
     select.addEventListener('change', apply);
     text.addEventListener('input', apply);
     expand.addEventListener('click', function () {
-      document.querySelectorAll('.qa details').forEach(function (d) {
+      document.querySelectorAll('details').forEach(function (d) {
         d.open = true;
       });
     });
     collapse.addEventListener('click', function () {
-      document.querySelectorAll('.qa details').forEach(function (d) {
+      document.querySelectorAll('details').forEach(function (d) {
         d.open = false;
       });
     });
