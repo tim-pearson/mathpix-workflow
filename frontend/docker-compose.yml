@@ -9,6 +9,16 @@ services:
     volumes:
       # named volume keeps progress across rebuilds/restarts
       - progress-data:/data
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/progress/questions', timeout=3)"
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 5s
     restart: unless-stopped
 
   frontend:
@@ -17,7 +27,8 @@ services:
       dockerfile: frontend/Dockerfile
     container_name: maths-frontend
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
     ports:
       - "127.0.0.1:5173:80"
     restart: unless-stopped

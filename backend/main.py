@@ -9,17 +9,27 @@ The SQLite file lives at $PROGRESS_DB (default ./progress.db; the Docker
 service sets it to /data/progress.db on a persistent volume).
 """
 import os
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
 from db import (VALID_STATUS, all_flags, all_statuses, chapter_summary,
-                clear_flag, clear_status, set_flag, set_status,
+                clear_flag, clear_status, init, set_flag, set_status,
                 valid_flag_target, valid_question_id)
 
 DB_PATH = os.environ.get("PROGRESS_DB", "progress.db")
 
-app = FastAPI(title="Maths progress API", version="1.0.0")
+
+@asynccontextmanager
+async def lifespan(_app):
+    init(DB_PATH)  # ensure the schema (progress + flags) exists at startup
+    print(f"[progress] SQLite ready at {DB_PATH} (tables: progress, flags)",
+          flush=True)
+    yield
+
+
+app = FastAPI(title="Maths progress API", version="1.0.0", lifespan=lifespan)
 
 
 class ProgressBody(BaseModel):

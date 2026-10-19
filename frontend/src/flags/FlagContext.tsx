@@ -60,7 +60,7 @@ export function FlagProvider({ children }: { children: ReactNode }) {
       {children}
       {error && (
         <div className="pointer-events-none fixed bottom-3 left-3 rounded-lg border border-danger/40 bg-paper px-3 py-2 text-xs text-danger shadow-sm">
-          Flag save failed: {error}
+          Flags API error: {error} — is the backend running?
         </div>
       )}
     </FlagContext.Provider>

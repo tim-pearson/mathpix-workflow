@@ -58,7 +58,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
       {children}
       {error && (
         <div className="pointer-events-none fixed bottom-3 right-3 rounded-lg border border-danger/40 bg-paper px-3 py-2 text-xs text-danger shadow-sm">
-          Progress save failed: {error}
+          Progress API error: {error} — is the backend running?
         </div>
       )}
     </ProgressContext.Provider>

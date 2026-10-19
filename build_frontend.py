@@ -30,6 +30,7 @@ Docker a local `progress.db` is created in the repo root with both the
 Use --skip-docker to stop after the data bundle + local DB are ready.
 """
 import argparse
+import json
 import shutil
 import subprocess
 import sys
@@ -44,8 +45,8 @@ FRONTEND = Path(__file__).resolve().parent / "frontend"
 LOCAL_DB = Path(__file__).resolve().parent / "progress.db"
 
 BACKEND_URL = "http://127.0.0.1:5173/api"  # via nginx proxy (frontend port)
-READY_CHECKS = ["/progress/questions", "/flags"]
-READY_TIMEOUT = 60  # seconds
+CHECK_ID = "ch99-buildcheck-q0"            # throwaway id used for the check
+READY_TIMEOUT = 90  # seconds
 
 
 def run(step, *args):
@@ -68,25 +69,45 @@ def ensure_local_db():
     return str(LOCAL_DB)
 
 
-def backend_ready():
-    """True when nginx -> backend answers both /api/progress and /api/flags."""
+def backend_ok():
+    """Full read/write round-trip through the nginx proxy.
+
+    GETs both endpoints (must be real JSON), PUTs a throwaway flag, verifies
+    it persisted, then DELETEs it.  This catches every failure mode the plain
+    status-200 probe misses: an nginx that isn't proxying /api (it would serve
+    index.html with 200), a backend that can't write to SQLite, etc.
+    Returns (ok, detail)."""
     try:
-        for path in READY_CHECKS:
-            with urllib.request.urlopen(BACKEND_URL + path, timeout=3) as res:
-                if res.status != 200:
-                    return False
-                res.read()
-        return True
-    except Exception:
-        return False
+        for path in ("/progress/questions", "/flags"):
+            with urllib.request.urlopen(BACKEND_URL + path, timeout=5) as r:
+                json.loads(r.read().decode())  # must be real JSON
+        req = urllib.request.Request(
+            BACKEND_URL + "/flags/" + CHECK_ID, method="PUT",
+            data=json.dumps({"note": "build-check"}).encode(),
+            headers={"Content-Type": "application/json"})
+        with urllib.request.urlopen(req, timeout=5) as r:
+            if r.status != 200:
+                return False, f"PUT /api/flags returned {r.status}"
+        with urllib.request.urlopen(BACKEND_URL + "/flags", timeout=5) as r:
+            flags = json.loads(r.read().decode())
+        if CHECK_ID not in flags:
+            return False, "test flag was not persisted (write failed)"
+        req = urllib.request.Request(BACKEND_URL + "/flags/" + CHECK_ID,
+                                     method="DELETE")
+        with urllib.request.urlopen(req, timeout=5) as r:
+            if r.status != 204:
+                return False, f"DELETE /api/flags returned {r.status}"
+        return True, ""
+    except Exception as e:  # noqa: BLE001
+        return False, f"{type(e).__name__}: {e}"
 
 
-def wait_for_backend():
-    print(f"\nwaiting for the progress/flags backend ({BACKEND_URL} ...)")
-    deadline = time.time() + READY_TIMEOUT
+def wait_roundtrip(timeout):
+    deadline = time.time() + timeout
+    detail = "timed out"
     while time.time() < deadline:
-        if backend_ready():
-            print("  backend ready: /api/progress and /api/flags responding")
+        ok, detail = backend_ok()
+        if ok:
             return True
         time.sleep(2)
     return False
@@ -102,12 +123,18 @@ def compose(*args):
 
 
 def backend_diagnostics():
-    print("\nbackend did not become ready. Check:")
+    print("\nbackend still did not pass the read/write round-trip. Run these "
+          "to see what nginx/backend are actually returning:")
+    print("  cd frontend")
     print("  docker compose ps")
-    print("  docker compose logs backend")
-    print("  the backend stores its SQLite file at /data/progress.db on the")
-    print("  `progress-data` volume (progress + flags tables are created on")
-    print("  startup, so the volume never needs manual setup).")
+    print("  docker compose logs --tail 50 backend")
+    print("  curl -i http://127.0.0.1:5173/api/progress/questions")
+    print("  curl -i -X PUT http://127.0.0.1:5173/api/flags/ch99-buildcheck-q0"
+          " -H 'Content-Type: application/json' -d '{\"note\":\"x\"}'")
+    print("\nThe backend stores its SQLite file at /data/progress.db on the")
+    print("`progress-data` volume; the progress + flags tables are created on")
+    print("startup. If curl returns index.html (not JSON) the frontend image is")
+    print("stale — rebuild it with:  docker compose build --no-cache frontend")
 
 
 def main():
@@ -167,9 +194,22 @@ def main():
     compose("down")
     compose("up", "--build", "-d")
 
-    if not wait_for_backend():
-        backend_diagnostics()
-        sys.exit(1)
+    print(f"\nwaiting for the progress/flags backend (read/write round-trip "
+          f"via {BACKEND_URL} ...)")
+    if not wait_roundtrip(READY_TIMEOUT):
+        # a stale frontend image (nginx without the /api proxy) is the usual
+        # cause — rebuild from scratch to rule it out before giving up
+        print("  round-trip failed — rebuilding images with --no-cache to "
+              "rule out a stale image ...")
+        compose("down")
+        compose("build", "--no-cache")
+        compose("up", "-d")
+        if not wait_roundtrip(READY_TIMEOUT):
+            backend_diagnostics()
+            sys.exit(1)
+
+    print("  backend ready: /api/progress + /api/flags read/write "
+          "round-trip passed")
 
     print("\nPipeline complete. The React app is served at:")
     print("  http://127.0.0.1:5173")
