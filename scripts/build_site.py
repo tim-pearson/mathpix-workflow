@@ -11,6 +11,8 @@ import sys
 import urllib.request
 from pathlib import Path
 
+from math_normalize import normalise
+
 BOOK_DEFAULT = Path("Maths Pure 2 & 3-clean_MD")
 MATHJAX_CDN = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
 BOLDSYMBOL_EXT = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/input/tex/" \
@@ -18,47 +20,6 @@ BOLDSYMBOL_EXT = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/input/tex/" \
 
 CH_RE = re.compile(r"^ch(\d+)-")
 H1_RE = re.compile(r"^#\s+(.*)$")
-
-# normalise inline maths arithmatex rejects: "$ x" / "x $" cases ->
-# "$x".  Openers are guarded by (start|whitespace) before the $ and
-# non-space after, so "$x$ and $y$" is never touched.
-OPEN_SPACE = re.compile(r"(?<![\S])\$[ \t]+(?=[^ \t])")
-CLOSE_SPACE = re.compile(r"[ \t]+\$(?=[ \t.,;:!?)\]}]|$)")
-# "$ x = 2 $" written on one line -> its own $$..$$ block
-SAME_LINE_DOLLARS = re.compile(r"\$\$(?:\s*)([^$]+?)(?:\s*)\$\$")
-
-# crude LaTeX -> plain text for maths inside headings (sidebar/TOC can't
-# typeset).  Ordered: operatorname first (may be spaced/nested), then the
-# unbrace-able formatting commands, then \frac/\sqrt, then a symbol map.
-HEAD_MATH = re.compile(r"\$([^$\n]+?)\$")
-
-SYMBOLS = {"pm": "\u00b1", "cdot": "\u00b7", "cdots": "\u2026",
-           "ldots": "\u2026", "to": "\u2192", "Rightarrow": "\u21d2",
-           "Leftrightarrow": "\u21d4", "ne": "\u2260", "le": "\u2264",
-           "ge": "\u2265", "leq": "\u2264", "geq": "\u2265",
-           "infty": "\u221e", "times": "\u00d7", "div": "\u00f7",
-           "circ": "\u00b0", "prime": "\u2032", "alpha": "\u03b1",
-           "beta": "\u03b2", "theta": "\u03b8", "gamma": "\u03b3",
-           "delta": "\u03b4", "pi": "\u03c0", "mu": "\u03bc",
-           "lambda": "\u03bb", "phi": "\u03c6", "omega": "\u03c9"}
-
-
-def math_to_plain(s):
-    s = re.sub(r"\\(?:operatorname)\s*\{\s*([^{}]*?)\s*\}",
-               lambda m: re.sub(r"\s+", "", m.group(1)), s)
-    for cmd in ("boldsymbol", "mathbf", "mathbb", "mathrm", "text"):
-        s = re.sub(r"\\" + cmd + r"\s*\{([^{}]*)\}", r"\1", s)
-    brace = r"([^{}]*(?:\{[^{}]*\}[^{}]*)*)"
-    s = re.sub(r"\\frac\s*\{" + brace + r"\}\s*\{" + brace + r"\}",
-               lambda m: m.group(1) + "/" + m.group(2), s)
-    s = re.sub(r"\\sqrt(?:\[[^\]]*\])?\s*\{([^{}]*(?:\{[^{}]*\}[^{}]*)*)\}",
-               lambda m: "sqrt(" + m.group(1) + ")", s)
-    for cmd, rep in SYMBOLS.items():
-        s = s.replace("\\" + cmd, rep)
-    s = re.sub(r"\\(?:left|right)\b", "", s)
-    s = re.sub(r"\\[a-zA-Z@]+\b", "", s)
-    return re.sub(r"\s+", " ", s.replace("\\", "").replace("{", "")
-                  .replace("}", "").replace("~", "")).strip()
 
 
 def page_title(path):
@@ -69,59 +30,18 @@ def page_title(path):
     return path.stem.replace("-", " ").title()
 
 
-ALIGN_SUBS = [("\\begin{align*}", "\\begin{aligned*}"),
-              ("\\end{align*}", "\\end{aligned*}"),
-              ("\\begin{align}", "\\begin{aligned}"),
-              ("\\end{align}", "\\end{aligned}")]
-
-
-def align_fix(text):
-    for a, b in ALIGN_SUBS:
-        text = text.replace(a, b)
-    return text
-
-
-def reflow(lines, changed_headings=None, fname=None):
-    """Per-line markdown normalisation shared by every generated page:
-    `$ x $` trims, same-line `$$..$$` blocks, and heading-maths stripping.
-    Returns (out_lines, trim_count, dollar_block_count)."""
-    out, in_block, trim_n, dollars_n = [], False, 0, 0
-    for ln in lines:
-        s = ln.lstrip()
-        if s.startswith("$$"):
-            in_block = not in_block
-            out.append(ln)
-            continue
-        if in_block:
-            out.append(ln)
-            continue
-        new, t = OPEN_SPACE.subn("", ln)
-        new, t2 = CLOSE_SPACE.subn("", new)
-        trim_n += t + t2
-        if not s.startswith("|"):          # never reflow table rows
-            new, n = SAME_LINE_DOLLARS.subn(
-                lambda m: "$$\n" + m.group(1) + "\n$$", new)
-            dollars_n += n
-        if s.startswith("#") and "$" in new:   # headings: plain text for TOC
-            conv = HEAD_MATH.sub(lambda m: math_to_plain(m.group(1)), new)
-            if conv != new and changed_headings is not None:
-                changed_headings.append((fname, new.strip(), conv.strip()))
-            new = conv
-        out.append(new)
-    return out, trim_n, dollars_n
-
-
 def copy_md(src, dst, boldsymbol_to_mathbf=False, changed_headings=None):
     text = src.read_text(encoding="utf-8")
-    align_n = sum(text.count(p) for p, _ in ALIGN_SUBS)
-    text = align_fix(text)
     bm_n = text.count("\\boldsymbol")
     if boldsymbol_to_mathbf:
         text = text.replace("\\boldsymbol", "\\mathbf")
-    out, trim_n, dollars_n = reflow(text.split("\n"), changed_headings,
-                                    src.name)
-    dst.write_text("\n".join(out) + "\n", encoding="utf-8")
-    return align_n, trim_n, dollars_n, bm_n
+    out = normalise(text, "mathjax")
+    if changed_headings is not None:
+        for b, a in zip(text.split("\n"), out.split("\n")):
+            if b.strip().startswith("#") and b != a:
+                changed_headings.append((src.name, b.strip(), a.strip()))
+    dst.write_text(out, encoding="utf-8")
+    return bm_n
 
 
 def fetch(url, dest, timeout=60):
@@ -165,14 +85,10 @@ def main():
             images_copied += 1
 
     pages, chmap, changed_headings = {}, {}, []
-    align_n = trim_n = dollars_n = bm_n = 0
+    bm_n = 0
     for md in sorted(split.glob("*.md")):
-        a, t, d, b = copy_md(md, docs / "split" / md.name,
-                             args.boldsymbol_to_mathbf, changed_headings)
-        align_n += a
-        trim_n += t
-        dollars_n += d
-        bm_n += b
+        bm_n += copy_md(md, docs / "split" / md.name,
+                        args.boldsymbol_to_mathbf, changed_headings)
         pages[md.name] = page_title(md)
         m = CH_RE.match(md.name)
         if m:
@@ -316,9 +232,7 @@ def main():
 
     print(f"pages: {len(pages) + 1} (index + {len(pages)} split files)")
     print(f"images copied: {images_copied}")
-    print(f"align->aligned replacements: {align_n}")
-    print(f"inline-$ space trims: {trim_n}")
-    print(f"same-line $$ blocks split: {dollars_n}")
+    print(f"maths normalisation: math_normalize.normalise(..., 'mathjax')")
     print(f"\\boldsymbol occurrences in source: {bm_n}"
           + (" -> replaced with \\mathbf" if args.boldsymbol_to_mathbf else ""))
     if changed_headings:

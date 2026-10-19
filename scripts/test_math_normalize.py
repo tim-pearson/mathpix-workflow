@@ -1,0 +1,161 @@
+#!/usr/bin/env python3
+"""Plain-assert unit tests for math_normalize.py.
+
+Run:  python scripts/test_math_normalize.py
+"""
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import math_normalize as mn
+
+
+def eq(a, b, label):
+    if a != b:
+        raise AssertionError(f"{label}\n  expected: {b!r}\n  actual:   {a!r}")
+
+
+# --------------------------------------------------------------------------
+# 1. WORKED EXAMPLE 2.11 (align inside $$)
+# --------------------------------------------------------------------------
+WE211 = """Answer
+
+a
+
+$$
+\\begin{align}
+5^{2 x+1} & =7 \\\\
+\\log 5^{2 x+1} & =\\log 7
+\\end{align}
+$$
+
+b
+
+$$
+\\begin{align}
+3^{2 x} & =4^{x+5}
+\\end{align}
+$$
+"""
+we211_mj = mn.normalise(WE211, "mathjax")
+eq("\\begin{align}" not in we211_mj, True, "mathjax must replace align")
+eq(we211_mj.count("\\begin{aligned}"), 2, "two blocks aligned")
+we211_kx = mn.normalise(WE211, "katex")
+eq("\\begin{align}" in we211_kx, True, "katex keeps align")
+eq("\\begin{aligned}" in we211_kx, False, "katex never makes aligned")
+
+# --------------------------------------------------------------------------
+# 2. KEY POINT 2.3 tables (inline \\begin{aligned} in cells + pipes)
+# --------------------------------------------------------------------------
+KP23 = """| Multiplication law | Division law | Power law |
+| :--- | :--- | :--- |
+| $\\begin{aligned} & \\log _{a}(x y) \\\\ & =\\log _{a} x+\\log _{a} y \\end{aligned}$ | $x$ | $y$ |
+| $\\left| x \\right|$ | $\\log _{a}\\left(\\frac{x}{y}\\right)$ | $a^{m}$ |
+"""
+kp23 = mn.normalise(KP23, "mathjax")
+eq("\\begin{aligned}" in kp23, True, "table-cell aligned stays")
+eq("\\vert" in kp23, True, "pipe inside table-cell maths becomes \\vert")
+eq("\\left| x \\right|" in kp23, False, "no bare | inside table maths")
+eq("\\left\\vert  x \\right\\vert" in kp23, True,
+   "\\left\\vert form kept")
+
+# --------------------------------------------------------------------------
+# 3. ch04 heading with \\boldsymbol\\operatorname
+# --------------------------------------------------------------------------
+HEAD = "### The derivative of $\\boldsymbol{\\operatorname { l n }} \\boldsymbol{x}$"
+head_mj = mn.normalise(HEAD, "mathjax")
+eq(head_mj, "### The derivative of ln x", "mathjax strips heading maths")
+eq("$" not in head_mj, True, "no dollars left in stripped heading")
+head_kx = mn.normalise(HEAD, "katex")
+eq(head_kx, HEAD, "katex keeps heading maths")
+info = mn.find_math_headings(HEAD)
+eq(len(info), 1, "heading reported for katex/frontend")
+eq(info[0][1], HEAD, "heading text reported")
+
+# --------------------------------------------------------------------------
+# 4. sloppy `$ x $` spans (not present in split; covered here anyway)
+# --------------------------------------------------------------------------
+SLOPPY = "Find $ x $ for values, keep $x$ and $ y $ here."
+eq(mn.normalise(SLOPPY, "mathjax"),
+   "Find $x$ for values, keep $x$ and $y$ here.",
+   "$ x $ / $ y $ trimmed to $x$ / $y$")
+eq(mn.normalise(SLOPPY, "katex"),
+   "Find $x$ for values, keep $x$ and $y$ here.",
+   "katex trims too")
+
+# --------------------------------------------------------------------------
+# 5. \\boldsymbol kept by both targets
+# --------------------------------------------------------------------------
+BM = "The graphs of $\\boldsymbol{y}=\\boldsymbol{\\operatorname { c o s }} \\boldsymbol{\\theta}$."
+eq(mn.normalise(BM, "mathjax"), BM, "mathjax keeps \\boldsymbol")
+eq(mn.normalise(BM, "katex"), BM, "katex keeps \\boldsymbol")
+
+# --------------------------------------------------------------------------
+# idempotency
+# --------------------------------------------------------------------------
+SAMPLE = (
+    "## 1.2 Graphs of $\\boldsymbol{y}=|\\mathbf{f}(\\boldsymbol{x})|$ "
+    "where $\\mathbf{f}(\\boldsymbol{x})$ is linear\n\n"
+    "Solve $ x < 3 $.\n\n"
+    "$$\n\\begin{align}\nx & = 1 \\\\\ny & = 2\n\\end{align}\n$$\n\n"
+    "| cell |\n| :--- |\n| $\\left|a\\right| < 5$ |\n"
+)
+for target in ("mathjax", "katex"):
+    once = mn.normalise(SAMPLE, target)
+    twice = mn.normalise(once, target)
+    eq(once, twice, f"idempotent for {target}")
+
+# --------------------------------------------------------------------------
+# \\$ escapes are respected
+# --------------------------------------------------------------------------
+ESCAPE = "The cost was $\\$ A$ per item, and $x = \\$5$."
+eq(mn.normalise(ESCAPE, "mathjax"),
+   "The cost was $\\$ A$ per item, and $x = \\$5$.",
+   "escaped \\$ inside maths is not a delimiter")
+# two unescaped dollars = one inline span; a lone escaped $ outside maths
+eq(mn._unescaped_dollars(r"a \$ b $x$ c"), [7, 9],
+   "escaped dollar ignored by delimiter scan")
+
+# --------------------------------------------------------------------------
+# code fences are never touched
+# --------------------------------------------------------------------------
+FENCE = ("before\n\n```\n$ x $ not math\n\\begin{align} nope\n"
+         "$$\nstill code\n```\n\nafter $ y $ fine\n")
+fenced = mn.normalise(FENCE, "mathjax")
+eq("$ x $ not math" in fenced, True, "code fence maths untouched")
+eq("\\begin{align} nope" in fenced, True, "code fence align untouched")
+eq("after $y$ fine" in fenced, True, "prose after fence still normalised")
+
+# --------------------------------------------------------------------------
+# line-count / blank-line invariant
+# --------------------------------------------------------------------------
+blobs = [SAMPLE, WE211, KP23, FENCE]
+for b in blobs:
+    a = b.split("\n")
+    for target in ("mathjax", "katex"):
+        c = mn.normalise(b, target).split("\n")
+        eq(len(c), len(a), f"line count preserved ({target})")
+        for x, y in zip(a, c):
+            eq(bool(x.strip()), bool(y.strip()),
+               f"blank-line positions preserved ({target})")
+
+# --------------------------------------------------------------------------
+# check() reports problems
+# --------------------------------------------------------------------------
+bad = "$$\n\\begin{align}\nx & = 1\n\\end{gathered}\n"
+probs = mn.check(bad)
+kinds = {p["kind"] for p in probs}
+eq("unclosed-dollar-block" in kinds, True, "check finds unclosed $$")
+eq("begin-end-mismatch" in kinds, True, "check finds mismatched env")
+
+print("ALL TESTS PASSED")
+
+
+def _main():
+    pass
+
+
+if __name__ == "__main__":
+    # place all assertions in module scope so `python test_math_normalize.py`
+    # runs them; call a no-op here to keep the script self-runnable.
+    _main()

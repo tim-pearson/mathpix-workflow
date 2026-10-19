@@ -12,6 +12,8 @@ import re
 import shutil
 from pathlib import Path
 
+from math_normalize import normalise
+
 BOOK_DEFAULT = Path("Maths Pure 2 & 3-clean_MD")
 
 ANCHOR = '<a id="{}"></a>'
@@ -22,8 +24,16 @@ QID_RE = re.compile(r"^(ch\d\d)-(.+?)-(?:q|ps|p)(\d+)$")
 
 
 def _shared():
-    from build_site import align_fix, reflow, page_title
-    return align_fix, reflow, page_title
+    from build_site import page_title
+    return page_title
+
+
+def norm_lines(lines):
+    """Apply the shared maths normalisation to a body of lines.  normalise
+    never changes line counts or blank-line positions, so the number of
+    lines is preserved (asserted inside math_normalize)."""
+    out = normalise("\n".join(lines) + "\n", "mathjax")
+    return out.split("\n")[:-1]
 
 
 def slice_to_next(lines, anchor_id, next_id):
@@ -201,6 +211,7 @@ def pull_images(lines):
 def emit_question(out, stats, idx, fname, sec_title, qid, num, tag, body,
                   source_anchor):
     body, images = pull_images(body)
+    body = norm_lines(body)            # shared maths normalisation, pre-indent
     for img in images:
         out += ["", f"{img}{{data-section=\"{attr(sec_title)}\"}}"]
     out += ['<div class="qa" markdown="1" '
@@ -218,6 +229,7 @@ def emit_question(out, stats, idx, fname, sec_title, qid, num, tag, body,
             ans_body.pop(0)
         while ans_body and not ans_body[-1].strip():
             ans_body.pop()
+        ans_body = norm_lines(ans_body)   # normalised before indenting
         details = ['??? success "Answer"']
         details += [("    " + ln) if ln.strip() else "" for ln in ans_body]
         out += ["", *details, ""]
@@ -289,62 +301,6 @@ _BOOK = None
 _CACHE = {}
 
 
-def balance_dollars(lines):
-    """Drop a stray trailing `$` on any non-math line with an odd count of
-    `$`, so arithmatex never pairs a lone dollar across following lines."""
-    out, in_block = [], False
-    for ln in lines:
-        s = ln.strip()
-        if s.startswith("$$"):
-            in_block = not in_block
-            out.append(ln)
-            continue
-        if in_block or s.startswith("|"):
-            out.append(ln)
-            continue
-        if ln.count("$") % 2 == 1:
-            k = ln.rfind("$")
-            ln = ln[:k] + ln[k + 1:]
-        out.append(ln)
-    return out
-
-
-def _escape_inline(ln):
-    out, i, n = [], 0, len(ln)
-    while i < n:
-        c = ln[i]
-        if c == "$" and i + 1 < n and ln[i + 1] != "$":
-            j = ln.find("$", i + 1)
-            if j == -1:
-                out.append(ln[i:])
-                break
-            inner = ln[i + 1:j].replace("<", r"\lt ").replace(">", r"\gt ")
-            out.append("$" + inner + "$")
-            i = j + 1
-            continue
-        out.append(c)
-        i += 1
-    return "".join(out)
-
-
-def escape_lt(lines):
-    """Replace literal `<`/`>` inside maths with \\lt / \\gt.  A raw `<` in
-    an inline $..$ span inside a markdown="1" div breaks Python-Markdown's
-    parsing of the following raw <div> blocks, so the display-equivalent
-    \\lt is used (renders as '<' via MathJax)."""
-    out, in_block = [], False
-    for ln in lines:
-        s = ln.strip()
-        if s.startswith("$$"):
-            in_block = not in_block
-        elif in_block:
-            ln = ln.replace("<", r"\lt ").replace(">", r"\gt ")
-        else:
-            ln = _escape_inline(ln)
-        out.append(ln)
-    return out
-
-
 def file_lines(fname):
     if fname not in _CACHE:
         _CACHE[fname] = (Path(_BOOK) / "split" / fname) \
@@ -362,7 +318,7 @@ def generate(docs_dir, book_dir=None, full_keypoints=False,
     docs = Path(docs_dir)
     practice = docs / "practice"
 
-    align_fix, reflow, page_title = _shared()
+    page_title = _shared()
 
     idx = json.loads((split / "index.json").read_text(encoding="utf-8"))
     print("index types:", sorted({e["type"] for e in idx.values()}))
@@ -394,11 +350,8 @@ def generate(docs_dir, book_dir=None, full_keypoints=False,
 
         # ---- exercise page --------------
         md, st = exercise_page(lines, fname, ch_title, idx, n)
-        text = align_fix("\n".join(md) + "\n")
-        out, _, _ = reflow(text.split("\n"))
-        out = escape_lt(balance_dollars(out))
         ex_file = f"ch{n:02d}-exercises.md"
-        (practice / ex_file).write_text("\n".join(out) + "\n",
+        (practice / ex_file).write_text("\n".join(md) + "\n",
                                         encoding="utf-8")
         t = summary["totals"]
         t["exercise_pages"] += 1
@@ -426,17 +379,15 @@ def generate(docs_dir, book_dir=None, full_keypoints=False,
         for ktitle, body, iid in kps:
             kq = [f"## {ktitle}", ""]
             body, images = pull_images(body)
+            body = norm_lines(body)
             for img in images:
                 kq += ["", f"{img}{{data-section=\"{attr(ktitle)}\"}}"]
             kq += body
             kq += ["", f"[see in context](../split/{fname}#{iid})"]
             kp_md += blockquote(kq, "kp", ktitle)
             kp_md += [""]
-        text = align_fix("\n".join(kp_md) + "\n")
-        out, _, _ = reflow(text.split("\n"))
-        out = escape_lt(balance_dollars(out))
         kp_file = f"ch{n:02d}-keypoints.md"
-        (practice / kp_file).write_text("\n".join(out) + "\n",
+        (practice / kp_file).write_text("\n".join(kp_md) + "\n",
                                         encoding="utf-8")
         t["keypoints"] += len(kps)
 
@@ -456,17 +407,15 @@ def generate(docs_dir, book_dir=None, full_keypoints=False,
         for ktitle, body, iid in chapter_kps[n]:
             kq = [f"### {ktitle}", ""]
             body, images = pull_images(body)
+            body = norm_lines(body)
             for img in images:
                 kq += ["", f"{img}{{data-section=\"{attr(ch_title)}\"}}"]
             kq += body
             kq += ["", f"[see in context](../split/{chmap[n]}#{iid})"]
             ak += blockquote(kq, "kp", ch_title)
             ak += [""]
-    text = align_fix("\n".join(ak) + "\n")
-    out, _, _ = reflow(text.split("\n"))
-    out = escape_lt(balance_dollars(out))
-    (practice / "all-keypoints.md").write_text("\n".join(out) + "\n",
-                                               encoding="utf-8")
+    (practice / "all-keypoints.md").write_text("\n".join(ak) + "\n",
+                                                encoding="utf-8")
 
     # ---- practice landing page -------
     pl = ["# Practice", "",
@@ -477,11 +426,8 @@ def generate(docs_dir, book_dir=None, full_keypoints=False,
                   f"[exercises]({c['exercises']}) · "
                   f"[key points]({c['keypoints']})")
     pl += ["", "- [All key points](all-keypoints.md)", ""]
-    text = align_fix("\n".join(pl) + "\n")
-    out, _, _ = reflow(text.split("\n"))
-    out = escape_lt(balance_dollars(out))
-    (practice / "index.md").write_text("\n".join(out) + "\n",
-                                       encoding="utf-8")
+    (practice / "index.md").write_text("\n".join(pl) + "\n",
+                                        encoding="utf-8")
 
     (docs / "stylesheets" / "practice.css").write_text(CSS, encoding="utf-8")
     (docs / "javascripts" / "practice-filter.js").write_text(JS,
@@ -588,8 +534,6 @@ headings.forEach(function (el) {
       images.forEach(function (el) {
         var sec = el.getAttribute('data-section') || '';
         el.style.display = (sel === 'All' || sec === sel) ? '' : 'none';
-      });
-        el.style.display = (!q || any) ? '' : 'none';
       });
       if (count) count.textContent = vis ? (vis + ' shown') : '0 shown';
     }
