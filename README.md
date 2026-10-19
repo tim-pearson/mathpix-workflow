@@ -255,9 +255,21 @@ bundle — run `python scripts/export_data.py` separately for that.
 
 `python build_frontend.py [book_dir] [--skip-docker] [--corrections PATH]` is
 the React path end to end: `fix-mathpix.py` → `split_chapter.py` →
-`fix_sections.py` (with corrections) → `export_data.py` → `docker compose up
---build -d` in `frontend/`. Requires Docker + Compose for the final step; use
-`--skip-docker` to stop after `frontend-data/` is regenerated.
+`fix_sections.py` (with corrections) → `export_data.py` → `docker compose down
+&& docker compose up --build -d` in `frontend/`. It also sorts out the
+progress/flags database:
+
+- **Docker:** recreates the stack cleanly (`down` then `up` — stale
+  `maths-backend`/`maths-frontend` containers are replaced) while **keeping
+  the `progress-data` volume**, then waits for the backend to answer both
+  `/api/progress` and `/api/flags` (a clear diagnostic is printed if it never
+  comes up). The SQLite file `/data/progress.db` and its `progress` + `flags`
+  tables are created automatically inside the volume on first start.
+- **No Docker / `--skip-docker`:** creates a local `progress.db` (with both
+  tables) in the repo root and prints the `uvicorn` + `npm run dev` commands.
+
+Requires Docker + Compose for the final step; use `--skip-docker` to stop
+after `frontend-data/` (and the local DB) are ready.
 
 ## Notes & quirks
 
