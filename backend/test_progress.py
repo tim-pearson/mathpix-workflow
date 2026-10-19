@@ -98,6 +98,40 @@ def main():
        "ch03 counts")
     os.unlink(path)
 
+    # ---- flags (annotate a rendered element as suspected wrong) ----
+    path = temp_db()
+    pdb.set_flag(path, "ch03-ex3A-q1", "multiple questions on one card")
+    pdb.set_flag(path, "ch03-ex3A-q2")           # flag without a note
+    got = pdb.all_flags(path)
+    eq(sorted(got), ["ch03-ex3A-q1", "ch03-ex3A-q2"], "flag ids")
+    eq(got["ch03-ex3A-q1"]["note"],
+       "multiple questions on one card", "note stored")
+    eq(got["ch03-ex3A-q2"]["note"], None, "empty note stored as null")
+    eq(bool(got["ch03-ex3A-q1"]["created_at"]), True, "created_at present")
+
+    # upsert overwrites the note
+    pdb.set_flag(path, "ch03-ex3A-q1", "question 1 is actually question 2")
+    eq(pdb.all_flags(path)["ch03-ex3A-q1"]["note"],
+       "question 1 is actually question 2", "flag upsert")
+    eq(len(pdb.all_flags(path)), 2, "upsert keeps one row")
+
+    # blank note -> null; clear removes
+    pdb.set_flag(path, "ch03-ex3A-q2", "   ")
+    eq(pdb.all_flags(path)["ch03-ex3A-q2"]["note"], None, "blank note -> null")
+    pdb.clear_flag(path, "ch03-ex3A-q1")
+    eq(sorted(pdb.all_flags(path)), ["ch03-ex3A-q2"], "clear removes flag")
+
+    # validation: question ids and block ids both allowed; garbage rejected
+    pdb.set_flag(path, "ch03-ex3A", "whole exercise looks off")
+    eq("ch03-ex3A" in pdb.all_flags(path), True, "block id is a valid target")
+    for bad in ("ch03", "03-ex3A", "ch03-ex3A-q", ""):
+        try:
+            pdb.set_flag(path, bad, "n")
+            raise AssertionError(f"expected ValueError for {bad!r}")
+        except ValueError:
+            pass
+    os.unlink(path)
+
     # ---- API layer (skipped when httpx/fastapi TestClient unavailable) ----
     try:
         from fastapi.testclient import TestClient
@@ -127,6 +161,19 @@ def main():
     eq(client.put("/api/progress/ch05-ex5A-q1",
                   json={"status": "blue"}).status_code, 422,
        "rejects invalid status")
+
+    # flags HTTP
+    eq(client.get("/api/flags").json(), {}, "empty flags")
+    fr = client.put("/api/flags/ch05-ex5A-q1",
+                    json={"note": "glued questions"})
+    eq(fr.status_code, 200, "flag PUT ok")
+    eq(fr.json()["note"], "glued questions", "flag returns note")
+    eq(client.get("/api/flags").json()["ch05-ex5A-q1"]["note"],
+       "glued questions", "flag stored")
+    eq(client.delete("/api/flags/ch05-ex5A-q1").status_code, 204, "flag DELETE ok")
+    eq(client.get("/api/flags").json(), {}, "flag cleared")
+    eq(client.put("/api/flags/garbage", json={"note": "x"}).status_code, 422,
+       "rejects invalid flag target")
     print("HTTP tests passed.")
 
 

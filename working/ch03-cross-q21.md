@@ -1,5 +1,7 @@
 # ch03-cross-q21 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 **i** $5\sin2\theta+2\cos2\theta=R\sin(2\theta+\alpha)$, $R=\sqrt{29}$, $\cos\alpha=\frac5{\sqrt{29}}\Rightarrow\alpha=21.80^\circ$.

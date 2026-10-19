@@ -1,5 +1,7 @@
 # ch03-ex3B-q7 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 $\cos A=-\frac45$, $\sin B=-\frac8{17}$, same quadrant (Q3) $\Rightarrow\sin A=-\frac35$, $\cos B=-\frac{15}{17}$.

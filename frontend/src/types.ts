@@ -180,6 +180,13 @@ export interface ProgressEntry {
   updated_at: string;
 }
 
+/** A hand-placed flag on a rendered element (question/block), noting a
+ * suspected mistake (skipped questions, several questions in one card, …). */
+export interface FlagEntry {
+  note: string | null;
+  created_at: string;
+}
+
 /** Per-chapter rollup returned by the backend summary endpoint. */
 export interface ChapterProgress {
   attempted: number;

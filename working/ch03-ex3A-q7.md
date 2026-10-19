@@ -1,5 +1,7 @@
 # ch03-ex3A-q7 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 Solve for $-180^\circ\leqslant x\leqslant180^\circ$.

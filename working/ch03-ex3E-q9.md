@@ -1,5 +1,7 @@
 # ch03-ex3E-q9 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 **a** $\cos\theta-\sin\theta=R\cos(\theta+\alpha)$, $R=\sqrt2$, $\cos\alpha=\frac1{\sqrt2}\Rightarrow\alpha=\frac{\pi}{4}$. So $\sqrt2\cos\left(\theta+\frac{\pi}{4}\right)$.

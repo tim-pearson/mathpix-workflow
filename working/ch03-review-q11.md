@@ -1,5 +1,7 @@
 # ch03-review-q11 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 **a** $\cos(60^\circ-x)=\frac12\cos x+\frac{\sqrt3}{2}\sin x$; $\cos(300^\circ-x)=\frac12\cos x-\frac{\sqrt3}{2}\sin x$. Sum $=\cos x$ ✓

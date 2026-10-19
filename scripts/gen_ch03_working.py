@@ -807,7 +807,7 @@ def write_all():
     out.mkdir(exist_ok=True)
     for qid, body in WORKING.items():
         (out / f"{qid}.md").write_text(
-            f"# {qid} \u2014 working\n\n{MARKER}\n\n{body.strip()}\n",
+            f"# {qid} \u2014 working\n\n## AI GENERATED\n\n{MARKER}\n\n{body.strip()}\n",
             encoding="utf-8")
     print(f"wrote {len(WORKING)} working files to {out}")
 

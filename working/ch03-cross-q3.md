@@ -1,5 +1,7 @@
 # ch03-cross-q3 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 **i** Square: $(3x+4)^2=(3x-11)^2\Rightarrow24x+16=-66x+121\Rightarrow90x=105\Rightarrow x=\frac76$

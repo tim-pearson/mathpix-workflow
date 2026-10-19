@@ -1,5 +1,7 @@
 # ch03-ex3E-q8 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 **a** $\cos\theta-\sqrt2\sin\theta=R\cos(\theta+\alpha)$, $R=\sqrt{1+2}=\sqrt3$, $\cos\alpha=\frac1{\sqrt3}\Rightarrow\alpha=54.74^\circ$.

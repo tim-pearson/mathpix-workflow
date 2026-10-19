@@ -1,5 +1,7 @@
 # ch03-ex3E-q7 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 **a** $8\sin2\theta+4\cos2\theta=R\sin(2\theta+\alpha)$, $R=\sqrt{64+16}=4\sqrt5$, $\cos\alpha=\frac8{4\sqrt5}\Rightarrow\alpha=26.57^\circ$.

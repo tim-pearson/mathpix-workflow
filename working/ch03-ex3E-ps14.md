@@ -1,5 +1,7 @@
 # ch03-ex3E-ps14 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 **a** $7\sin^2\theta+9\cos^2\theta+4\sin\theta\cos\theta+2=8+\cos2\theta+2\sin2\theta+2=10+\sqrt5\sin(2\theta+26.57^\circ)$. Max $=10+\sqrt5$, min $=10-\sqrt5$.

@@ -1,5 +1,7 @@
 # ch03-cross-q13 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 **i** $\cos x+3\sin x=R\cos(x-\alpha)$, $R=\sqrt{10}$, $\cos\alpha=\frac1{\sqrt{10}}\Rightarrow\alpha=71.57^\circ$.

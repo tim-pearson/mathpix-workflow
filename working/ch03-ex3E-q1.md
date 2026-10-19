@@ -1,5 +1,7 @@
 # ch03-ex3E-q1 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 **a** $15\sin\theta-8\cos\theta=R\sin(\theta-\alpha)$, $R=\sqrt{15^2+8^2}=17$, $\cos\alpha=\frac{15}{17}\Rightarrow\alpha=28.07^\circ$. So $17\sin(\theta-28.07^\circ)$.

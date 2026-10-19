@@ -1,5 +1,7 @@
 # ch03-review-q1 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 Sketch $y=3\sec(2x-90^\circ)$ for $0<x<180^\circ$.

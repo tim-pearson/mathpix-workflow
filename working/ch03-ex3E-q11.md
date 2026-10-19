@@ -1,5 +1,7 @@
 # ch03-ex3E-q11 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 **a** $\sqrt5\cos\theta+2\sin\theta=R\cos(\theta-\alpha)$, $R=\sqrt{5+4}=3$, $\cos\alpha=\frac{\sqrt5}{3}\Rightarrow\alpha=41.81^\circ$.

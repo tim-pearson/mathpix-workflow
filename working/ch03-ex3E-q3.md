@@ -1,5 +1,7 @@
 # ch03-ex3E-q3 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 **a** As Q1: $15\sin\theta-8\cos\theta=17\sin(\theta-28.07^\circ)$.

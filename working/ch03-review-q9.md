@@ -1,5 +1,7 @@
 # ch03-review-q9 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 **a** Let $t=\tan x$: $\tan(x+45^\circ)-\tan(45^\circ-x)=\frac{t+1}{1-t}-\frac{1-t}{1+t}=\frac{(t+1)^2-(1-t)^2}{1-t^2}=\frac{4t}{1-t^2}=2\tan2x$ ✓

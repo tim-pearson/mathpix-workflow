@@ -1,5 +1,7 @@
 # ch03-ex3B-q2 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 Compound-angle exact values (parts a–f of the linked answer).

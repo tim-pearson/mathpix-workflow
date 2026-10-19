@@ -1,5 +1,7 @@
 # ch03-ex3B-q14 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 Solve for $0\leqslant x\leqslant180^\circ$ (let $t=\tan x$).

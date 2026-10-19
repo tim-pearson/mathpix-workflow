@@ -13,8 +13,9 @@ import os
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
-from db import (VALID_STATUS, all_statuses, chapter_summary, clear_status,
-                set_status, valid_question_id)
+from db import (VALID_STATUS, all_flags, all_statuses, chapter_summary,
+                clear_flag, clear_status, set_flag, set_status,
+                valid_flag_target, valid_question_id)
 
 DB_PATH = os.environ.get("PROGRESS_DB", "progress.db")
 
@@ -23,6 +24,10 @@ app = FastAPI(title="Maths progress API", version="1.0.0")
 
 class ProgressBody(BaseModel):
     status: str
+
+
+class FlagBody(BaseModel):
+    note: str | None = None
 
 
 @app.put("/api/progress/{question_id}")
@@ -56,3 +61,26 @@ def get_questions():
 @app.get("/api/progress/summary")
 def get_summary():
     return chapter_summary(DB_PATH)
+
+
+@app.put("/api/flags/{target_id}")
+def put_flag(target_id: str, body: FlagBody):
+    if not valid_flag_target(target_id):
+        raise HTTPException(status_code=422,
+                            detail=f"invalid flag target: {target_id!r}")
+    set_flag(DB_PATH, target_id, body.note)
+    return {"target_id": target_id,
+            **all_flags(DB_PATH)[target_id]}
+
+
+@app.delete("/api/flags/{target_id}", status_code=204)
+def delete_flag(target_id: str):
+    if not valid_flag_target(target_id):
+        raise HTTPException(status_code=422,
+                            detail=f"invalid flag target: {target_id!r}")
+    clear_flag(DB_PATH, target_id)
+
+
+@app.get("/api/flags")
+def get_flags():
+    return all_flags(DB_PATH)

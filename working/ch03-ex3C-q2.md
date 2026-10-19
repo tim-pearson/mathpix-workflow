@@ -1,5 +1,7 @@
 # ch03-ex3C-q2 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 $\tan x=\frac43$, $x$ acute $\Rightarrow\sin x=\frac45,\ \cos x=\frac35$.

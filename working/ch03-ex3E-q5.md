@@ -1,5 +1,7 @@
 # ch03-ex3E-q5 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 **a** $3\sin\theta+4\cos\theta=R\sin(\theta+\alpha)$, $R=5$, $\cos\alpha=\frac35\Rightarrow\alpha=53.13^\circ$.

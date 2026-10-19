@@ -1,5 +1,7 @@
 # ch03-review-q16 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 **a** $\operatorname{cosec}^4x-\cot^4x=(\operatorname{cosec}^2x-\cot^2x)(\operatorname{cosec}^2x+\cot^2x)=1\cdot(\operatorname{cosec}^2x+\cot^2x)$ ✓

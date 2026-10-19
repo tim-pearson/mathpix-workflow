@@ -1,5 +1,7 @@
 # ch03-ex3C-q14 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 **a** At $\theta=18^\circ$: $\sin3\theta=\sin54^\circ=\cos36^\circ=\cos2\theta$ ✓

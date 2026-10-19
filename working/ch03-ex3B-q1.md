@@ -1,5 +1,7 @@
 # ch03-ex3B-q1 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 Expand using $\cos(A+B)=\cos A\cos B-\sin A\sin B$.

@@ -1,5 +1,7 @@
 # ch03-ex3A-p12 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 Identity proofs.

@@ -14,6 +14,8 @@ from datetime import datetime, timezone
 
 VALID_STATUS = {"green", "yellow", "red"}
 QID_RE = re.compile(r"^ch\d\d-[\w-]+-(?:q|ps|p|m)\d+$")
+# flags may target a question id or a whole block/exercise id (ch03-ex3A)
+TARGET_RE = re.compile(r"^ch\d\d-[\w-]+$")
 CHAPTER_RE = re.compile(r"^(ch\d\d)-")
 
 
@@ -33,12 +35,25 @@ def init(path):
         " question_id TEXT PRIMARY KEY,"
         " status TEXT NOT NULL CHECK (status IN ('green','yellow','red')),"
         " updated_at TEXT NOT NULL)")
+    conn.execute(
+        "CREATE TABLE IF NOT EXISTS flags ("
+        " target_id TEXT PRIMARY KEY,"
+        " note TEXT,"
+        " created_at TEXT NOT NULL)")
     conn.commit()
     return conn
 
 
 def valid_question_id(qid):
     return bool(QID_RE.match(qid))
+
+
+def valid_flag_target(tid):
+    if QID_RE.match(tid):
+        return True
+    # block/exercise id, e.g. "ch03-ex3A" (but not a dangling "-q")
+    return bool(TARGET_RE.match(tid)) \
+        and not re.search(r"-(?:q|ps|p|m)\d*$", tid)
 
 
 def set_status(path, qid, status):
@@ -77,6 +92,48 @@ def all_statuses(path):
         rows = conn.execute(
             "SELECT question_id, status, updated_at FROM progress").fetchall()
         return {r[0]: {"status": r[1], "updated_at": r[2]} for r in rows}
+    finally:
+        conn.close()
+
+
+def set_flag(path, target_id, note=None):
+    """Flag a rendered element (question/block) as suspected wrong.
+
+    `note` is an optional free-text description; None/"" stores no note.
+    """
+    if not valid_flag_target(target_id):
+        raise ValueError(f"invalid flag target: {target_id!r}")
+    note = (note or "").strip() or None
+    conn = init(path)
+    try:
+        conn.execute(
+            "INSERT INTO flags (target_id, note, created_at)"
+            " VALUES (?, ?, ?)"
+            " ON CONFLICT(target_id) DO UPDATE SET"
+            "  note = excluded.note, created_at = excluded.created_at",
+            (target_id, note, now_iso()))
+        conn.commit()
+    finally:
+        conn.close()
+
+
+def clear_flag(path, target_id):
+    """Remove a flag so the element is unflagged again."""
+    conn = init(path)
+    try:
+        conn.execute("DELETE FROM flags WHERE target_id = ?", (target_id,))
+        conn.commit()
+    finally:
+        conn.close()
+
+
+def all_flags(path):
+    """{target_id: {"note": str|null, "created_at": str}} for every flag."""
+    conn = init(path)
+    try:
+        rows = conn.execute(
+            "SELECT target_id, note, created_at FROM flags").fetchall()
+        return {r[0]: {"note": r[1], "created_at": r[2]} for r in rows}
     finally:
         conn.close()
 

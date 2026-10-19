@@ -1,5 +1,7 @@
 # ch03-ex3B-ps17 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 $p^2+q^2=(\sin x+\sin y)^2+(\cos x+\cos y)^2$

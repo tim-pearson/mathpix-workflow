@@ -1,5 +1,7 @@
 # ch03-ex3B-q15 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 Let $t=\tan x$. $\tan(x-45^\circ)=\frac{t-1}{1+t}$.

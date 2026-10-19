@@ -1,5 +1,7 @@
 # ch03-review-q7 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 **a** $\sin(60^\circ-x)+\cos(30^\circ-x)=\frac{\sqrt3}{2}\cos x-\frac12\sin x+\frac{\sqrt3}{2}\cos x+\frac12\sin x=\sqrt3\cos x$ ✓

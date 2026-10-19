@@ -1,5 +1,7 @@
 # ch03-cross-q9 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 Let $T=\tan\theta$, $U=\tan\phi$. $T+U=1$, $\tan(\theta-\phi)=\frac{T-U}{1+TU}=3$.

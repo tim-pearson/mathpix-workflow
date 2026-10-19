@@ -1,5 +1,7 @@
 # ch03-ex3B-q10 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 **a** $8+\operatorname{cosec}^2\theta=6\cot\theta$. Use $\operatorname{cosec}^2=1+\cot^2$:

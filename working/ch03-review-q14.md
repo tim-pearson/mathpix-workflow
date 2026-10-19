@@ -1,5 +1,7 @@
 # ch03-review-q14 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 **i** $\sin3\theta=\sin(2\theta+\theta)=2\sin\theta\cos^2\theta+(\cos^2\theta-\sin^2\theta)\sin\theta=2\sin\theta(1-\sin^2\theta)+\sin\theta(1-2\sin^2\theta)=3\sin\theta-4\sin^3\theta$ ✓

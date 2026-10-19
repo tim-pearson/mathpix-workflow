@@ -1,5 +1,7 @@
 # ch03-ex3C-q10 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 $\tan2\theta+2\tan\theta=3\cot\theta$. Let $t=\tan\theta$: $\frac{2t}{1-t^2}+2t=\frac3t$.

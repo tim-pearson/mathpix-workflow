@@ -1,5 +1,7 @@
 # ch03-ex3C-q4 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 $\cos x=-\frac35$, $90<x<180^\circ\Rightarrow\sin x=\frac45$.

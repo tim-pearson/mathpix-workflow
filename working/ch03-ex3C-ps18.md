@@ -1,5 +1,7 @@
 # ch03-ex3C-ps18 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 **a** $\cos(2x+x)=\cos2x\cos x-\sin2x\sin x$ and $\cos(2x-x)=\cos2x\cos x+\sin2x\sin x$; adding gives $\cos3x+\cos x\equiv2\cos2x\cos x$.

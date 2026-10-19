@@ -3,6 +3,8 @@ import { Md } from "./Md";
 import { CopyButton } from "./CopyButton";
 import { WorkingOut } from "./WorkingOut";
 import { StatusSelector } from "./StatusSelector";
+import { FlagButton } from "./FlagButton";
+import { useFlags } from "../flags/FlagContext";
 import { buildClipboardText } from "../lib/clipboard";
 
 export interface QuestionCardProps {
@@ -24,6 +26,7 @@ export function QuestionCard({
     ? chapter.answers[question.answer_id]
     : undefined;
   const hasAnswer = Boolean(answer && answer.md.trim());
+  const flag = useFlags().flags[question.id];
 
   const copyText = () =>
     buildClipboardText({
@@ -43,7 +46,9 @@ export function QuestionCard({
   return (
     <article
       id={question.id}
-      className="scroll-mt-16 rounded-xl border border-line bg-paper shadow-sm"
+      className={`scroll-mt-16 rounded-xl border bg-paper shadow-sm ${
+        flag ? "border-amber-400/70" : "border-line"
+      }`}
     >
       <header className="flex flex-wrap items-center gap-2 border-b border-line px-4 py-2">
         <h3 className="font-semibold text-ink">{question.label}</h3>
@@ -60,11 +65,19 @@ export function QuestionCard({
             ))}
           </span>
         )}
-        <span className="ml-auto flex items-center gap-3">
+        <span className="ml-auto flex flex-wrap items-center gap-3">
+          <FlagButton targetId={question.id} />
           <StatusSelector questionId={question.id} />
           <CopyButton label={copyLabel} onCopy={copyText} />
         </span>
       </header>
+
+      {flag && (
+        <div className="flex items-start gap-2 border-b border-amber-400/40 bg-amber-400/10 px-4 py-1.5 text-xs text-amber-700 dark:text-amber-300">
+          <span aria-hidden="true">⚠</span>
+          <span>{flag.note || "Flagged — suspected mistake."}</span>
+        </div>
+      )}
 
       <div className="px-4 py-3">
         <Md source={question.md} blockId={question.id} />

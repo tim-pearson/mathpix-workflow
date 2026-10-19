@@ -1,5 +1,7 @@
 # ch03-review-q3 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 $\cos A=\frac14$, $270<A<360\Rightarrow\sin A=-\frac{\sqrt{15}}{4}$.

@@ -1,5 +1,7 @@
 # ch03-review-q13 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 **i** $4\sin\theta-6\cos\theta=2\sqrt{13}\sin(\theta-56.31^\circ)$ (as ex3E-q4).

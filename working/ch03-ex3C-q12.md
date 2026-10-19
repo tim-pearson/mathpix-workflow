@@ -1,5 +1,7 @@
 # ch03-ex3C-q12 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 **a** $2\operatorname{cosec}2\theta\tan\theta=2\cdot\frac1{\sin2\theta}\cdot\frac{\sin\theta}{\cos\theta}=\frac{2\sin\theta}{2\sin\theta\cos^2\theta}=\frac1{\cos^2\theta}=\sec^2\theta$

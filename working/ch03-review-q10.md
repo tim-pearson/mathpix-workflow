@@ -1,5 +1,7 @@
 # ch03-review-q10 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 **i** $3\cos\theta+\sin\theta=R\cos(\theta-\alpha)$, $R=\sqrt{10}$, $\cos\alpha=\frac3{\sqrt{10}}\Rightarrow\alpha=18.43^\circ$.

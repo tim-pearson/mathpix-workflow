@@ -1,5 +1,7 @@
 # ch03-ex3B-q5 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 $\sin A=\frac45$, $\sin B=\frac5{13}$, both acute $\Rightarrow\cos A=\frac35$, $\cos B=\frac{12}{13}$.

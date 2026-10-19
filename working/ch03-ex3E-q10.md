@@ -1,5 +1,7 @@
 # ch03-ex3E-q10 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 **a** $\sin\theta-3\cos\theta=R\sin(\theta-\alpha)$, $R=\sqrt{1+9}=\sqrt{10}$, $\cos\alpha=\frac1{\sqrt{10}}\Rightarrow\alpha=71.57^\circ$.

@@ -1,5 +1,8 @@
 # ch02-ex2E-q1 — working
 
+
+## AI GENERATED
+
 Solve, giving your answers correct to 3 significant figures.
 
 **a** $5^{x}=18$

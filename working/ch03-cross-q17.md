@@ -1,5 +1,7 @@
 # ch03-cross-q17 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 **i** $\mathrm{p}(3)=27+9a+3b+8=14\Rightarrow3a+b=-7$. $\mathrm{p}(-2)=-8+4a-2b+8=24\Rightarrow2a-b=12$. Solve: $a=1,\ b=-10$.

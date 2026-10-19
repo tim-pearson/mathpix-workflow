@@ -1,5 +1,7 @@
 # ch03-ex3C-q3 — working
 
+## AI GENERATED
+
 <!-- ===== AI-GENERATED WORKING — verify before use. Delete this block to drop the note. ===== -->
 
 $\cos2x=-\frac{527}{625}$, $0<x<90^\circ$.
