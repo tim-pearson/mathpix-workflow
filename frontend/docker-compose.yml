@@ -1,0 +1,9 @@
+services:
+  frontend:
+    build:
+      context: ..
+      dockerfile: frontend/Dockerfile
+    container_name: maths-frontend
+    ports:
+      - "127.0.0.1:5173:80"
+    restart: unless-stopped

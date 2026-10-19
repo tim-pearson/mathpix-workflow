@@ -1,135 +1,172 @@
-# Maths Pure 2 & 3 — Coursebook → MkDocs Material site
+# Maths Pure 2 & 3 — Coursebook → React app
 
-A small, dependency-light pipeline that turns the Mathpix-converted export of the
-*Pure Mathematics 2 & 3* coursebook into a local, searchable MkDocs Material site
-with a "Practice" section (per-chapter exercises with collapsible answers, plus
-key-point round-ups).
+Turns the Mathpix-converted export of the *Pure Mathematics 2 & 3* coursebook
+into:
 
-## Layout
+1. **`frontend/` — a React (Vite + TypeScript) app (the primary frontend):**
+   reader + exercise modes, search, formulas, statistics, themes. It renders
+   Markdown + KaTeX from a self-contained data bundle (`frontend-data/`).
+2. **`site/` — a legacy MkDocs Material site** (kept for reference; see the
+   bottom of this file). The MkDocs service is left untouched and is not part
+   of the React workflow.
 
-```
-scripts/fix-mathpix.py     raw Mathpix .md        -> <book>/<name>-fixed.md
-scripts/split_chapter.py   <name>-fixed.md        -> <book>/split/*.md  (one file per chapter / answers / back matter)
-scripts/fix_sections.py    <book>/split/*.md      -> headings + anchors, <book>/split/index.json
-scripts/build_site.py      <book>                 -> ./site/   (docs/ + mkdocs.yml, calls build_practice.py)
-scripts/build_practice.py  (called by build_site) -> ./site/docs/practice/* (exercises, key points, filter JS/CSS)
-scripts/make_stats.py      <book>                 -> ./stats/*.json + ./site-structure.md  (for planning views/searches)
-build_all.py               one command for everything above
-```
+## Quick start (React app)
 
-`book` defaults to `Maths Pure 2 & 3-clean_MD` (the folder containing the raw
-Mathpix markdown, `images/` and `split/`). The source files and `split/` are never
-modified by the site tooling; everything generated lives under `site/`.
-
-## One command
+Requirements: Python 3.9+, Node 20+.
 
 ```sh
-python build_all.py                          # full pipeline
-python build_all.py --local-mathjax          # vendor MathJax instead of the CDN
+# 1. generate the data bundle the React app reads
+python scripts/export_data.py          # split/ + images/ + working/ -> frontend-data/
+
+# 2. install + run the app (npm run dev auto-copies frontend-data -> public/data)
+cd frontend
+npm install
+npm run dev                            # http://localhost:5173
 ```
 
-Or step by step:
+That's it. Search, reader, exercises, key points, formulas and stats all work
+from the dev server. If you ever see "Search is unavailable" in the search
+box, re-run the sync: `npm run sync-data` (copies `frontend-data/` →
+`frontend/public/data/`; `npm run dev` / `npm run build` do this automatically
+via their `pre` hooks).
+
+## The full pipeline (from raw export to running app)
 
 ```sh
-pip install -r requirements.txt              # only needed for mkdocs build/serve
+# step by step:
+python scripts/fix-mathpix.py   "Maths Pure 2 & 3-clean_MD/2afc0d63-1794-4496-986e-418499784b49.md"
+python scripts/split_chapter.py "Maths Pure 2 & 3-clean_MD/2afc0d63-1794-4496-986e-418499784b49-fixed.md" -o "Maths Pure 2 & 3-clean_MD/split"
+python scripts/fix_sections.py  "Maths Pure 2 & 3-clean_MD/split"
+python scripts/export_data.py                       # -> frontend-data/
 
-python scripts/fix-mathpix.py "Maths Pure 2 & 3-clean_MD/<name>.md"
-python scripts/split_chapter.py "Maths Pure 2 & 3-clean_MD/<name>-fixed.md" -o "Maths Pure 2 & 3-clean_MD/split"
-python scripts/fix_sections.py "Maths Pure 2 & 3-clean_MD/split"
-python scripts/build_site.py "Maths Pure 2 & 3-clean_MD"
-
-cd site && mkdocs serve                      # then open http://127.0.0.1:8000
+cd frontend
+npm install
+npm run dev                                         # -> http://localhost:5173
 ```
 
-## Site stats / structure (for planning views & searches)
+`book` defaults to `Maths Pure 2 & 3-clean_MD`. **Never edit `split/`,
+`images/` or `frontend-data/` by hand** — always regenerate them through the
+scripts above.
+
+## Frontend commands (`frontend/`)
+
+| command | what it does |
+| --- | --- |
+| `npm run dev` | Vite dev server (runs `sync-data` first) |
+| `npm run sync-data` | copy `../frontend-data/` → `public/data/` (idempotent, no rewrites unless changed) |
+| `npm run typecheck` | `tsc --noEmit` |
+| `npm run test` | Vitest suite (clipboard, resolveImage, working-out, search init, prereq parsing, data shapes) |
+| `npm run build` | typecheck + Vite build → `dist/` (runs `sync-data` first) |
+| `npm run preview` | serve the built `dist/` locally |
+| `npm run audit:katex` | KaTeX compatibility audit over every block in `frontend-data/` |
+
+The app uses hash routing (`#/…`) so it works under any subpath such as
+`/tutex/` (`base: "./"`).
+
+### Routes
+
+| route | view |
+| --- | --- |
+| `#/` | Home — chapter grid, key points, prerequisites, progress placeholder |
+| `#/read/:chapter/:sectionId?` | Reader — sections, worked-example cards, key-point callouts, boxes; `…/keypoints` shows all key points |
+| `#/practice/:chapter/:exerciseId?` | Exercises — question cards, answers, working-out, copy, formulas panel; `?q=<id>` deep-links a question |
+| `#/stats` | Statistics from `stats.json` |
+
+### Data bundle (`frontend-data/`)
+
+Produced by `scripts/export_data.py` (its only reader of `split/`):
+`manifest.json`, `chapters/chNN-*.json` (sections, exercises, questions,
+answers, key_points, worked_examples, formulas, mentions/mentioned_by),
+`search-index.json`, `stats.json`, `images/`. All Markdown is KaTeX-normalised
+(`align`→`aligned`, `equation*` wrappers dropped, `\longdiv`→
+`\,\big)\,\overline{…}`, `<`/`>`→`\lt`/`\gt`).
+
+### Working-out files (`working/`)
+
+Drop a file named after a question id, e.g. `working/ch02-ex2E-q1.md`, and
+re-run `python scripts/export_data.py` — it becomes `questions[id].working_md`
+and the app shows a "Working out" panel beside the answer. See
+`working/README.md` for the convention (a template lives at
+`working/ch02-ex2E-q1.md.sample`).
+
+### KaTeX audit
+
+`npm run audit:katex` (in `frontend/`) renders every `$…$`/`$$…$$` expression
+across all chapters with `throwOnError:true` and lists failing block ids.
+Known genuine incompatibilities (shown inline in red by the app): multiple
+`\tag` in one `aligned` block, bare `^{\circ}`/`_{\text{…}}` (OCR-dropped
+bases), and stray `\` characters (ch09/ch10). These come from the source
+export, not the pipeline.
+
+## Stats / structure (`scripts/make_stats.py`)
 
 ```sh
-python scripts/make_stats.py                 # writes stats/ + site-structure.md
+python scripts/make_stats.py    # writes stats/overview.json, stats/connections.json, site-structure.md
 ```
 
-- `stats/overview.json` — totals and a per-chapter breakdown.
-- `stats/connections.json` — every id and what it links to: questions → answers
-  (id rule `ch<NN>-<block>-qN` ↔ `ch<NN>-ans-<block>-qN`, `psN`/`pN` normalise
-  to `qN`), exercise blocks → their question ids, key points with their
-  `next_id` slice boundaries, worked examples, unlinked questions and orphan
-  answers.
-- `site-structure.md` — a dump of the current MkDocs front end: the generated
-  `nav:`, the page list, the anchor inventory per file, and a short
-  “how content connects” section.
+The React `#/stats` page reads `frontend-data/stats.json` (generated by
+`export_data.py`); the `stats/` folder + `site-structure.md` are for planning.
 
-PREREQUISITE KNOWLEDGE answers are excluded from the stats/answer inventory
-(the answers themselves are kept).
+## What each pipeline step does
 
-## What each step does
+1. **`scripts/fix-mathpix.py`** — clean the raw Mathpix export → `<name>-fixed.md`
+   (joins hard-wrapped lines, normalises `$$` blocks, bolds question numbers
+   and part labels, isolates exam citations, normalises headings). Idempotent.
+2. **`scripts/split_chapter.py`** — split the fixed book into
+   `<book>/split/`: `chNN-*`, `ansNN-*`, `paper-pm2/3`, `anspaper-pm2/3`,
+   `00-front-matter`, `zz-glossary`, `zz-index`; rewrites image links.
+3. **`scripts/fix_sections.py`** — consistent heading scheme + stable
+   `<a id>` anchors, writes `split/index.json`; question numbering uses a
+   resync rule with the answer files as ground truth (`ps`/`p`/`m` tags
+   supported). Idempotent (`--check` verifies).
+4. **`scripts/export_data.py`** — split/ → `frontend-data/` (the React data
+   bundle; see above). Byte-identical on re-run.
+5. **`scripts/make_stats.py`** — `stats/` + `site-structure.md`.
 
-### 1. `scripts/fix-mathpix.py` — clean the raw export
-Runs inside `$$…$$` display blocks and cleans prose: joins hard-wrapped lines,
-normalises `aligned`/`align*` → `align` (so MathJax gets plain `aligned` later),
-fixes inline `$…$` spans, escapes table pipes, tidies bolded question numbers
-(`**1**`, `**a**`, `**i**`), puts exam-source citations on their own line, and
-normalises headings. Idempotent; writes `<name>-fixed.md`.
+---
 
-### 2. `scripts/split_chapter.py` — one file per section
-Splits the fixed book into `split/`: one file per chapter (`chNN-…`), one per
-answers section (`ansNN-…`), practice papers (`paper-pm2/3`, `anspaper-pm2/3`),
-plus `00-front-matter.md`, `zz-glossary.md`, `zz-index.md`. Rewrites image links
-for the folder layout.
+## Legacy MkDocs site (kept for reference — not part of the React workflow)
 
-### 3. `scripts/fix_sections.py` — stable structure + anchors
-Runs over `split/*.md` (chapters + answers) and applies a consistent heading
-scheme (`#` chapter, `##` numbered sections, `###` exercises/reviews/prereq,
-`####` boxes, `##### Question N` / `Answer N`), inserts stable `<a id="…">`
-anchors for exercises, worked examples, key points and questions, italicises
-exam citations, and wraps trailing `[marks]` in backticks. Writes
-`split/index.json` keyed by id (`id`, `type`, `chapter`, `file`, `line`,
-`next_id`). `next_id` lets later scripts slice content as *“this anchor → next
-anchor”* without trusting line numbers. Re-run with `--check` to verify
-idempotency, unique anchors and question↔answer matching.
+The MkDocs site is still generated from the same `split/` data but is **not**
+used by the React app. It remains available as-is.
 
-### 4. `scripts/build_site.py` — the site
-Recreates `site/` from scratch:
-- copies `split/` → `site/docs/split/` and `images/` → `site/docs/images/`
-  (the `../images/…` links keep working);
-- in the copies only: `align*`/`align` → `aligned`, trims `$ x $`-style maths,
-  strips maths from headings (so the sidebar/TOC shows plain text);
-- writes `index.md`, `javascripts/mathjax.js` (with the `[tex]/boldsymbol`
-  extension and a re-typeset hook for Material's instant navigation),
-  `mkdocs.yml` (Material theme, search, arithmatex `generic`, admonitions,
-  explicit `nav:`), and calls `build_practice.py`;
-- optional `--local-mathjax` downloads the MathJax bundle + boldsymbol
-  extension into `site/docs/javascripts/`.
+```sh
+# generate the MkDocs sources under ./site/
+python scripts/build_site.py "Maths Pure 2 & 3-clean_MD" [--local-mathjax] [--full-keypoints]
 
-### 5. `scripts/build_practice.py` — the Practice section
-Per-chapter pages under `site/docs/practice/`:
-- `chNN-exercises.md` — one `##` section per exercise/review/prereq block; each
-  question is `### Question N` with its body, a source link, and a collapsible
-  answer (`??? success "Answer"`) paired by id (`chNN-ans-<block>-qN`). The
-  prerequisite questions are extracted from the source table. Questions with no
-  linkable answer show “Answer not linked”.
-- `chNN-keypoints.md` and `all-keypoints.md` — key points sliced from the
-  chapter files (tight rule by default, `--full-keypoints` for the whole
-  slice), each with a “see in context” link.
-- `practice-filter.js` + `practice.css` — a small vanilla toolbar: section
-  dropdown, text filter, expand/collapse all. A question and its answer are
-  hidden/shown together.
+# build / serve the static site
+cd site
+mkdocs build                       # -> site/site/
+mkdocs serve                       # http://127.0.0.1:8000
+```
 
-Maths renders via MathJax; a literal `<` inside inline maths is rewritten to
-`\lt` because a raw `<` in a `markdown="1"` div breaks Python-Markdown's
-raw-HTML parsing.
+`scripts/build_site.py` recreates `site/` from scratch: copies `split/` and
+`images/`, converts display maths for MathJax, writes `mkdocs.yml` + practice
+pages, and calls `scripts/build_practice.py` (per-chapter exercise pages with
+collapsible answers and key-point round-ups). `mkdocs-material` is required
+only for `mkdocs build` / `mkdocs serve` (see `requirements.txt`).
+
+### `build_all.py` — MkDocs pipeline in one command (optional)
+
+`python build_all.py [book_dir] [--local-mathjax] [--full-keypoints]` runs the
+legacy MkDocs chain in order: `fix-mathpix.py` → `split_chapter.py` →
+`fix_sections.py` → `build_site.py`. It does **not** generate the React data
+bundle — run `python scripts/export_data.py` separately for that.
 
 ## Notes & quirks
 
-- **Never edit `split/` or `images/` directly.** Regenerate them with
-  `build_all.py` / the individual steps instead; the whole pipeline is
-  deterministic and idempotent (`build_site.py` run twice produces identical
-  `site/docs`).
-- **MathJax + `align`**: MathJax rejects `align` inside display maths, so
-  `build_site.py` converts display environments to `aligned`. The 16 inline
-  `aligned` inside tables are left alone.
-- **`--callouts`** is accepted by `build_site.py` for future use but is off by
-  default (headings only).
+- **Never edit `split/`, `images/` or `frontend-data/` directly.** Regenerate
+  with the scripts; the whole pipeline is deterministic and idempotent.
+- **MathJax + `align`** (MkDocs only): MathJax rejects `align` in display
+  maths, so `build_site.py` converts to `aligned`. The React app uses KaTeX,
+  which gets the same `align`→`aligned` treatment from `math_normalize.py`.
+- **KaTeX limitations** are handled in `math_normalize.py`
+  (`equation*`, `align`, `\longdiv`) — anything remaining is reported by the
+  audit and rendered in red by the app.
 
 ## Requirements
 
-- Python 3.9+ (standard library).
-- `mkdocs-material` (see `requirements.txt`) only for `mkdocs build` / `mkdocs serve`.
+- Python 3.9+ (standard library only for the pipeline).
+- Node 20+ for the React app (`frontend/package.json` is pinned; commit the
+  lockfile).
+- `mkdocs-material` (see `requirements.txt`) only for the legacy MkDocs build.
