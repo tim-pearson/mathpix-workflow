@@ -99,6 +99,35 @@ answers, key_points, worked_examples, formulas, mentions/mentioned_by),
 (`align`→`aligned`, `equation*` wrappers dropped, `\longdiv`→
 `\,\big)\,\overline{…}`, `<`/`>`→`\lt`/`\gt`).
 
+### Progress tracking
+
+Each question card has a **green / yellow / red** status picker (and a ✕ to
+clear it). A "Your progress" dashboard on the home page shows per-chapter
+attempted/total, green/yellow/red counts and a mastery percentage
+(green = 2 points, yellow = 1, red = 0; unattempted questions are excluded).
+
+Progress is persisted in SQLite by a small FastAPI backend (`backend/`) and is
+never part of the exported course data:
+
+```sh
+# dev (two terminals):
+python -m uvicorn main:app --app-dir backend --reload     # http://localhost:8000
+cd frontend && npm run dev                                # http://localhost:5173
+                                                        # (vite proxies /api -> :8000)
+
+# docker (build + run both services; nginx proxies /api -> backend):
+cd frontend && docker compose up --build -d
+```
+
+API (`/api/progress/...`): `PUT /api/progress/<question_id>` with
+`{"status":"green"|"yellow"|"red"}`, `DELETE /api/progress/<question_id>`,
+`GET /api/progress/questions` (all records), `GET /api/progress/summary`
+(per-chapter rollups). The SQLite file lives at `$PROGRESS_DB` — `progress.db`
+in dev, `/data/progress.db` inside the backend container — and the compose
+file mounts a named `progress-data` volume, so rebuilds and restarts never
+erase progress. Tests: `python backend/test_progress.py` and
+`npm run test` (frontend).
+
 ### Working-out files (`working/`)
 
 Drop a file named after a question id, e.g. `working/ch02-ex2E-q1.md`, and

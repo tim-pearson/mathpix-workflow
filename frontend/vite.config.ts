@@ -10,6 +10,12 @@ export default defineConfig({
     outDir: "dist",
     sourcemap: false,
   },
+  server: {
+    proxy: {
+      // dev: forward the progress API to the local backend (uvicorn)
+      "/api": { target: "http://localhost:8000", changeOrigin: true },
+    },
+  },
   test: {
     environment: "jsdom",
     globals: true,

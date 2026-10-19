@@ -2,6 +2,7 @@ import type { Answer, ChapterData, Question } from "../types";
 import { Md } from "./Md";
 import { CopyButton } from "./CopyButton";
 import { WorkingOut } from "./WorkingOut";
+import { StatusSelector } from "./StatusSelector";
 import { buildClipboardText } from "../lib/clipboard";
 
 export interface QuestionCardProps {
@@ -59,7 +60,8 @@ export function QuestionCard({
             ))}
           </span>
         )}
-        <span className="ml-auto">
+        <span className="ml-auto flex items-center gap-3">
+          <StatusSelector questionId={question.id} />
           <CopyButton label={copyLabel} onCopy={copyText} />
         </span>
       </header>

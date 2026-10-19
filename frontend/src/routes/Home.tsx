@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import type { ChapterData, Manifest } from "../types";
 import { loadChapter } from "../data/load";
 import { IconBook, IconCalculator, IconPencil } from "../components/Icons";
+import { useProgress } from "../progress/ProgressContext";
+import { chapterProgress } from "../lib/progress";
 
 export interface HomeProps {
   manifest: Manifest | null;
@@ -10,6 +12,7 @@ export interface HomeProps {
 
 export function Home({ manifest }: HomeProps) {
   const [chapters, setChapters] = useState<Record<string, ChapterData>>({});
+  const { ready } = useProgress();
 
   useEffect(() => {
     if (!manifest) return;
@@ -115,13 +118,139 @@ export function Home({ manifest }: HomeProps) {
         })}
       </div>
 
-      {/* Reserved for Step 4 — progress tracking is not implemented yet. */}
-      <div className="mt-8 rounded-xl border border-dashed border-line bg-paper/50 p-4 text-center text-muted">
-        <h2 className="font-semibold text-ink">Your progress</h2>
-        <p className="mt-1 text-sm">
-          Progress tracking is not implemented yet. It will appear here in a
-          later step.
-        </p>
+      <div className="mt-10">
+        <ProgressDashboard
+          manifest={manifest}
+          chapters={chapters}
+          ready={ready}
+        />
+      </div>
+    </div>
+  );
+}
+
+function StatusChip({ kind, count }: { kind: "green" | "yellow" | "red"; count: number }) {
+  const dot =
+    kind === "green"
+      ? "bg-emerald-500"
+      : kind === "yellow"
+        ? "bg-yellow-400"
+        : "bg-rose-500";
+  return (
+    <span className="inline-flex items-center gap-1">
+      <span className={`h-2.5 w-2.5 rounded-full ${dot}`} aria-hidden="true" />
+      <span className="tabular-nums text-ink">{count}</span>
+    </span>
+  );
+}
+
+/** Chapter dashboard: attempted/total, green/yellow/red counts, mastery %. */
+function ProgressDashboard({
+  manifest,
+  chapters,
+  ready,
+}: {
+  manifest: Manifest;
+  chapters: Record<string, ChapterData>;
+  ready: boolean;
+}) {
+  const { statuses } = useProgress();
+
+  const rows = useMemo(() => {
+    return manifest.chapters.map((c) => {
+      const data = chapters[c.slug];
+      const questionIds = data
+        ? Object.keys(data.questions)
+        : [];
+      const total = c.counts.questions;
+      const s = chapterProgress(statuses, questionIds);
+      return { chapter: c, s, total };
+    });
+  }, [manifest, chapters, statuses]);
+
+  const grand = useMemo(() => {
+    let attempted = 0,
+      green = 0,
+      yellow = 0,
+      red = 0;
+    for (const r of rows) {
+      attempted += r.s.attempted;
+      green += r.s.green;
+      yellow += r.s.yellow;
+      red += r.s.red;
+    }
+    return {
+      attempted,
+      total: rows.reduce((n, r) => n + r.total, 0),
+      mastery: attempted ? ((2 * green + yellow) / (2 * attempted)) * 100 : 0,
+    };
+  }, [rows]);
+
+  return (
+    <div>
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+        <h2 className="text-lg font-semibold text-ink">Your progress</h2>
+        {!ready ? (
+          <span className="text-sm text-muted">Loading progress…</span>
+        ) : (
+          <span className="text-sm text-muted">
+            {grand.attempted}/{grand.total} attempted ·{" "}
+            {grand.mastery.toFixed(1)}% mastery
+          </span>
+        )}
+      </div>
+
+      <div className="overflow-x-auto rounded-xl border border-line bg-paper shadow-sm">
+        <table className="w-full border-collapse text-sm">
+          <thead>
+            <tr className="border-b border-line bg-pane/60 text-left text-xs uppercase tracking-wide text-muted">
+              <th className="px-3 py-2 font-semibold">Chapter</th>
+              <th className="px-3 py-2 text-right font-semibold">Attempted</th>
+              <th className="px-3 py-2 text-center font-semibold">Green</th>
+              <th className="px-3 py-2 text-center font-semibold">Yellow</th>
+              <th className="px-3 py-2 text-center font-semibold">Red</th>
+              <th className="px-3 py-2 text-right font-semibold">Mastery</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map(({ chapter: c, s, total }) => (
+              <tr key={c.slug} className="border-b border-line last:border-0">
+                <td className="px-3 py-2 font-medium text-ink">
+                  <Link to={`/practice/${c.slug}`} className="hover:text-accent">
+                    <span className="mr-1 text-muted">{c.chapter}.</span>
+                    {c.title}
+                  </Link>
+                </td>
+                <td className="px-3 py-2 text-right tabular-nums text-ink">
+                  {s.attempted}
+                  <span className="text-muted">/{total}</span>
+                </td>
+                <td className="px-3 py-2 text-center">
+                  <StatusChip kind="green" count={s.green} />
+                </td>
+                <td className="px-3 py-2 text-center">
+                  <StatusChip kind="yellow" count={s.yellow} />
+                </td>
+                <td className="px-3 py-2 text-center">
+                  <StatusChip kind="red" count={s.red} />
+                </td>
+                <td className="px-3 py-2 text-right">
+                  <span className="inline-flex items-center gap-2">
+                    <span className="h-1.5 w-16 overflow-hidden rounded bg-line/50">
+                      <span
+                        className="block h-full rounded bg-accent"
+                        style={{ width: `${s.mastery}%` }}
+                      />
+                    </span>
+                    <span className="w-12 tabular-nums text-ink">
+                      {s.mastery.toFixed(1)}%
+                    </span>
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

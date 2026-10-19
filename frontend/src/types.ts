@@ -168,3 +168,25 @@ export interface Stats {
   schema_version: number;
   totals: ManifestCounts;
 }
+
+// --------------------------------------------------------------------------
+// question progress tracking (SQLite backend under /api/progress)
+// --------------------------------------------------------------------------
+
+export type QuestionStatus = "green" | "yellow" | "red";
+
+export interface ProgressEntry {
+  status: QuestionStatus;
+  updated_at: string;
+}
+
+/** Per-chapter rollup returned by the backend summary endpoint. */
+export interface ChapterProgress {
+  attempted: number;
+  green: number;
+  yellow: number;
+  red: number;
+  mastery: number; // percentage, green=2pts yellow=1 red=0, unattempted excluded
+}
+
+export type ChapterProgressSummary = Record<string, ChapterProgress>;

@@ -32,3 +32,7 @@ frontend/public/data/
 stats
 opencode.json
 images/
+
+# progress-tracking backend (dev-mode SQLite file; production uses a volume)
+progress.db
+backend/__pycache__/

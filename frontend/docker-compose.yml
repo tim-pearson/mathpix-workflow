@@ -1,9 +1,26 @@
 services:
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: maths-backend
+    environment:
+      - PROGRESS_DB=/data/progress.db
+    volumes:
+      # named volume keeps progress across rebuilds/restarts
+      - progress-data:/data
+    restart: unless-stopped
+
   frontend:
     build:
       context: ..
       dockerfile: frontend/Dockerfile
     container_name: maths-frontend
+    depends_on:
+      - backend
     ports:
       - "127.0.0.1:5173:80"
     restart: unless-stopped
+
+volumes:
+  progress-data:
