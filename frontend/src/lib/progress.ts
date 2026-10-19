@@ -1,7 +1,7 @@
 // API client for question progress tracking (SQLite backend).
 import type { ProgressEntry, QuestionStatus } from "../types";
-
-export const PROGRESS_API = "/api/progress";
+import { API_BASE } from "./api";
+export const PROGRESS_API = `${API_BASE}/progress`;
 
 /** All recorded statuses, keyed by question id. Missing = unattempted. */
 export async function loadProgress(): Promise<Record<string, ProgressEntry>> {

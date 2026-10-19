@@ -2,8 +2,8 @@
 // element when something looks wrong (skipped questions, several questions
 // glued into one card, …) with an optional description.
 import type { FlagEntry } from "../types";
-
-export const FLAGS_API = "/api/flags";
+import { API_BASE } from "./api";
+export const FLAGS_API = `${API_BASE}/flags`;
 
 /** All flags, keyed by target id (question or block id). */
 export async function loadFlags(): Promise<Record<string, FlagEntry>> {
