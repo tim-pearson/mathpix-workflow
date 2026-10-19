@@ -337,6 +337,221 @@ def test_answer_bare_split_idempotent():
     eq(out1, out2, "second run on own output is a no-op")
 
 
+# --------------------------------------------------------------------------
+# corrections.json (id-keyed overrides / creation / deletion)
+# --------------------------------------------------------------------------
+CORR = {"ch04-ans-ex4A-q3": ["$16 x + y = 32$"]}
+
+
+def test_corr_override_on_heuristic_split():
+    # the bare/math split emits Answer 3, but the corrected body wins
+    fp, out = run_fp("ans04-test.md", ANS_BARE,
+                     ch_qnums={"ch04-ex4A": {1, 2, 3, 4, 5, 6, 7, 8}},
+                     ans_corr=CORR)
+    eq("$16 x + y = 32$" in out, True, "corrected body used")
+    eq("$16x+y=32$" in out, False, "raw heuristic body suppressed")
+    eq(any("corr-override" in n and "ch04-ans-ex4A-q3" in n
+           for n in fp.corr_notes), True, "corr-override noted")
+
+
+def test_corr_override_existing_heading():
+    # post-hoc fix: an already-emitted Answer 3 with the old body is replaced
+    text = """# Answers: 4 Test
+
+<a id="ch04-ans-ex4A"></a>
+### EXERCISE 4A
+
+<a id="ch04-ans-ex4A-q2"></a>
+##### Answer 2
+-1.5
+
+<a id="ch04-ans-ex4A-q3"></a>
+##### Answer 3
+$16x+y=32$
+
+<a id="ch04-ans-ex4A-q4"></a>
+##### Answer 4
+5
+"""
+    fp, out = run_fp("ans04-test.md", text,
+                     ch_qnums={"ch04-ex4A": {1, 2, 3, 4, 5, 6, 7, 8}},
+                     ans_corr=CORR)
+    eq("$16 x + y = 32$" in out, True, "corrected body replaces old body")
+    eq("$16x+y=32$" in out, False, "old body dropped")
+    eq("##### Answer 4" in out, True, "following answer kept")
+
+
+def test_corr_resolve_ambiguous_line():
+    # a candidate the heuristic leaves flagged is forced through to its id
+    text = """# Answers: 11 Test
+
+<a id="ch11-ans-ex11C"></a>
+### EXERCISE 11C
+
+<a id="ch11-ans-ex11C-q2"></a>
+##### Answer 2
+$z=1$
+
+$5 x=8, y=3$
+"""
+    fp, out = run_fp("ans11-test.md", text,
+                     ch_qnums={"ch11-ex11C": {1, 2, 3, 4}},
+                     ans_corr={"ch11-ans-ex11C-q5": ["$x=8, y=3$"]})
+    eq('<a id="ch11-ans-ex11C-q5"></a>' in out, True, "Answer 5 created")
+    eq("##### Answer 5" in out, True, "Answer 5 heading")
+    eq("$x=8, y=3$" in out, True, "corrected body")
+    eq("$5 x=8, y=3$" in out, False, "raw line consumed")
+    eq(any("corr-create" in n for n in fp.corr_notes), True, "corr-create noted")
+
+
+def test_corr_force_create_missing_answer():
+    text = """# Answers: 3 Test
+
+<a id="ch03-ans-ex3A"></a>
+### EXERCISE 3A
+
+<a id="ch03-ans-ex3A-q1"></a>
+##### Answer 1
+$x=1$
+
+<a id="ch03-ans-ex3A-q2"></a>
+##### Answer 2
+$x=2$
+"""
+    fp, out = run_fp("ans03-test.md", text,
+                     ch_qnums={"ch03-ex3A": {1, 2, 3, 4}},
+                     ans_corr={"ch03-ans-ex3A-q3": ["3.5"]})
+    eq('<a id="ch03-ans-ex3A-q3"></a>' in out, True, "Answer 3 anchor created")
+    eq("##### Answer 3" in out, True, "Answer 3 heading created")
+    eq("3.5" in out, True, "corrected body present")
+    eq(any("corr-create" in n and "ch03-ans-ex3A-q3" in n
+           for n in fp.corr_notes), True, "force-create noted")
+
+
+def test_corr_question_override():
+    text = """# Chapter 4: Test
+
+<a id="ch04-ex4A"></a>
+### EXERCISE 4A
+
+<a id="ch04-ex4A-q3"></a>
+##### Question 3
+Old question text.
+"""
+    fp, out = run_fp("ch04-test.md", text,
+                     ans_nums={"ch04-ex4A": {1, 2, 3}},
+                     q_corr={"ch04-ex4A-q3": ["Corrected question text."]})
+    eq("Corrected question text." in out, True, "question body corrected")
+    eq("Old question text." in out, False, "old question body dropped")
+
+
+def test_corr_delete_answer():
+    text = """# Answers: 4 Test
+
+<a id="ch04-ans-ex4A"></a>
+### EXERCISE 4A
+
+<a id="ch04-ans-ex4A-q2"></a>
+##### Answer 2
+-1.5
+
+<a id="ch04-ans-ex4A-q3"></a>
+##### Answer 3
+5
+
+<a id="ch04-ans-ex4A-q4"></a>
+##### Answer 4
+7
+"""
+    fp, out = run_fp("ans04-test.md", text,
+                     ch_qnums={"ch04-ex4A": {1, 2, 3, 4, 5}},
+                     ans_corr={"ch04-ans-ex4A-q3": None})
+    eq("ch04-ans-ex4A-q3" in out, False, "deleted answer anchor removed")
+    eq("##### Answer 3" in out, False, "deleted heading removed")
+    eq("##### Answer 2" in out, True, "previous answer kept")
+    eq("##### Answer 4" in out, True, "following answer kept")
+
+
+def test_corr_idempotent():
+    kw = {"ch_qnums": {"ch04-ex4A": {1, 2, 3, 4, 5, 6, 7, 8}},
+          "ans_corr": CORR}
+    fp1, out1 = run_fp("ans04-test.md", ANS_BARE, **kw)
+    fp2, out2 = run_fp("ans04-test.md", out1, **kw)
+    eq(out1, out2, "corrections do not break re-run no-op")
+
+
+def test_corr_match_line():
+    # a correction's "match" owns a body line that would otherwise be
+    # re-split: "131.8°" is Answer 2's content, not "13"+"1.8°"
+    text = """# Answers: 3 Test
+
+<a id="ch03-ans-review"></a>
+### END-OF-CHAPTER REVIEW EXERCISE 3
+
+<a id="ch03-ans-review-q1"></a>
+##### Answer 1
+![](../images/x.jpg)
+
+<a id="ch03-ans-review-q2"></a>
+##### Answer 2
+131.8°
+
+$3-\\frac{\\sqrt{15}}{8}$
+
+<a id="ch03-ans-review-q4"></a>
+##### Answer 4
+0\u00b0, 131.8\u00b0, 228.2\u00b0, 360\u00b0
+"""
+    corr = {
+        "ch03-ans-review-q2": {"body": "131.8\u00b0", "match": "131.8\u00b0"},
+        "ch03-ans-review-q3":
+            {"body": "$-\\frac{\\sqrt{15}}{8}$",
+             "match": "$3-\\frac{\\sqrt{15}}{8}$"},
+    }
+    fp, out = run_fp("ans03-test.md", text,
+                     ch_qnums={"ch03-review": {1, 2, 3, 4}},
+                     ans_corr=corr)
+    eq("##### Answer 2" in out, True, "Answer 2 kept")
+    eq("131.8\u00b0" in out, True, "Answer 2 body = 131.8\u00b0")
+    eq('<a id="ch03-ans-review-q3"></a>' in out, True, "Answer 3 created")
+    eq("$-\\frac{\\sqrt{15}}{8}$" in out, True, "Answer 3 body kept")
+    eq("##### Answer 13" in out, False, "no bogus Answer 13 split")
+    eq("ch03-ans-review-q13" in out, False, "no duplicate q13 anchor")
+
+
+def test_corr_override_does_not_swallow_neighbour():
+    # overriding Answer 2's body must not delete the next answer's line
+    text = """# Answers: 3 Test
+
+<a id="ch03-ans-review"></a>
+### END-OF-CHAPTER REVIEW EXERCISE 3
+
+<a id="ch03-ans-review-q1"></a>
+##### Answer 1
+![](../images/x.jpg)
+
+<a id="ch03-ans-review-q2"></a>
+##### Answer 2
+old body
+
+<a id="ch03-ans-review-q4"></a>
+##### Answer 4
+0\u00b0, 131.8\u00b0, 228.2\u00b0, 360\u00b0
+"""
+    corr = {
+        "ch03-ans-review-q2": {"body": "131.8\u00b0", "match": "131.8\u00b0"},
+        "ch03-ans-review-q3":
+            {"body": "$-\\frac{\\sqrt{15}}{8}$",
+             "match": "$3-\\frac{\\sqrt{15}}{8}$"},
+    }
+    fp, out = run_fp("ans03-test.md", text,
+                     ch_qnums={"ch03-review": {1, 2, 3, 4}},
+                     ans_corr=corr)
+    eq("old body" in out, False, "old Answer 2 body dropped")
+    eq("131.8\u00b0" in out, True, "corrected Answer 2 body present")
+    eq("##### Answer 4" in out, True, "Answer 4 kept")
+
+
 if __name__ == "__main__":
     test_form_tag()
     test_chapter_promotion_tagged()
@@ -352,4 +567,13 @@ if __name__ == "__main__":
     test_answer_bare_split_requires_remainder()
     test_answer_bare_split_cascade_rejected()
     test_answer_bare_split_idempotent()
+    test_corr_override_on_heuristic_split()
+    test_corr_override_existing_heading()
+    test_corr_resolve_ambiguous_line()
+    test_corr_force_create_missing_answer()
+    test_corr_question_override()
+    test_corr_delete_answer()
+    test_corr_idempotent()
+    test_corr_match_line()
+    test_corr_override_does_not_swallow_neighbour()
     print("ALL FIX_SECTIONS TESTS PASSED")

@@ -29,6 +29,7 @@ heading), so it is identical no matter how many times the script runs.
 
 CLI:
   python fix_sections.py [split_dir] [-n|--dry-run] [--check] [--callouts]
+                         [--corrections PATH]
 
   -n / --dry-run   compute everything, print the report, write nothing
   --check          validate the files already on disk (idempotency,
@@ -38,6 +39,32 @@ CLI:
                    > [!IMPORTANT] / [!NOTE] / [!TIP] callouts.  Off by
                    default.  Exercises, reviews, worked examples,
                    questions and anchors are unaffected.
+  --corrections    JSON of hand-curated question/answer fixes keyed by id
+                   (default: scripts/corrections.json next to this script).
+
+Corrections JSON format:
+  {
+    "answers": {
+      "ch04-ans-ex4A-q3": "$16 x+y=32$",      // body line(s): str or list
+      "ch02-ans-review-q13": ["k=16"],
+      "ch03-ans-review-q2": {"body": "131.8\u00b0", "match": "131.8\u00b0"},
+      "ch11-ans-ex11C-q5": null                // null = delete this answer
+    },
+    "questions": {
+      "ch04-ex4A-q3": "Find the equation ...",
+      "ch04-ex4A-q5": null                     // null = delete this question
+    }
+  }
+Keys are anchor ids exactly as they appear in split/index.json.  A non-null
+value replaces the answer/question body (a string = one line, a list = many);
+null removes the id.  An object form adds "match": the exact source line that
+this correction owns, so a body line the heuristics would otherwise re-split
+or mis-attribute is consumed by this id.  Missing answers/questions whose
+correction exists are created (anchor + heading + corrected body) at the end
+of their block, and ambiguous "N rest" answer lines are resolved to the
+corrected id when a correction names a candidate number.  Everything is
+applied inside the structural pass, so corrections work on the first run and
+on re-runs, and running the script twice on its own output is still a no-op.
 
 Idempotent: running it again on its own output is a no-op.
 """
@@ -46,6 +73,9 @@ import json
 import re
 from collections import Counter, defaultdict
 from pathlib import Path
+
+# sentinel: a corrections.json entry mapped to this means "remove the id"
+DELETED = object()
 
 ANCHOR = '<a id="{}"></a>'
 ANCHOR_RE = re.compile(r'^<a id="([^"]+)"></a>$')
@@ -137,7 +167,8 @@ def wrap_marks(line):
 
 
 class FileProcessor:
-    def __init__(self, path, callouts=False, ans_nums=None, ch_qnums=None):
+    def __init__(self, path, callouts=False, ans_nums=None, ch_qnums=None,
+                 ans_corr=None, q_corr=None):
         self.path = path
         self.name = path.name
         mch = CH_RE.match(self.name)
@@ -149,6 +180,29 @@ class FileProcessor:
         self.callouts = callouts and bool(mch or mans)
         self.ans_nums = ans_nums or {}     # block base -> set of answer numbers
         self.ch_qnums = ch_qnums or {}     # block base -> set of chapter question numbers
+
+        def norm_corr(v):
+            if v is None or v is DELETED:
+                return DELETED, None
+            if isinstance(v, dict):
+                b = v.get("body")
+                return ((DELETED if b is None else
+                         ([b] if isinstance(b, str) else list(b))),
+                        v.get("match"))
+            return ([v] if isinstance(v, str) else list(v), None)
+
+        self.ans_corr, self.ans_match = {}, {}
+        for k, v in (ans_corr or {}).items():
+            body, match = norm_corr(v)
+            self.ans_corr[k] = body
+            if match:
+                self.ans_match[k] = match
+        self.q_corr, self.q_match = {}, {}
+        for k, v in (q_corr or {}).items():
+            body, match = norm_corr(v)
+            self.q_corr[k] = body
+            if match:
+                self.q_match[k] = match
         self.out = []
         self.cnt = Counter()
         self.flags = []
@@ -161,10 +215,28 @@ class FileProcessor:
         self.part = None                 # last part label letter within an answer
         self.block_log = []              # per block: base + accepted numbers
         self.notes = []                  # file:line list of lines this feature touches
+        self.corr_notes = []             # file:line list of corrections applied
+        self.corr_applied = set()        # ids that were actually applied
+        self.last_anchor_id = None       # id of the most recent anchor line
+        self.skip_after = False          # discard lines until the next anchor/heading
+        self.skip_pid = None             # id whose old body is being skipped
+        self._emitted = set()            # ids emitted this pass
+        self._block_ranges = []          # [base, start_out_len, (end_out_len)]
         self.ans_mathsplit = 0           # answer headings created from $N math
         self.ans_bare = 0                # answer headings from bare/glued N rest
         self.ans_label = 0               # bare labels bolded
         self.orig = path.read_text(encoding="utf-8")
+
+    def _corr_body(self, corr, pid):
+        """Return 'delete' | body-lines | None for pid in `corr`."""
+        if pid not in corr:
+            return None
+        v = corr[pid]
+        return "delete" if v is DELETED else v
+
+    def _is_deleted(self, pid):
+        return (pid in self.ans_corr and self.ans_corr[pid] is DELETED) \
+            or (pid in self.q_corr and self.q_corr[pid] is DELETED)
 
     def flag(self, line_no, kind, snippet):
         self.flags.append(f"{self.name}:{line_no} [{kind}] {snippet[:70]}")
@@ -192,6 +264,8 @@ class FileProcessor:
         self.out.append(text)
 
     def end_block(self):
+        if self._block_ranges and self._block_ranges[-1][0] == self.block_base:
+            self._block_ranges[-1].append(len(self.out))
         self.block = None
         self.block_base = None
         self.prev = None
@@ -202,6 +276,7 @@ class FileProcessor:
         self.block_base = base
         self.prev = None
         self.part = None
+        self._block_ranges.append([base, len(self.out)])
         self.block_log.append({"base": base, "nums": []})
 
     def log_num(self, n):
@@ -235,15 +310,28 @@ class FileProcessor:
     def _emit_question(self, tag, n, rest, line_no):
         """Create a `##### Question/Answer N` heading + anchor for a number we
         have accepted, then append the (stripped) rest as the first body line."""
-        self.prev = n
         self.part = None
-        self.log_num(n)
         sfx = f"{tag.lower()}{n}" if tag else f"q{n}"
         pid = f"{self.block_base}-{sfx}"
+        corr = self.ans_corr if not self.ch_side else self.q_corr
+        body = self._corr_body(corr, pid)
+        if body == "delete":
+            self.skip_after = True
+            self.skip_pid = pid
+            return None
+        self.prev = n
+        self.log_num(n)
         head = f"##### {'Question' if self.ch_side else 'Answer'}"
         head += f" {tag + ' ' if tag else ''}{n}"
         self.cnt["question" if self.ch_side else "answer"] += 1
+        self._emitted.add(pid)
         self.add_heading(pid, head)
+        if body is not None:
+            self.corr_applied.add(pid)
+            self.corr_notes.append(f"{self.name}:{line_no} [corr-override] {pid}")
+            for bl in body:
+                self.out.append(wrap_marks(bl))
+            return None
         rest = rest.strip()
         if rest:
             if not self.ch_side:
@@ -281,7 +369,11 @@ class FileProcessor:
         if n is None:
             return line
         block_nums = self.ans_nums.get(self.block_base, set())
+        pid = f"{self.block_base}-q{n}"
         if n in block_nums and (self.prev is None or n > self.prev):
+            return self._emit_question(self._form_tag(line), n, rest, line_no)
+        if self._corr_body(self.q_corr, pid) is not None \
+                and (self.prev is None or n > self.prev):
             return self._emit_question(self._form_tag(line), n, rest, line_no)
         if self.prev is None or n > self.prev:
             self.prev = n
@@ -301,6 +393,11 @@ class FileProcessor:
             # rejection which could cascade: one miss rejected every later
             # question.
             if not self.accept_question(n):
+                pid = f"{self.block_base}-" \
+                    + (f"{tag.lower()}{n}" if tag else f"q{n}")
+                if self._corr_body(self.q_corr, pid) is not None:
+                    # a correction names this question: force it through
+                    return self._emit_question(tag, n, rest, line_no)
                 if self.prev is not None and n <= self.prev:
                     reason = f"number {n} <= previous {self.prev}"
                 elif self.prev is None:
@@ -377,10 +474,17 @@ class FileProcessor:
         The full-number reading of a math line counts as a [math-split]; every
         other reading (a shorter prefix that is a real question number) counts
         as a [bare-split]."""
+        pid = f"{self.block_base}-q{n}"
+        corr_body = self._corr_body(self.ans_corr, pid)
+        if corr_body == "delete":
+            self.skip_after = True
+            self.skip_pid = pid
+            return None
         self.prev = n
         self.part = None
         self.log_num(n)
         self.cnt["answer"] += 1
+        self._emitted.add(pid)
         if kind == "math":
             self.ans_mathsplit += 1
             tag = "math-split"
@@ -389,15 +493,112 @@ class FileProcessor:
             tag = "bare-split"
         self.notes.append(
             f"{self.name}:{line_no} [{tag}] {line.strip()[:64]}")
-        self.add_heading(f"{self.block_base}-q{n}", f"##### Answer {n}")
+        self.add_heading(pid, f"##### Answer {n}")
+        if corr_body is not None:
+            self.corr_applied.add(pid)
+            self.corr_notes.append(f"{self.name}:{line_no} [corr-override] {pid}")
+            for bl in corr_body:
+                self.out.append(wrap_marks(bl))
+            return None
         if math_trailing is not None:
             body = "$" + body + "$" + math_trailing
         if body.strip():
             self.out.append(wrap_marks(body))
 
+    def _emit_corr_answer(self, n, pid, body, line_no):
+        """Emit `##### Answer N` with a correction-provided body (used when no
+        source line produced this answer, or to resolve an ambiguous line)."""
+        self.prev = n
+        self.part = None
+        self.log_num(n)
+        self.cnt["answer"] += 1
+        self._emitted.add(pid)
+        self.corr_applied.add(pid)
+        self.corr_notes.append(f"{self.name}:{line_no} [corr-create] {pid}")
+        self.add_heading(pid, f"##### Answer {n}")
+        for bl in body:
+            self.out.append(wrap_marks(bl))
+
+    def _corr_resolve(self, digits, rest, line, line_no):
+        """If a correction names an answer this candidate line can represent
+        (the leading number, one of its glued prefixes, or the next expected
+        number), emit that answer with the corrected body.  Returns True if
+        the line was consumed."""
+        expected = 1 if self.prev is None else self.prev + 1
+        cands = {expected}
+        for k in range(1, len(digits) + 1):
+            cands.add(int(digits[:k]))
+        for n in sorted(c for c in cands
+                        if self.prev is None or c > self.prev):
+            pid = f"{self.block_base}-q{n}"
+            body = self._corr_body(self.ans_corr, pid)
+            if body is not None and body != "delete":
+                self._emit_corr_answer(n, pid, body, line_no)
+                return True
+        return False
+
+    def _corr_owner(self, s):
+        """Answer correction id whose explicit "match" equals this line."""
+        for pid, match in self.ans_match.items():
+            if match == s:
+                return pid
+        return None
+
+    def _corr_match(self, line, line_no):
+        """If a correction explicitly names this exact source line, emit its
+        answer with the corrected body.  Used when a body line would otherwise
+        be re-split or left mis-attributed (e.g. "131.8°" is Answer 2's
+        content, not "13"+"1.8°").  Returns True if the line was consumed."""
+        s = line.strip()
+        for pid, match in self.ans_match.items():
+            if match != s or not pid.startswith(self.block_base + "-"):
+                continue
+            m = re.match(rf"^{re.escape(self.block_base)}-"
+                        r"((?:q|ps|p|m)(\d+))$", pid)
+            if not m or (self.prev is not None
+                         and int(m.group(2)) <= self.prev):
+                continue
+            body = self._corr_body(self.ans_corr, pid)
+            if body is not None and body != "delete":
+                self._emit_corr_answer(int(m.group(2)), pid, body, line_no)
+                return True
+        return False
+
+    def _finish_blocks(self):
+        """Close any block left open at EOF, then create the answer/question
+        ids that a correction mandates but no source line produced."""
+        for r in self._block_ranges:
+            if len(r) == 2:
+                r.append(len(self.out))
+        corr = self.ans_corr if not self.ch_side else self.q_corr
+        for base, _start, end in reversed(self._block_ranges):
+            created = []
+            for pid, body in sorted(corr.items()):
+                if body is DELETED or pid in self._emitted:
+                    continue
+                m = re.match(rf"^{re.escape(base)}-((?:q|ps|p|m)(\d+))$", pid)
+                if not m:
+                    continue
+                n = int(m.group(2))
+                for rec in self.block_log:
+                    if rec["base"] == base:
+                        rec["nums"].append(n)
+                self._emitted.add(pid)
+                self.corr_applied.add(pid)
+                self.corr_notes.append(f"{self.name}:{end + 1} [corr-create] {pid}")
+                created.append(ANCHOR.format(pid))
+                created.append(
+                    f"##### {'Question' if self.ch_side else 'Answer'} {n}")
+                created.extend(wrap_marks(bl) for bl in body)
+                created.append("")
+            if created:
+                self.out[end:end] = created
+
     def answer_plain_line(self, line, line_no):
         """Answer-file plain lines: part labels and $N-in-maths question
         numbers. Only fires while a question block is active."""
+        if self._corr_match(line, line_no):
+            return None
         mb = LABEL_BOLD.match(line)
         if mb:
             self.part = mb.group(1)
@@ -417,6 +618,9 @@ class FileProcessor:
                 n, body = hits[0]
                 emitted = "$" + body + "$" + line[mm.end():]
                 if self._would_resplit(n, emitted):
+                    if self._corr_resolve(mm.group(1), sep + mm.group(2),
+                                          line, line_no):
+                        return None
                     self.flag(line_no, "math-split-ambiguous",
                               f"{line.strip()[:40]} "
                               f"(ambiguous: {n} would re-split)")
@@ -424,6 +628,9 @@ class FileProcessor:
                 kind = "math" if n == int(mm.group(1)) else "bare"
                 self._split_emitted(n, body, line, line_no,
                                     line[mm.end():], kind)
+                return None
+            if self._corr_resolve(mm.group(1), sep + mm.group(2),
+                                  line, line_no):
                 return None
             if len(hits) > 1:
                 cands = " or ".join(str(h[0]) for h in hits)
@@ -440,11 +647,16 @@ class FileProcessor:
             if len(hits) == 1:
                 n, body = hits[0]
                 if self._would_resplit(n, body):
+                    if self._corr_resolve(mn.group(1), mn.group(2),
+                                          line, line_no):
+                        return None
                     self.flag(line_no, "bare-num-ambiguous",
                               f"{line.strip()[:40]} "
                               f"(ambiguous: {n} would re-split)")
                     return line
                 self._split_emitted(n, body, line, line_no, None, "bare")
+                return None
+            if self._corr_resolve(mn.group(1), mn.group(2), line, line_no):
                 return None
             if len(hits) > 1:
                 cands = " or ".join(str(h[0]) for h in hits)
@@ -467,6 +679,41 @@ class FileProcessor:
         raw = self.orig.split("\n")
         for i, line in enumerate(raw, 1):
             stripped = line.strip()
+            if self.skip_after:
+                # discard a deleted/overridden answer's old body until the
+                # next anchor, a non-##### heading, or a line that a different
+                # correction owns (its content belongs to another answer)
+                am = ANCHOR_RE.match(stripped)
+                if am:
+                    if self._is_deleted(am.group(1)):
+                        continue
+                    self.skip_after = False
+                    self.skip_pid = None
+                    self.last_anchor_id = am.group(1)
+                    self.out.append(line)
+                    continue
+                if stripped.startswith("#"):
+                    if re.match(r"^#{5}\s+(?:Answer|Question)\b", stripped):
+                        continue
+                    self.skip_after = False
+                    self.skip_pid = None
+                else:
+                    owner = self._corr_owner(stripped)
+                    if owner is not None and owner != self.skip_pid:
+                        self.skip_after = False
+                        self.skip_pid = None
+                    else:
+                        continue
+            if self.full:
+                am = ANCHOR_RE.match(stripped)
+                if am:
+                    if self._is_deleted(am.group(1)):
+                        self.skip_after = True
+                        self.skip_pid = am.group(1)
+                        continue
+                    self.last_anchor_id = am.group(1)
+                    self.out.append(line)
+                    continue
             if self.callouts:
                 cm = CALL_RE.match(stripped)
                 if cm:
@@ -505,6 +752,7 @@ class FileProcessor:
                 self.full_line(stripped, i)
             else:
                 self.light_line(line, stripped)
+        self._finish_blocks()
         return "\n".join(self.out)
 
     def light_line(self, line, stripped):
@@ -603,19 +851,57 @@ class FileProcessor:
                 if qm:
                     # already-converted question: keep the block active so a
                     # later raw **N** can still be attributed to this block
-                    self.prev = int(qm.group(2))
+                    n = int(qm.group(2))
+                    pid = self.last_anchor_id
+                    if not (pid and pid.startswith(self.block_base + "-")):
+                        pid = f"{self.block_base}-q{n}"
+                    body = self._corr_body(self.q_corr, pid)
+                    if body == "delete":
+                        self.skip_after = True
+                        self.skip_pid = pid
+                        return
+                    self.prev = n
                     self.part = None
-                    self.log_num(int(qm.group(2)))
+                    self.log_num(n)
                     self.out.append(stripped)
+                    if body is not None:
+                        self._emitted.add(pid)
+                        self.corr_applied.add(pid)
+                        self.corr_notes.append(
+                            f"{self.name}:{i} [corr-override] {pid}")
+                        for bl in body:
+                            self.out.append(wrap_marks(bl))
+                        self.out.append("")
+                        self.skip_after = True
+                        self.skip_pid = pid
                     return
             if not self.ch_side and self.block is not None \
                     and stripped.startswith("##### Answer"):
                 am = re.match(r"^##### Answer(?: PS| P)? (\d+)\s*$", stripped)
                 if am:
-                    self.prev = int(am.group(1))
+                    n = int(am.group(1))
+                    pid = self.last_anchor_id
+                    if not (pid and pid.startswith(self.block_base + "-")):
+                        pid = f"{self.block_base}-q{n}"
+                    body = self._corr_body(self.ans_corr, pid)
+                    if body == "delete":
+                        self.skip_after = True
+                        self.skip_pid = pid
+                        return
+                    self.prev = n
                     self.part = None
-                    self.log_num(int(am.group(1)))
+                    self.log_num(n)
                     self.out.append(stripped)
+                    if body is not None:
+                        self._emitted.add(pid)
+                        self.corr_applied.add(pid)
+                        self.corr_notes.append(
+                            f"{self.name}:{i} [corr-override] {pid}")
+                        for bl in body:
+                            self.out.append(wrap_marks(bl))
+                        self.out.append("")
+                        self.skip_after = True
+                        self.skip_pid = pid
                     return
             if EMPTY_H.match(stripped):
                 # an empty heading is just a separator inside a review block;
@@ -743,7 +1029,7 @@ def add_next_ids(entries):
             e["next_id"] = lst[k + 1]["id"] if k + 1 < len(lst) else None
 
 
-def report(results, files, entries):
+def report(results, files, entries, ans_corr=None, q_corr=None):
     print("per-file counts:")
     hdr_keys = ["sections", "exercises", "reviews", "cross", "prereq",
                 "boxes", "we", "kp", "question", "answer", "msplit", "bare",
@@ -768,6 +1054,13 @@ def report(results, files, entries):
     for n in notes:
         print("  " + n)
     if not notes:
+        print("  (none)")
+
+    corr_notes = [n for f in files for n in results[f].corr_notes]
+    print(f"\ncorrections applied ({len(corr_notes)}):")
+    for n in corr_notes:
+        print("  " + n)
+    if not corr_notes:
         print("  (none)")
 
     flags = [fl for f in files for fl in results[f].flags]
@@ -807,9 +1100,24 @@ def report(results, files, entries):
     print(f"\nanswer-side ids with no matching question id ({len(extra)}):"
           + (f"  e.g. {extra[:10]}" if extra else ""))
 
-    dup = [k for k, v in Counter(entries.keys()).items() if v > 1]
+    dup = Counter()
+    for f in files:
+        for ln in results[f].new_text.split("\n"):
+            am = ANCHOR_RE.match(ln.strip())
+            if am:
+                dup[am.group(1)] += 1
+    dup = [k for k, v in dup.items() if v > 1]
     print(f"\nduplicate anchor ids: {len(dup)}"
           + (f" -> {dup[:20]}" if dup else ""))
+
+    if ans_corr or q_corr:
+        applied = set()
+        for f in files:
+            applied |= results[f].corr_applied
+        unused = sorted(
+            (set(ans_corr) | set(q_corr)) - applied)
+        print(f"\ncorrections ids not applied ({len(unused)}):"
+              + (f" -> {unused[:20]}" if unused else ""))
 
 
 def main(argv=None):
@@ -821,6 +1129,8 @@ def main(argv=None):
     ap.add_argument("--callouts", action="store_true",
                     help="wrap box headers in [!IMPORTANT]/[!NOTE]/[!TIP] "
                          "callouts instead of #### headings (off by default)")
+    ap.add_argument("--corrections", default=None,
+                    help="corrections JSON (default: scripts/corrections.json)")
     args = ap.parse_args(argv)
 
     p_dir = Path(args.split)
@@ -829,6 +1139,17 @@ def main(argv=None):
     files = sorted(p.name for p in p_dir.glob("*.md"))
     if not files:
         sys.exit(f"no .md files in {p_dir}")
+
+    corr_path = Path(args.corrections) if args.corrections \
+        else Path(__file__).resolve().parent / "corrections.json"
+
+    ans_corr, q_corr = {}, {}
+    if corr_path.exists():
+        data = json.loads(corr_path.read_text(encoding="utf-8"))
+        ans_corr = data.get("answers", {})
+        q_corr = data.get("questions", {})
+    else:
+        print(f"(no corrections file at {corr_path})")
 
     results = {}
     text_of = {}
@@ -860,7 +1181,8 @@ def main(argv=None):
         for f in files:
             if f.startswith("ans"):
                 results[f] = FileProcessor(p_dir / f, callouts=args.callouts,
-                                           ch_qnums=ch_qnums)
+                                           ch_qnums=ch_qnums,
+                                           ans_corr=ans_corr)
                 results[f].run()
                 text_of[f] = results[f].new_text
         ans_nums = collect_nums(results, normalize_ans=True)
@@ -869,7 +1191,8 @@ def main(argv=None):
             if f.startswith("ans"):
                 continue
             results[f] = FileProcessor(p_dir / f, callouts=args.callouts,
-                                       ans_nums=ans_nums)
+                                       ans_nums=ans_nums,
+                                       q_corr=q_corr)
             results[f].run()
             text_of[f] = results[f].new_text
         ch_qnums = collect_nums(results, normalize_ans=False)
@@ -887,7 +1210,7 @@ def main(argv=None):
         entries = {}
         for f in files:
             entries.update(parse_entries(f, disk[f]))
-        report(results, files, entries)
+        report(results, files, entries, ans_corr, q_corr)
         print(f"\n[check] files that changed on re-run: {len(diffs)}"
               + (f" -> {diffs}" if diffs else ""))
         return
@@ -895,7 +1218,7 @@ def main(argv=None):
     entries = {}
     for f in files:
         entries.update(parse_entries(f, text_of[f]))
-    report(results, files, entries)
+    report(results, files, entries, ans_corr, q_corr)
 
     if args.dry_run:
         print("\n[dry run] nothing was written.")

@@ -1,0 +1,35 @@
+{
+  "answers": {
+    "ch03-ans-review-q2": {
+      "body": "131.8\u00b0",
+      "match": "131.8\u00b0"
+    },
+    "ch03-ans-review-q3": {
+      "body": "$-\\frac{\\sqrt{15}}{8}$",
+      "match": "$3-\\frac{\\sqrt{15}}{8}$"
+    },
+    "ch08-ans-review-q2": {
+      "body": "$4(\\ln 4-1)$",
+      "match": "$24(\\ln 4-1)$"
+    },
+    "ch08-ans-review-q3": "$\\frac{14}{9}$",
+    "ch09-ans-ex9C-q3": {
+      "body": "$6 a+(-2)(4)+(5)(-2)=0 a=3$",
+      "match": "$36 a+(-2)(4)+(5)(-2)=0 a=3$"
+    },
+    "ch11-ans-ex11B-q8": {
+      "body": "$1+2 \\mathrm{i}$",
+      "match": "$81+2 \\mathrm{i}$"
+    },
+    "ch11-ans-ex11B-q9": {
+      "body": "$z^{2}-10 z+28=0$",
+      "match": "$9 z^{2}-10 z+28=0$"
+    },
+    "ch11-ans-ex11D-q5": "$x=8, y=3$",
+    "ch11-ans-ex11D-q10": [
+      "$a=16, b=-1, z=4 i, z=-4 i, z=\\frac{1}{2}+\\frac{\\sqrt{15}}{2} i$",
+      "$z=\\frac{1}{2}-\\frac{\\sqrt{15}}{2} \\mathrm{i}$"
+    ],
+    "ch07-ans-review-q13": "k=16"
+  }
+}
