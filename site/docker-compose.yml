@@ -1,0 +1,11 @@
+services:
+  tutex:
+    image: squidfunk/mkdocs-material:latest
+    container_name: tutex
+    restart: unless-stopped
+    working_dir: /docs
+    volumes:
+      - ./:/docs
+    ports:
+      - "1212:1212"
+    command: serve --dev-addr=0.0.0.0:1212
