@@ -10,6 +10,7 @@ import { resolveChapterSlug } from "./Reader";
 import { exerciseSectionId, sectionTitle } from "../lib/chapter";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { exerciseQuestionCount, parsePrerequisiteQuestions } from "../lib/prereq";
+import { useProgress } from "../progress/ProgressContext";
 import type { Question } from "../types";
 
 export interface PracticeProps {
@@ -130,10 +131,13 @@ export function Practice({ manifest }: PracticeProps) {
   const slug = resolveChapterSlug(manifest, chapterParam ?? "ch01");
   const [chapter, setChapter] = useState<ChapterData | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [filter, setFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState<
+    "all" | "unattempted" | "green" | "yellow" | "red"
+  >("all");
   const [allOpen, setAllOpen] = useState(false);
   const [includeId, setIncludeId] = useLocalStorage<boolean>(INCLUDE_ID_KEY, false);
   const [queryId, setQueryId] = useState<string | null>(null);
+  const { statuses } = useProgress();
 
   useEffect(() => {
     if (!slug) return;
@@ -184,10 +188,13 @@ export function Practice({ manifest }: PracticeProps) {
   }, [exercise, chapter]);
 
   const filteredQuestions = useMemo(() => {
-    if (!filter.trim()) return resolvedQuestions;
-    const q = filter.trim().toLowerCase();
-    return resolvedQuestions.filter((x) => x.md.toLowerCase().includes(q));
-  }, [resolvedQuestions, filter]);
+    return resolvedQuestions.filter((x) => {
+      const st = statuses[x.id]?.status ?? null;
+      if (statusFilter === "all") return true;
+      if (statusFilter === "unattempted") return st == null;
+      return st === statusFilter;
+    });
+  }, [resolvedQuestions, statuses, statusFilter]);
 
   // deep link: scroll to and flash the target question
   useEffect(() => {
@@ -230,54 +237,50 @@ export function Practice({ manifest }: PracticeProps) {
                 <>
                   <ExerciseHeading chapter={chapter} exercise={exercise} />
 
-                  {/* toolbar */}
+                  {/* filter by progress status (chapters are in the sidebar/drawer) */}
                   <div className="mb-4 flex flex-wrap items-center gap-2 rounded-lg border border-line bg-pane/60 p-2">
-                    <select
-                      value={exercise.id}
-                      onChange={(e) => {
-                        const v = e.target.value;
-                        const url = v
-                          ? `#/practice/${slug}/${v}`
-                          : `#/practice/${slug}`;
-                        window.location.hash = url;
-                      }}
-                      aria-label="Jump to question"
-                      className="rounded-md border border-line bg-paper px-2 py-1 text-sm text-ink"
-                    >
-                      {chapter.exercises.map((ex) => (
-                        <option key={ex.id} value={ex.id}>
-                          {ex.title} ({exerciseQuestionCount(chapter, ex)})
-                        </option>
-                      ))}
-                    </select>
-                    <input
-                      value={filter}
-                      onChange={(e) => setFilter(e.target.value)}
-                      placeholder="Filter questions…"
-                      aria-label="Filter questions"
-                      className="min-w-40 flex-1 rounded-md border border-line bg-paper px-2 py-1 text-sm text-ink placeholder:text-muted focus:border-accent focus:outline-none"
-                    />
-                    <Link
-                      to={`/practice/${slug}/${`ch${String(chapter.chapter).padStart(2, "0")}-prerequisite`}`}
-                      className="inline-flex items-center gap-1.5 rounded-md border border-line px-2 py-1 text-sm text-muted hover:text-accent"
-                    >
-                      <IconBook aria-hidden="true" /> Prerequisites
-                    </Link>
-                    <button
-                      type="button"
-                      onClick={() => setAllOpen((v) => !v)}
-                      className="rounded-md border border-line px-2 py-1 text-sm text-muted hover:text-ink"
-                    >
-                      {allOpen ? "Collapse all" : "Expand all"}
-                    </button>
-                    <label className="flex items-center gap-1.5 text-sm text-muted">
-                      <input
-                        type="checkbox"
-                        checked={includeId}
-                        onChange={(e) => setIncludeId(e.target.checked)}
-                      />
-                      Include id
-                    </label>
+                    {(
+                      [
+                        ["all", "All"],
+                        ["unattempted", "Unattempted"],
+                        ["green", "Green"],
+                        ["yellow", "Yellow"],
+                        ["red", "Red"],
+                      ] as const
+                    ).map(([value, label]) => {
+                      const active = statusFilter === value;
+                      return (
+                        <button
+                          key={value}
+                          type="button"
+                          onClick={() => setStatusFilter(value)}
+                          className={`rounded-md px-2 py-1 text-sm ${
+                            active
+                              ? "bg-accent font-medium text-white"
+                              : "text-muted hover:text-ink"
+                          }`}
+                        >
+                          {label}
+                        </button>
+                      );
+                    })}
+                    <span className="ml-auto flex items-center gap-3">
+                      <button
+                        type="button"
+                        onClick={() => setAllOpen((v) => !v)}
+                        className="rounded-md border border-line px-2 py-1 text-sm text-muted hover:text-ink"
+                      >
+                        {allOpen ? "Collapse all" : "Expand all"}
+                      </button>
+                      <label className="flex items-center gap-1.5 text-sm text-muted">
+                        <input
+                          type="checkbox"
+                          checked={includeId}
+                          onChange={(e) => setIncludeId(e.target.checked)}
+                        />
+                        Include id
+                      </label>
+                    </span>
                   </div>
 
                   {filteredQuestions.length === 0 ? (

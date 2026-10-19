@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import type { ChapterData, Manifest, SectionBlock } from "../types";
 import { loadChapter } from "../data/load";
@@ -371,18 +371,25 @@ export function Reader({ manifest }: ReaderProps) {
               <p className="mt-1 text-sm text-muted">
                 All key points for this chapter.
               </p>
-              {chapter.key_points.map((kp) => (
-                <section
-                  key={kp.id}
-                  id={kp.id}
-                  className="my-5 scroll-mt-16 rounded-r-lg border-l-4 border-accent bg-accent-soft/40 px-4 py-3"
-                >
-                  <div className="mb-1 flex items-center gap-1.5 font-semibold text-accent">
-                    <IconCalculator aria-hidden="true" />
-                    KEY POINT {kp.number}
-                  </div>
-                  <Md source={kp.md} blockId={kp.id} />
-                </section>
+              {chapter.key_points.map((kp, i) => (
+                <Fragment key={kp.id}>
+                  {i > 0 && (
+                    <div className="mx-2 my-4 border-t border-line/70" aria-hidden="true" />
+                  )}
+                  <details
+                    id={kp.id}
+                    open
+                    className="scroll-mt-16 rounded-r-lg border-l-4 border-accent bg-accent-soft/40 px-4 py-3"
+                  >
+                    <summary className="flex cursor-pointer select-none items-center gap-1.5 font-semibold text-accent">
+                      <IconCalculator aria-hidden="true" />
+                      KEY POINT {kp.number}
+                    </summary>
+                    <div className="mt-2 border-t border-accent/30 pt-2">
+                      <Md source={kp.md} blockId={kp.id} />
+                    </div>
+                  </details>
+                </Fragment>
               ))}
               {chapter.key_points.length === 0 && (
                 <p className="text-sm text-muted">No key points in this chapter.</p>

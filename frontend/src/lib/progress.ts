@@ -35,9 +35,10 @@ export async function clearProgress(questionId: string): Promise<void> {
   if (!res.ok) throw new Error(`Failed to clear progress: ${res.status}`);
 }
 
-/** Roll up a chapter's statuses against its question set (unattempted excluded).
- * Green = 2 points, yellow = 1, red = 0; mastery is a percentage of 2 per
- * attempted question. */
+/** Roll up a chapter's statuses against its full question set.
+ * Red = 1, yellow = 2, green = 3; mastery is the sum over ALL questions
+ * divided by (all questions × 3) — so 100% only when every question is green
+ * and unattempted questions count as 0. */
 export function chapterProgress(
   statuses: Record<string, ProgressEntry>,
   questionIds: string[]
@@ -54,6 +55,7 @@ export function chapterProgress(
     else if (e.status === "yellow") yellow += 1;
     else red += 1;
   }
-  const mastery = attempted ? ((2 * green + yellow) / (2 * attempted)) * 100 : 0;
+  const denom = questionIds.length * 3;
+  const mastery = denom ? ((3 * green + 2 * yellow + 1 * red) / denom) * 100 : 0;
   return { attempted, green, yellow, red, mastery };
 }

@@ -179,10 +179,11 @@ function ProgressDashboard({
       yellow += r.s.yellow;
       red += r.s.red;
     }
+    const total = rows.reduce((n, r) => n + r.total, 0);
     return {
       attempted,
-      total: rows.reduce((n, r) => n + r.total, 0),
-      mastery: attempted ? ((2 * green + yellow) / (2 * attempted)) * 100 : 0,
+      total,
+      mastery: total ? ((3 * green + 2 * yellow + red) / (total * 3)) * 100 : 0,
     };
   }, [rows]);
 

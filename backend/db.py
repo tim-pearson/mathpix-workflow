@@ -84,9 +84,10 @@ def all_statuses(path):
 def chapter_summary(path):
     """Per-chapter rollups of the *recorded* statuses.
 
-    Returns {chNN: {"attempted", "green", "yellow", "red", "mastery"}}.
-    mastery = (2*green + yellow) / (2*attempted), a percentage; unattempted
-    questions are excluded entirely.
+    Returns {chNN: {"attempted", "green", "yellow", "red"}}.  The mastery
+    percentage is computed by the frontend, because it needs the chapter's
+    full question count (which lives in the exported course data, not here):
+    mastery = (3*green + 2*yellow + 1*red) / (total_questions * 3).
     """
     per = {}
     for qid, entry in all_statuses(path).items():
@@ -98,8 +99,4 @@ def chapter_summary(path):
                             "yellow": 0, "red": 0})
         c["attempted"] += 1
         c[entry["status"]] += 1
-    for c in per.values():
-        pts = 2 * c["green"] + c["yellow"]
-        c["mastery"] = (round(pts / (2 * c["attempted"]) * 100, 1)
-                        if c["attempted"] else 0.0)
     return per

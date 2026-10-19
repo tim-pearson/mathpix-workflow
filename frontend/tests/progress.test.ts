@@ -18,7 +18,7 @@ const entries = (m: Record<string, "green" | "yellow" | "red">) => {
 afterEach(() => vi.unstubAllGlobals());
 
 describe("chapterProgress", () => {
-  it("counts statuses and excludes unattempted", () => {
+  it("counts statuses and excludes unattempted from the counts", () => {
     const s = entries({
       "ch02-ex2E-q1": "green",
       "ch02-ex2E-q2": "yellow",
@@ -27,15 +27,24 @@ describe("chapterProgress", () => {
     });
     const q = ["ch02-ex2E-q1", "ch02-ex2E-q2", "ch02-ex2E-q3",
                "ch02-ex2E-q4", "ch02-ex2E-q5"];
+    // mastery = (3*2 + 2*1 + 1*1) / (5 * 3) = 9/15 = 60%
     expect(chapterProgress(s, q)).toEqual({
-      attempted: 4, green: 2, yellow: 1, red: 1, mastery: 62.5,
+      attempted: 4, green: 2, yellow: 1, red: 1, mastery: 60,
     });
   });
 
-  it("mastery is green=2, yellow=1, red=0", () => {
-    expect(chapterProgress(entries({ a: "yellow" }), ["a"]).mastery).toBe(50);
-    expect(chapterProgress(entries({ a: "red" }), ["a"]).mastery).toBe(0);
-    expect(chapterProgress(entries({ a: "green" }), ["a"]).mastery).toBe(100);
+  it("mastery is red=1, yellow=2, green=3 over ALL questions", () => {
+    // 2 questions, one unattempted (counts as 0)
+    expect(chapterProgress(entries({ a: "green" }), ["a", "b"]).mastery).toBe(50);
+    expect(chapterProgress(entries({ a: "yellow" }), ["a", "b"]).mastery)
+      .toBeCloseTo(100 / 3);
+    expect(chapterProgress(entries({ a: "red" }), ["a", "b"]).mastery)
+      .toBeCloseTo(100 / 6);
+    // all green -> 100%
+    expect(chapterProgress(entries({ a: "green", b: "green" }), ["a", "b"]).mastery)
+      .toBe(100);
+    // empty chapter -> 0 (avoids 0/0)
+    expect(chapterProgress({}, []).mastery).toBe(0);
   });
 
   it("returns zeros when nothing is attempted", () => {

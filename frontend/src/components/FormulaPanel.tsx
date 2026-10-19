@@ -6,10 +6,10 @@ import { IconCalculator } from "./Icons";
 /** Fixed formulas panel: a slim vertical tab on wide screens that opens a
  * sticky, independently scrolling panel; a floating button + bottom sheet on
  * narrow screens.  Entries are collapsible and titled with their real title
- * (e.g. "KEY POINT 2.3"). */
+ * (e.g. "KEY POINT 2.3").  The PREREQUISITE KNOWLEDGE block is excluded. */
 export function FormulaPanel({ chapter }: { chapter: ChapterData }) {
   const [open, setOpen] = useState(false);
-  const formulas = chapter.formulas;
+  const formulas = chapter.formulas.filter((f) => !f.id.endsWith("-prerequisite"));
 
   if (formulas.length === 0) return null;
 
@@ -39,16 +39,17 @@ export function FormulaPanel({ chapter }: { chapter: ChapterData }) {
               ✕
             </button>
           </div>
-          <div className="flex-1 overflow-y-auto p-3">
-            {formulas.map((f) => (
-              <details key={f.id} className="mb-2 rounded-lg border border-line">
-                <summary className="cursor-pointer select-none px-3 py-1.5 text-sm font-medium text-ink hover:text-accent">
+          <div className="flex-1 overflow-y-auto">
+            {formulas.map((f, i) => (
+              <div
+                key={f.id}
+                className={`${i % 2 === 1 ? "bg-pane/50" : "bg-paper"} border-b border-line px-3 py-3 last:border-0`}
+              >
+                <div className="mb-1 text-sm font-semibold text-ink">
                   {f.title}
-                </summary>
-                <div className="border-t border-line px-3 py-2">
-                  <Md source={f.md} blockId={f.id} />
                 </div>
-              </details>
+                <Md source={f.md} blockId={f.id} />
+              </div>
             ))}
           </div>
         </div>
@@ -77,16 +78,17 @@ export function FormulaPanel({ chapter }: { chapter: ChapterData }) {
               ✕
             </button>
           </div>
-          <div className="flex-1 overflow-y-auto p-3">
-            {formulas.map((f) => (
-              <details key={f.id} className="mb-2 rounded-lg border border-line">
-                <summary className="cursor-pointer select-none px-3 py-1.5 text-sm font-medium text-ink hover:text-accent">
+          <div className="flex-1 overflow-y-auto">
+            {formulas.map((f, i) => (
+              <div
+                key={f.id}
+                className={`${i % 2 === 1 ? "bg-pane/50" : "bg-paper"} border-b border-line px-3 py-3 last:border-0`}
+              >
+                <div className="mb-1 text-sm font-semibold text-ink">
                   {f.title}
-                </summary>
-                <div className="border-t border-line px-3 py-2">
-                  <Md source={f.md} blockId={f.id} />
                 </div>
-              </details>
+                <Md source={f.md} blockId={f.id} />
+              </div>
             ))}
           </div>
         </div>

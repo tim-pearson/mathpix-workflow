@@ -8,8 +8,8 @@ Covers, using a throwaway temp database file:
   * persistence across backend restarts (a brand-new app instance pointing
     at the same SQLite file still sees the data)
   * input validation
-  * per-chapter summary calculations (green=2, yellow=1, red=0, unattempted
-    excluded) and the mastery percentage
+  * per-chapter summary calculations (green/yellow/red/attempted counts,
+    unattempted excluded from the counts)
   * the HTTP endpoints (PUT/DELETE/GET) via FastAPI's TestClient when
     available (needs httpx; skipped otherwise)
 """
@@ -81,7 +81,7 @@ def main():
     eq(again["ch04-ex4A-q5"]["status"], "red", "survives restart (2)")
     os.unlink(path)
 
-    # ---- chapter summary: counts + mastery, unattempted excluded ----
+    # ---- chapter summary: counts, unattempted excluded from counts ----
     path = temp_db()
     # chapter 2: 4 questions, one unattempted (never recorded)
     pdb.set_status(path, "ch02-ex2E-q1", "green")
@@ -92,12 +92,10 @@ def main():
     pdb.set_status(path, "ch03-ex3A-q1", "yellow")
     summ = pdb.chapter_summary(path)
     eq(sorted(summ), ["ch02", "ch03"], "chapters present")
-    eq(summ["ch02"], {"attempted": 4, "green": 2, "yellow": 1, "red": 1,
-                      "mastery": 62.5},
-       "ch02 rollup + mastery (2*2+1)/(2*4)=62.5%)")
-    eq(summ["ch03"], {"attempted": 1, "green": 0, "yellow": 1, "red": 0,
-                      "mastery": 50.0},
-       "ch03 rollup (single yellow = 50%)")
+    eq(summ["ch02"], {"attempted": 4, "green": 2, "yellow": 1, "red": 1},
+       "ch02 counts")
+    eq(summ["ch03"], {"attempted": 1, "green": 0, "yellow": 1, "red": 0},
+       "ch03 counts")
     os.unlink(path)
 
     # ---- API layer (skipped when httpx/fastapi TestClient unavailable) ----

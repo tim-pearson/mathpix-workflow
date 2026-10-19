@@ -104,7 +104,9 @@ answers, key_points, worked_examples, formulas, mentions/mentioned_by),
 Each question card has a **green / yellow / red** status picker (and a ✕ to
 clear it). A "Your progress" dashboard on the home page shows per-chapter
 attempted/total, green/yellow/red counts and a mastery percentage
-(green = 2 points, yellow = 1, red = 0; unattempted questions are excluded).
+(red = 1, yellow = 2, green = 3; mastery is the sum over all questions
+divided by all-questions-×-3, so 100% only when everything is green and
+unattempted questions count as 0).
 
 Progress is persisted in SQLite by a small FastAPI backend (`backend/`) and is
 never part of the exported course data:
@@ -135,6 +137,12 @@ re-run `python scripts/export_data.py` — it becomes `questions[id].working_md`
 and the app shows a "Working out" panel beside the answer. See
 `working/README.md` for the convention (a template lives at
 `working/ch02-ex2E-q1.md.sample`).
+
+`working/ch03-*.md` are pre-populated (102 files, one per linked question in
+the trigonometry chapter) by `scripts/gen_ch03_working.py`. Each opens with an
+`AI-GENERATED WORKING` marker (a Markdown comment) so it is clearly
+machine-written — review before relying on it, and comment/delete the marker
+(or the whole file) as needed.
 
 ### Corrections (`scripts/corrections.json`)
 
