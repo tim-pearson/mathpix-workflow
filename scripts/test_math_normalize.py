@@ -171,6 +171,57 @@ kinds = {p["kind"] for p in probs}
 eq("unclosed-dollar-block" in kinds, True, "check finds unclosed $$")
 eq("begin-end-mismatch" in kinds, True, "check finds mismatched env")
 
+# --------------------------------------------------------------------------
+# 6. \\longdiv -> \\,\\big)\\,\\overline{...} (katex + mathjax, maths only)
+# --------------------------------------------------------------------------
+# real ch01 block (the line lives inside a $$ align)
+LD = ("$$\n"
+      r"& x - 2 \longdiv { x ^ { 3 } + 2 x ^ { 2 } - 1 1 x + 6 } x^{2} \\"
+      "\n$$")
+LD_EXPECT = ("$$\n"
+             r"& x - 2 \,\big)\,\overline{x ^ { 3 } + 2 x ^ { 2 } - 1 1 x + 6}"
+             r" x^{2} \\"
+             "\n$$")
+for tgt in ("mathjax", "katex"):
+    eq(mn.normalise(LD, tgt), LD_EXPECT, f"longdiv rewritten ({tgt})")
+eq(mn.normalise(LD, "nvim"), LD, "nvim leaves longdiv untouched")
+
+# a bare longdiv line (not maths) is not rewritten
+eq(mn.normalise(r"x - 2 \longdiv { x }", "katex"),
+   r"x - 2 \longdiv { x }", "prose longdiv untouched")
+
+# control word must not merge when whitespace collapses
+LD_ALPHA = "$$\n\\longdiv { \\alpha x + 1 }\n$$"
+eq(mn.normalise(LD_ALPHA, "katex"),
+   "$$\n\\,\\big)\\,\\overline{\\alpha x + 1}\n$$",
+   "whitespace collapses to one space, control words kept")
+
+# nested braces inside the dividend (a fraction)
+LD_NEST = "$$\n\\longdiv { \\frac { x ^ { 2 } + 1 } { x + 3 } }\n$$"
+eq(mn.normalise(LD_NEST, "katex"),
+   "$$\n\\,\\big)\\,\\overline{\\frac { x ^ { 2 } + 1 } { x + 3 }}\n$$",
+   "brace-balanced matcher handles nested braces")
+
+# inside an inline span
+eq(mn.normalise("Use $x - 2 \\longdiv { 1 0 x }$ here.", "katex"),
+   "Use $x - 2 \\,\\big)\\,\\overline{1 0 x}$ here.",
+   "inline longdiv rewritten")
+
+# unbalanced: left untouched and reported by check()
+LD_BAD = "$$\n\\longdiv { x ^ { 3 } + 2 x ^ { 2 }"
+eq(mn.normalise(LD_BAD, "katex"), LD_BAD, "unbalanced longdiv left untouched")
+eq(mn.normalise(LD_BAD, "mathjax"), LD_BAD, "unbalanced longdiv (mathjax)")
+ldkinds = {p["kind"] for p in mn.check(LD_BAD)}
+eq("longdiv-unbalanced" in ldkinds, True, "check reports unbalanced longdiv")
+
+# multi-line dividend keeps the newline count
+LD_MULTI = "$$\n\\longdiv { x ^ { 2 }\n+ y ^ { 2 } }\n$$"
+out_multi = mn.normalise(LD_MULTI, "katex")
+eq(out_multi.count("\n"), LD_MULTI.count("\n"),
+   "longdiv multi-line dividend keeps newline count")
+eq("\\,\\big)\\,\\overline{x ^ { 2 } + y ^ { 2 }\n}" in out_multi, True,
+   "multi-line dividend still rewritten")
+
 print("ALL TESTS PASSED")
 
 

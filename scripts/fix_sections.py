@@ -73,7 +73,9 @@ EMPTY_H = re.compile(r"^#{1,6}\s*$")
 STRAY_H = re.compile(r"^#{2}\s+[A-Za-z]\s*$")
 GEN_H2 = re.compile(r"^##\s+\S")
 
-Q_RE = re.compile(r"^\*\*(?:(PS|P)\s+)?(\d+)\*\*(.*)$")
+Q_RE = re.compile(r"^\*\*(?:(PS|P|M)\s+)?(\d+)\*\*(.*)$")
+# plain Modelling prefix used by ch10 exercise 10B: "M 1 Write ..."
+MQ_RE = re.compile(r"^M\s+(\d+)\s*(.*)$")
 CITE_RE = re.compile(r"^(Cambridge International .*)$")
 MARK_RE = re.compile(r"\s\[(\d{1,2})\]\s*$")
 
@@ -98,10 +100,10 @@ MESSY_NUM = re.compile(r"^(\d+\.?\d*)\s*$")
 
 
 def norm_qid(qid):
-    """ps7 / p7 -> q7 and drop the -ans- segment, so chapter-side and
+    """ps7 / p7 / m7 -> q7 and drop the -ans- segment, so chapter-side and
     answer-side ids can be compared (ch02-ex2E-q7 vs ch02-ans-ex2E-q7)."""
     aid = re.sub(r"-ans-", "-", qid, count=1)
-    return re.sub(r"(?<=-)(?:ps|p)(\d+)$", r"q\1", aid)
+    return re.sub(r"(?<=-)(?:ps|p|m)(\d+)$", r"q\1", aid)
 
 
 CALL_TYPE = {"KEY POINT": "IMPORTANT", "EXPLORE": "NOTE", "REWIND": "NOTE",
@@ -201,9 +203,22 @@ class FileProcessor:
         if self.block_log:
             self.block_log[-1]["nums"].append(n)
 
-    def process_block_question(self, line, line_no):
+    def match_question(self, line):
+        """(tag, n, rest) for a question-start line, or None.  Handles the
+        bold forms **N** / **PS N** / **P N** / **M N** and, on the chapter
+        side, the plain Modelling prefix "M N ..."."""
         m = Q_RE.match(line)
-        if not m:
+        if m:
+            return m.group(1), int(m.group(2)), m.group(3)
+        if self.ch_side:
+            mm = MQ_RE.match(line)
+            if mm:
+                return "M", int(mm.group(1)), mm.group(2)
+        return None
+
+    def process_block_question(self, line, line_no):
+        qm = self.match_question(line)
+        if qm is None:
             if self.ch_side:
                 n = None
                 fm = CH_FORM.match(line)
@@ -220,7 +235,7 @@ class FileProcessor:
                     self.flag(line_no, "question-number-form", line)
                 return line
             return self.answer_plain_line(line, line_no)
-        tag, n, rest = m.group(1), int(m.group(2)), m.group(3)
+        tag, n, rest = qm
         if self.ch_side:
             # resync rule (accept_question) replaces the old "+3 of previous"
             # rejection which could cascade: one miss rejected every later
@@ -450,7 +465,7 @@ class FileProcessor:
         if stripped.startswith("#"):
             if self.ch_side and self.block is not None \
                     and stripped.startswith("##### Question"):
-                qm = re.match(r"^##### Question(?:\s+(PS|P))?\s+(\d+)\s*$",
+                qm = re.match(r"^##### Question(?:\s+(PS|P|M))?\s+(\d+)\s*$",
                               stripped)
                 if qm:
                     # already-converted question: keep the block active so a

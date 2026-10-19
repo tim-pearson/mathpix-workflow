@@ -63,10 +63,10 @@ REVIEW_RE = re.compile(r"^###\s+END-OF-CHAPTER REVIEW EXERCISE\s+(\d+)\s*$",
 CROSS_RE = re.compile(r"^###\s+CROSS-TOPIC REVIEW EXERCISE\s+(\d+)\s*$",
                       re.I)
 PREREQ_RE = re.compile(r"^###\s+PREREQUISITE KNOWLEDGE\s*$", re.I)
-QH_RE = re.compile(r"^#####\s+Question(?:\s+(PS|P))?\s+(\d+)\s*$", re.I)
+QH_RE = re.compile(r"^#####\s+Question(?:\s+(PS|P|M))?\s+(\d+)\s*$", re.I)
 ANSWER_LINE = re.compile(r"^Answer\s*$")
 IMG_RE = re.compile(r"!\[([^\]]*)\]\([^)]*\)")
-QID_RE = re.compile(r"^(ch\d\d)-(.+?)-(?:q|ps|p)(\d+)$")
+QID_RE = re.compile(r"^(ch\d\d)-(.+?)-(?:q|ps|p|m)(\d+)$")
 ROMAN = {"i": 1, "ii": 2, "iii": 3, "iv": 4, "v": 5, "vi": 6, "vii": 7,
          "viii": 8, "ix": 9, "x": 10, "xi": 11, "xii": 12, "xiii": 13,
          "xiv": 14, "xv": 15, "xvi": 16, "xvii": 17, "xviii": 18,
@@ -158,7 +158,10 @@ def parse_qid(qid):
     if not m:
         return None, None
     sfx = qid.rsplit("-", 1)[1]
-    tag = "PS" if sfx.startswith("ps") else ("P" if sfx.startswith("p") else "")
+    tag = ("PS" if sfx.startswith("ps")
+           else "P" if sfx.startswith("p")
+           else "M" if sfx.startswith("m")
+           else "")
     return int(m.group(3)), tag
 
 
@@ -373,7 +376,7 @@ def assemble_chapter(book, ch_num, ch_file, ans_file, idx):
             m = re.match(r"^(ch\d\d)-ans-(.+?)-q(\d+)$", aid)
             if m:
                 ch, blk, num = m.group(1), m.group(2), m.group(3)
-                qid = next((f"{ch}-{blk}-{t}{num}" for t in ("q", "ps", "p")
+                qid = next((f"{ch}-{blk}-{t}{num}" for t in ("q", "ps", "p", "m")
                             if f"{ch}-{blk}-{t}{num}" in questions), None)
         answers[aid] = {"id": aid, "question_id": qid, "md": md}
 

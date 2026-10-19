@@ -16,6 +16,9 @@ Usage as a library:
     mn.check(text)                    # list of problems, each a dict:
                                        #   {"line": N, "kind": str, "msg": str}
 
+Both mathjax and katex rewrite `\\longdiv { ... }` (inside maths only) to
+`\\,\\big)\\,\\overline{ ... }`, since neither renderer supports it.
+
 CLI:
     python math_normalize.py FILE [--target mathjax|katex|nvim] [--check] [--diff]
 
@@ -141,6 +144,128 @@ def _strip_heading_maths(line):
     return "".join(out)
 
 
+# --- \\longdiv (long division) -> \\,\\big)\\,\\overline{...} ---------------
+# KaTeX (and MathJax, for consistency) have no \\longdiv, so rewrite it as a
+# right bracket plus an overline over the dividend.  Only maths is touched
+# ($$ blocks and inline $...$); code fences and prose are never modified.
+def _match_braces(s, open_idx):
+    """Index of the brace matching s[open_idx] (which must be '{'), or None
+    if unbalanced.  Respects \\{ / \\} escapes and arbitrary nesting."""
+    depth = 0
+    i = open_idx
+    n = len(s)
+    while i < n:
+        ch = s[i]
+        if ch == "\\" and i + 1 < n:
+            i += 2
+            continue
+        if ch == "{":
+            depth += 1
+        elif ch == "}":
+            depth -= 1
+            if depth == 0:
+                return i
+        i += 1
+    return None
+
+
+def _rewrite_longdiv_str(s, problems, line_offset):
+    """Rewrite every `\\longdiv { ... }` in the maths string `s`.
+
+    Each whitespace run inside the dividend collapses to a single space
+    (control words like `\\alpha x` must not merge into `\\alphax`), the ends
+    are trimmed, and the newline count of the matched region is preserved
+    (so the rewrite never adds or removes lines).  An unbalanced `\\longdiv {`
+    is left untouched and appended to `problems` as
+    (line_no, "longdiv-unbalanced", msg)."""
+    out = []
+    i = 0
+    n = len(s)
+    while True:
+        idx = s.find(r"\longdiv", i)
+        if idx < 0:
+            out.append(s[i:])
+            break
+        out.append(s[i:idx])
+        k = idx + len(r"\longdiv")
+        m = k
+        while m < n and s[m] in " \t":
+            m += 1
+        if m < n and s[m] == "{":
+            close = _match_braces(s, m)
+            if close is not None:
+                dividend = s[m + 1:close]
+                nls = s[idx:close + 1].count("\n")
+                collapsed = re.sub(r"\s+", " ", dividend).strip()
+                if nls:
+                    collapsed += "\n" * nls
+                out.append(r"\,\big)\,\overline{" + collapsed + "}")
+                i = close + 1
+                continue
+            line = line_offset + s[:idx].count("\n")
+            problems.append((line, "longdiv-unbalanced",
+                             r"\longdiv { without a matching }"))
+            out.append(s[idx:m + 1])
+            i = m + 1
+            continue
+        out.append(r"\longdiv")
+        i = k
+    return "".join(out)
+
+
+def _rewrite_inline_longdiv(line, problems, line_no):
+    spans = _inline_spans(line)
+    if not spans:
+        return line
+    out = list(line)
+    for s, e, inner in reversed(spans):
+        new_inner = _rewrite_longdiv_str(inner, problems, line_no)
+        out[s + 1:e - 1] = list(new_inner)
+    return "".join(out)
+
+
+def _rewrite_longdiv(text):
+    """Whole-text \\longdiv rewrite inside maths only.  Returns
+    (new_text, problems); new_text has the same number of newlines as text."""
+    problems = []
+    lines = text.split("\n")
+    out = []
+    in_fence = in_block = False
+    block_buf = []
+    block_start = None
+    for no, line in enumerate(lines, 1):
+        stripped = line.strip()
+        if FENCE_RE.match(line):
+            in_fence = not in_fence
+            out.append(line)
+            continue
+        if in_fence:
+            out.append(line)
+            continue
+        if DOLLAR_OPEN_RE.match(stripped):
+            if in_block:
+                block_text = "\n".join(block_buf)
+                out.extend(_rewrite_longdiv_str(block_text, problems,
+                                                block_start).split("\n"))
+                block_buf = []
+                in_block = False
+            else:
+                in_block = True
+                block_start = no + 1
+                block_buf = []
+            out.append(line)
+            continue
+        if in_block:
+            block_buf.append(line)
+            continue
+        out.append(_rewrite_inline_longdiv(line, problems, no))
+    if block_buf:
+        block_text = "\n".join(block_buf)
+        out.extend(_rewrite_longdiv_str(block_text, problems,
+                                        block_start).split("\n"))
+    return "\n".join(out), problems
+
+
 def normalise(text, target="nvim"):
     """Apply the target's maths normalisations to `text`.
 
@@ -162,6 +287,13 @@ def normalise(text, target="nvim"):
     do_align = (target in ("mathjax", "katex"))
     do_equation = (target == "katex")
     strip_headings = (target == "mathjax")
+    if target in ("mathjax", "katex"):
+        # \\longdiv is not supported by KaTeX (or MathJax); rewrite it first,
+        # inside maths only, keeping the line count untouched.
+        orig_count = text.count("\n")
+        text, _ = _rewrite_longdiv(text)
+        if text.count("\n") != orig_count:
+            raise AssertionError("longdiv rewrite changed the line count")
     in_fence = in_block = False
     out = []
     for line in text.split("\n"):
@@ -279,6 +411,8 @@ def check(text):
     for n, heading in find_math_headings(text):
         problems.append({"line": n, "kind": "heading-math",
                          "msg": heading[:60]})
+    for line_no, kind, msg in _rewrite_longdiv(text)[1]:
+        problems.append({"line": line_no, "kind": kind, "msg": msg})
     if env_names:
         problems.append({"line": None, "kind": "environments",
                          "msg": " ".join(sorted(env_names))})
