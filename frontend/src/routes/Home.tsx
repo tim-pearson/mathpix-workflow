@@ -93,14 +93,14 @@ export function Home({ manifest }: HomeProps) {
                   Read
                 </Link>
                 <Link
-                  to={`/practice/${c.slug}`}
+                  to={`/practice/${c.slug}/${`ch${String(c.chapter).padStart(2, "0")}-prerequisite`}`}
                   className="rounded-md border border-line px-2.5 py-1 text-muted hover:text-ink"
                 >
-                  Practise
+                  Prerequisites
                 </Link>
                 {data && data.key_points.length > 0 && (
                   <Link
-                    to={`/read/${c.slug}/${data.key_points[0].id}`}
+                    to={`/read/${c.slug}/keypoints`}
                     className="inline-flex items-center gap-1 rounded-md border border-line px-2.5 py-1 text-muted hover:text-ink"
                     title={`Key points: ${data.key_points
                       .map((k) => `KEY POINT ${k.number}`)

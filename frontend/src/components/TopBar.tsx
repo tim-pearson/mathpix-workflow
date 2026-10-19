@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import type { Manifest } from "../types";
 import { SearchBox } from "./SearchBox";
 import { ThemeToggle } from "./ThemeToggle";
@@ -15,6 +15,11 @@ const navClass = ({ isActive }: { isActive: boolean }) =>
     : "text-muted hover:bg-line/40 hover:text-ink");
 
 export function TopBar({ manifest }: TopBarProps) {
+  const location = useLocation();
+  // Keep the current chapter when switching modes: [mode, chapter, ...]
+  const segs = location.pathname.split("/").filter(Boolean);
+  const chapter = segs[1] ?? "ch01";
+
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-line bg-paper/90 px-3 backdrop-blur sm:px-4">
       <NavLink to="/" className="flex items-center gap-2 font-semibold text-ink">
@@ -25,10 +30,10 @@ export function TopBar({ manifest }: TopBarProps) {
       </NavLink>
 
       <nav aria-label="Mode" className="flex items-center gap-1 rounded-lg border border-line p-0.5">
-        <NavLink to="/read/ch01" className={navClass}>
+        <NavLink to={`/read/${chapter}`} className={navClass}>
           <IconBook aria-hidden="true" /> Reader
         </NavLink>
-        <NavLink to="/practice/ch01" className={navClass}>
+        <NavLink to={`/practice/${chapter}`} className={navClass}>
           <IconPencil aria-hidden="true" /> Exercises
         </NavLink>
         <NavLink to="/stats" className={navClass}>
@@ -43,4 +48,5 @@ export function TopBar({ manifest }: TopBarProps) {
     </header>
   );
 }
+
 

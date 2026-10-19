@@ -1,16 +1,15 @@
 import { useEffect, useRef, useState } from "react";
-import { copyToClipboard, type CopyMode } from "../lib/clipboard";
+import { copyToClipboard } from "../lib/clipboard";
 import { IconCheck, IconCopy } from "./Icons";
 
 export interface CopyButtonProps {
-  mode: CopyMode;
-  label: string; // accessible label, e.g. "Copy question"
-  onCopy: (mode: CopyMode) => string; // returns the raw text to copy
+  label: string; // accessible label, e.g. "Copy question, answer and working"
+  onCopy: () => string; // returns the raw text to copy
   className?: string;
 }
 
 /** Icon-only copy button: shows a check for ~1.2s after a successful copy. */
-export function CopyButton({ mode, label, onCopy, className }: CopyButtonProps) {
+export function CopyButton({ label, onCopy, className }: CopyButtonProps) {
   const [copied, setCopied] = useState(false);
   const timer = useRef<number | null>(null);
 
@@ -19,8 +18,7 @@ export function CopyButton({ mode, label, onCopy, className }: CopyButtonProps) 
   }, []);
 
   const handle = async () => {
-    const text = onCopy(mode);
-    const ok = await copyToClipboard(text);
+    const ok = await copyToClipboard(onCopy());
     if (ok) {
       setCopied(true);
       if (timer.current) window.clearTimeout(timer.current);
@@ -42,11 +40,7 @@ export function CopyButton({ mode, label, onCopy, className }: CopyButtonProps) 
         (className ? ` ${className}` : "")
       }
     >
-      {copied ? (
-        <IconCheck className="text-accent" />
-      ) : (
-        <IconCopy aria-hidden="true" />
-      )}
+      {copied ? <IconCheck className="text-accent" /> : <IconCopy aria-hidden="true" />}
     </button>
   );
 }

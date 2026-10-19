@@ -1,30 +1,32 @@
 // Clipboard helpers.  Copy raw Markdown (not rendered HTML).
 
-export type CopyMode = "question" | "answer" | "both";
-
 export interface ClipboardInput {
-  mode: CopyMode;
   questionMd: string;
   answerMd?: string | null;
+  workingMd?: string | null;
   includeId: boolean;
   id?: string;
 }
 
 /**
- * Build the raw-markdown text for a copy operation.
- *  - question: the question Markdown (optionally prefixed with the id).
- *  - answer:   the answer Markdown (optionally prefixed with the id).
- *  - both:     question Markdown + blank line + `Answer:` + answer Markdown,
- *              optionally prefixed with the id.
+ * Build the raw-markdown text for the single copy button.  Always includes the
+ * question; includes the answer and/or working-out sections only when present.
+ *  - question:            the question Markdown
+ *  - answer present:      blank line + `Answer:` + answer Markdown
+ *  - working present:     blank line + `Working out:` + working Markdown
+ *  - includeId:           prepends the question id as the first line.
  */
 export function buildClipboardText(input: ClipboardInput): string {
-  const { mode, questionMd, answerMd, includeId, id } = input;
-  const prefix = includeId && id ? [id] : [];
-  if (mode === "both") {
-    return [...prefix, questionMd, `Answer:\n${answerMd ?? ""}`].join("\n\n");
+  const parts: string[] = [];
+  if (input.includeId && input.id) parts.push(input.id);
+  parts.push(input.questionMd);
+  if (input.answerMd && input.answerMd.trim()) {
+    parts.push(`Answer:\n${input.answerMd}`);
   }
-  const body = mode === "question" ? questionMd : answerMd ?? "";
-  return [...prefix, body].join("\n\n");
+  if (input.workingMd && input.workingMd.trim()) {
+    parts.push(`Working out:\n${input.workingMd}`);
+  }
+  return parts.join("\n\n");
 }
 
 /** Copy text via the async clipboard API, falling back to execCommand. */

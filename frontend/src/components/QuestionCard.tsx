@@ -12,7 +12,7 @@ export interface QuestionCardProps {
 }
 
 /** A single exercise question card with answer + working-out disclosures,
- * marks badges and raw-markdown copy buttons. */
+ * marks badges and one copy button that copies everything available. */
 export function QuestionCard({
   chapter,
   question,
@@ -24,14 +24,20 @@ export function QuestionCard({
     : undefined;
   const hasAnswer = Boolean(answer && answer.md.trim());
 
-  const text = (mode: "question" | "answer" | "both") =>
+  const copyText = () =>
     buildClipboardText({
-      mode,
       questionMd: question.md,
-      answerMd: answer?.md ?? "",
+      answerMd: answer?.md ?? null,
+      workingMd: question.working_md ?? null,
       includeId,
       id: question.id,
     });
+
+  const copyLabel = hasAnswer
+    ? question.working_md
+      ? "Copy question, answer and working"
+      : "Copy question and answer"
+    : "Copy question";
 
   return (
     <article
@@ -53,14 +59,8 @@ export function QuestionCard({
             ))}
           </span>
         )}
-        <span className="ml-auto flex items-center gap-1">
-          <CopyButton mode="question" label="Copy question" onCopy={text} />
-          {hasAnswer && (
-            <>
-              <CopyButton mode="answer" label="Copy answer" onCopy={text} />
-              <CopyButton mode="both" label="Copy question and answer" onCopy={text} />
-            </>
-          )}
+        <span className="ml-auto">
+          <CopyButton label={copyLabel} onCopy={copyText} />
         </span>
       </header>
 

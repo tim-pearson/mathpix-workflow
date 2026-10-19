@@ -3,50 +3,48 @@ import { buildClipboardText } from "../src/lib/clipboard";
 
 const Q = "Solve $x^2=4$.\n\n**a** $x=2$\n\n**b** $x=-2$";
 const A = "**a** $2$\n\n**b** $-2$";
+const W = "Take logs.\n\n$$x=2$$";
 
-describe("buildClipboardText", () => {
-  it("copies raw question markdown", () => {
+describe("buildClipboardText (single copy button)", () => {
+  it("copies the question when nothing else exists", () => {
     expect(
-      buildClipboardText({ mode: "question", questionMd: Q, answerMd: A, includeId: false })
+      buildClipboardText({ questionMd: Q, includeId: false })
     ).toBe(Q);
   });
 
-  it("copies raw answer markdown", () => {
+  it("appends the answer when present", () => {
     expect(
-      buildClipboardText({ mode: "answer", questionMd: Q, answerMd: A, includeId: false })
-    ).toBe(A);
+      buildClipboardText({ questionMd: Q, answerMd: A, includeId: false })
+    ).toBe(`${Q}\n\nAnswer:\n${A}`);
   });
 
-  it("copies both: question, blank line, Answer:, answer", () => {
-    const both = buildClipboardText({ mode: "both", questionMd: Q, answerMd: A, includeId: false });
-    expect(both).toBe(`${Q}\n\nAnswer:\n${A}`);
+  it("appends the working-out after the answer when present", () => {
+    expect(
+      buildClipboardText({ questionMd: Q, answerMd: A, workingMd: W, includeId: false })
+    ).toBe(`${Q}\n\nAnswer:\n${A}\n\nWorking out:\n${W}`);
+  });
+
+  it("includes the working-out even without an answer", () => {
+    expect(
+      buildClipboardText({ questionMd: Q, workingMd: W, includeId: false })
+    ).toBe(`${Q}\n\nWorking out:\n${W}`);
   });
 
   it("prepends the id when includeId is on", () => {
-    const t = buildClipboardText({
-      mode: "question",
-      questionMd: Q,
-      answerMd: A,
-      includeId: true,
-      id: "ch02-ex2E-q1",
-    });
-    expect(t).toBe(`ch02-ex2E-q1\n\n${Q}`);
-  });
-
-  it("both with includeId keeps id first", () => {
-    const t = buildClipboardText({
-      mode: "both",
-      questionMd: Q,
-      answerMd: A,
-      includeId: true,
-      id: "ch02-ex2E-q1",
-    });
-    expect(t).toBe(`ch02-ex2E-q1\n\n${Q}\n\nAnswer:\n${A}`);
-  });
-
-  it("handles a missing answer", () => {
     expect(
-      buildClipboardText({ mode: "both", questionMd: Q, answerMd: null, includeId: false })
-    ).toBe(`${Q}\n\nAnswer:\n`);
+      buildClipboardText({
+        questionMd: Q,
+        answerMd: A,
+        workingMd: W,
+        includeId: true,
+        id: "ch02-ex2E-q1",
+      })
+    ).toBe(`ch02-ex2E-q1\n\n${Q}\n\nAnswer:\n${A}\n\nWorking out:\n${W}`);
+  });
+
+  it("ignores empty answer/working sections", () => {
+    expect(
+      buildClipboardText({ questionMd: Q, answerMd: "   ", workingMd: "", includeId: false })
+    ).toBe(Q);
   });
 });

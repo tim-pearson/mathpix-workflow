@@ -336,10 +336,12 @@ export function Reader({ manifest }: ReaderProps) {
   }, [sectionId, chapter]);
 
   const tocTitle = chapter
-    ? (() => {
-        const s = sectionId ? sectionById(chapter, sectionId) : undefined;
-        return s ? s.title : chapter.title;
-      })()
+    ? sectionId === "keypoints"
+      ? `Key points — ${chapter.title}`
+      : (() => {
+          const s = sectionId ? sectionById(chapter, sectionId) : undefined;
+          return s ? s.title : chapter.title;
+        })()
     : "";
 
   if (!manifest) return <div className="p-8 text-muted">Loading…</div>;
@@ -363,6 +365,29 @@ export function Reader({ manifest }: ReaderProps) {
             <div className="p-8 text-danger">{error}</div>
           ) : !chapter ? (
             <div className="p-8 text-muted">Loading chapter…</div>
+          ) : sectionId === "keypoints" ? (
+            <article className="mx-auto max-w-prose px-4 py-6">
+              <h1 className="text-2xl font-bold text-ink">Key points — {chapter.title}</h1>
+              <p className="mt-1 text-sm text-muted">
+                All key points for this chapter.
+              </p>
+              {chapter.key_points.map((kp) => (
+                <section
+                  key={kp.id}
+                  id={kp.id}
+                  className="my-5 scroll-mt-16 rounded-r-lg border-l-4 border-accent bg-accent-soft/40 px-4 py-3"
+                >
+                  <div className="mb-1 flex items-center gap-1.5 font-semibold text-accent">
+                    <IconCalculator aria-hidden="true" />
+                    KEY POINT {kp.number}
+                  </div>
+                  <Md source={kp.md} blockId={kp.id} />
+                </section>
+              ))}
+              {chapter.key_points.length === 0 && (
+                <p className="text-sm text-muted">No key points in this chapter.</p>
+              )}
+            </article>
           ) : (
             <article className="mx-auto max-w-prose px-4 py-6">
               {chapter.sections.map((b) => (

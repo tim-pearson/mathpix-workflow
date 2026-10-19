@@ -156,7 +156,12 @@ export function Practice({ manifest }: PracticeProps) {
       const ex = chapter.exercises.find((e) => e.id === exerciseId);
       if (ex) return ex;
     }
-    return chapter.exercises[0];
+    // default to the first real exercise (not the prerequisite table)
+    return (
+      chapter.exercises.find((e) => e.kind === "exercise") ??
+      chapter.exercises.find((e) => e.kind === "review") ??
+      chapter.exercises[0]
+    );
   }, [chapter, exerciseId]);
 
   // resolved questions (parsing prerequisites from the table when needed)
@@ -252,6 +257,12 @@ export function Practice({ manifest }: PracticeProps) {
                       aria-label="Filter questions"
                       className="min-w-40 flex-1 rounded-md border border-line bg-paper px-2 py-1 text-sm text-ink placeholder:text-muted focus:border-accent focus:outline-none"
                     />
+                    <Link
+                      to={`/practice/${slug}/${`ch${String(chapter.chapter).padStart(2, "0")}-prerequisite`}`}
+                      className="inline-flex items-center gap-1.5 rounded-md border border-line px-2 py-1 text-sm text-muted hover:text-accent"
+                    >
+                      <IconBook aria-hidden="true" /> Prerequisites
+                    </Link>
                     <button
                       type="button"
                       onClick={() => setAllOpen((v) => !v)}
