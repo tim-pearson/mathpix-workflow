@@ -67,6 +67,12 @@ QH_RE = re.compile(r"^#####\s+Question(?:\s+(PS|P|M))?\s+(\d+)\s*$", re.I)
 ANSWER_LINE = re.compile(r"^Answer\s*$")
 IMG_RE = re.compile(r"!\[([^\]]*)\]\([^)]*\)")
 QID_RE = re.compile(r"^(ch\d\d)-(.+?)-(?:q|ps|p|m)(\d+)$")
+# PREREQUISITE KNOWLEDGE questions are embedded in the "Check your skills"
+# table on the chapter side, not as `##### Question` blocks, so their answers
+# (`chNN-ans-prerequisite-qN`) have no indexed question.  The frontend resolves
+# them as `chNN-prerequisite-qN` (frontend/src/lib/prereq.ts), so the stats
+# must treat those answers as linked, not orphaned.
+PREREQ_QID_RE = re.compile(r"^ch\d\d-prerequisite-q\d+$")
 ROMAN = {"i": 1, "ii": 2, "iii": 3, "iv": 4, "v": 5, "vi": 6, "vii": 7,
          "viii": 8, "ix": 9, "x": 10, "xi": 11, "xii": 12, "xiii": 13,
          "xiv": 14, "xv": 15, "xvi": 16, "xvii": 17, "xviii": 18,
@@ -146,6 +152,31 @@ def question_id_for(aid):
     if not m:
         return None
     return f"{m.group(1)}-{m.group(2)}-q{m.group(3)}"
+
+
+def resolve_answer_question(aid, questions):
+    """Map an answer id to its chapter question id, or None.
+
+    Tries the direct q/ps/p/m forms against the indexed `questions` set, then
+    the prerequisite convention: chapter-side prerequisite questions live in
+    the "Check your skills" table (not `##### Question` blocks), so their
+    answers resolve to the frontend's `chNN-prerequisite-qN` id
+    (frontend/src/lib/prereq.ts parsePrerequisiteQuestions).
+    """
+    qid = question_id_for(aid)
+    if qid in questions:
+        return qid
+    m = re.match(r"^(ch\d\d)-ans-(.+?)-q(\d+)$", aid)
+    if not m:
+        return None
+    ch, blk, num = m.group(1), m.group(2), m.group(3)
+    for t in ("q", "ps", "p", "m"):
+        cand = f"{ch}-{blk}-{t}{num}"
+        if cand in questions:
+            return cand
+    if blk == "prerequisite":
+        return f"{ch}-prerequisite-q{num}"
+    return None
 
 
 def block_of(qid):
@@ -371,13 +402,7 @@ def assemble_chapter(book, ch_num, ch_file, ans_file, idx):
         aid = b["anchor"]
         body = body_lines(b)
         md = finalize("\n".join(trim_lines(body)))
-        qid = question_id_for(aid)
-        if qid not in questions:
-            m = re.match(r"^(ch\d\d)-ans-(.+?)-q(\d+)$", aid)
-            if m:
-                ch, blk, num = m.group(1), m.group(2), m.group(3)
-                qid = next((f"{ch}-{blk}-{t}{num}" for t in ("q", "ps", "p", "m")
-                            if f"{ch}-{blk}-{t}{num}" in questions), None)
+        qid = resolve_answer_question(aid, questions)
         answers[aid] = {"id": aid, "question_id": qid, "md": md}
 
     # ---- exercises ----------------------------------------------------
@@ -854,7 +879,8 @@ def validate(chapters):
         for aid, a in ch["answers"].items():
             entity_ids["answer"].append(aid)
             if a["question_id"] is not None \
-                    and a["question_id"] not in ch["questions"]:
+                    and a["question_id"] not in ch["questions"] \
+                    and not PREREQ_QID_RE.match(a["question_id"]):
                 issues["answer_question_missing"].append(
                     f"{aid} -> {a['question_id']}")
             if not a["md"].strip():

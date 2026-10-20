@@ -150,10 +150,11 @@ for l in raw:
 out = []
 prev_label = None   # last letter label (a, b, ...)
 prev_roman = None   # last roman label (i, ii, ...)
+prev_num = None     # last question / item number (for glued "7The" forms)
 
 def reset():
-    global prev_label, prev_roman
-    prev_label = prev_roman = None
+    global prev_label, prev_roman, prev_num
+    prev_label = prev_roman = prev_num = None
 
 def label_ok(letter):
     if prev_label is None:
@@ -234,11 +235,20 @@ for l in lines:
     l = re.sub(r"^\(P\s+(\d+)", r"P \1", l)
     l = re.sub(r"^\d\)\s+(PS\s+\d+)", r"\1", l)
 
+    # a bare "Answer" line starts a worked-example solution: part labels
+    # restart at "a" there, so reset the label/number state (the OCR often
+    # glues the first part label onto the next word, e.g. "aUsing ...")
+    if l == "Answer":
+        reset()
+        out.append(l)
+        continue
+
     # question number (plain or already bolded)
     m = re.match(r"^(?:\*\*)?(?:(PS|P)\s+)?(\d+)(?:\*\*)?\s+(.*)$", l)
     if m and not l.startswith("@@"):
         tag = f"{m.group(1)} " if m.group(1) else ""
         reset()
+        prev_num = int(m.group(2))
         head = f"**{tag}{m.group(2)}**"
         rest = m.group(3)
         lead = re.match(r"^\*\*([a-z]+)\*\*\s", rest)
@@ -255,11 +265,54 @@ for l in lines:
             out.extend(parts[1:])
         continue
 
+    # glued question/item number: "7The ..." -> "**7** The ...", or a number
+    # glued to a part label: "2a Complete ..." -> "**2** **a** Complete ...".
+    # Only when the number is the next expected one (prev_num+1) and the glued
+    # token is a capitalised word or a part label (a-i), so real lines like
+    # "3D" or "16x+y=32" are never touched.
+    gm = re.match(r"^(\d+)([A-Za-z].*)$", l)
+    if gm and not l.startswith("@@"):
+        n = int(gm.group(1))
+        rest = gm.group(2)
+        if prev_num is not None and n == prev_num + 1 and (
+                rest[:1].isupper() or rest[:1] in "abcdefghi"):
+            reset()
+            prev_num = n
+            s = rest.strip()
+            ml = re.match(r"^([a-z]+)\)?$", s)
+            if ml and len(ml.group(1)) == 1 and label_ok(ml.group(1)):
+                prev_label, prev_roman = ml.group(1), None
+                out.append(f"**{n}** **{ml.group(1)}**")
+                continue
+            lead = re.match(r"^\*\*([a-z]+)\*\*\s", rest)
+            if lead:
+                note_existing(lead.group(1))
+                out.append(f"**{n}** " + rest)
+                continue
+            parts = split_labels(rest)
+            if parts and re.match(r"\*\*[a-z]+\*\* ", parts[0]):
+                parts[0] = f"**{n}** " + parts[0]
+                out.extend(parts)
+            else:
+                out.append(f"**{n}**" + (" " + parts[0] if parts else ""))
+                out.extend(parts[1:])
+            continue
+
     # already-bolded label at line start: keep it, but track state
     m = re.match(r"^\*\*([a-z]+)\*\*(\s|$)", l)
     if m:
         note_existing(m.group(1))
         out.append(l); continue
+
+    # glued part label: "cUse ..." -> "**c** Use ...".  Only when the letter
+    # is the next expected label, so "iOS" / "kHz" style line starts survive.
+    ml = re.match(r"^([a-z])([A-Z].*)$", l)
+    if ml:
+        letter = ml.group(1)
+        if label_ok(letter):
+            prev_label, prev_roman = letter, None
+            out.append(f"**{letter}** " + ml.group(2))
+            continue
 
     # lone label line ("a", "b)", "ii")
     m = re.match(r"^([a-z]+)\)?$", l)
