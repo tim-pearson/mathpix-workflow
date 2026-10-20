@@ -432,12 +432,16 @@ $a=2, b=-4, c=-2$.
 <a id="ch01-ans-review"></a>
 ### END-OF-CHAPTER REVIEW EXERCISE 1
 
+<a id="ch01-ans-review-q1"></a>
+##### Answer 1
 $1-\frac{4}{3}, \frac{2}{7}$
 
 <a id="ch01-ans-review-q2"></a>
 ##### Answer 2
 $x \leqslant-\frac{4}{5}$ or $x \geqslant 2$
 
+<a id="ch01-ans-review-q3"></a>
+##### Answer 3
 $31<x<\frac{5}{3}$
 
 <a id="ch01-ans-review-q4"></a>

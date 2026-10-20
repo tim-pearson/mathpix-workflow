@@ -500,14 +500,22 @@
   "id": "ch01-ans-review",
   "kind": "review",
   "line": 432,
-  "next_id": "ch01-ans-review-q2",
+  "next_id": "ch01-ans-review-q1",
   "type": "exercise"
+ },
+ "ch01-ans-review-q1": {
+  "chapter": 1,
+  "file": "ans01-algebra.md",
+  "id": "ch01-ans-review-q1",
+  "line": 435,
+  "next_id": "ch01-ans-review-q2",
+  "type": "answer"
  },
  "ch01-ans-review-q10": {
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q10",
-  "line": 475,
+  "line": 479,
   "next_id": "ch01-ans-review-q11",
   "type": "answer"
  },
@@ -515,7 +523,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q11",
-  "line": 481,
+  "line": 485,
   "next_id": "ch01-ans-review-q12",
   "type": "answer"
  },
@@ -523,7 +531,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q12",
-  "line": 487,
+  "line": 491,
   "next_id": "ch01-ans-review-q13",
   "type": "answer"
  },
@@ -531,7 +539,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q13",
-  "line": 493,
+  "line": 497,
   "next_id": "ch01-ans-review-q14",
   "type": "answer"
  },
@@ -539,7 +547,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q14",
-  "line": 499,
+  "line": 503,
   "next_id": "ch01-ans-review-q15",
   "type": "answer"
  },
@@ -547,7 +555,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q15",
-  "line": 505,
+  "line": 509,
   "next_id": "ch01-ans-review-q16",
   "type": "answer"
  },
@@ -555,7 +563,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q16",
-  "line": 511,
+  "line": 515,
   "next_id": "ch01-ans-review-q17",
   "type": "answer"
  },
@@ -563,7 +571,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q17",
-  "line": 517,
+  "line": 521,
   "next_id": "ch01-ans-review-q18",
   "type": "answer"
  },
@@ -571,7 +579,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q18",
-  "line": 523,
+  "line": 527,
   "next_id": "ch01-ans-review-q19",
   "type": "answer"
  },
@@ -579,7 +587,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q19",
-  "line": 529,
+  "line": 533,
   "next_id": "ch01-ans-review-q20",
   "type": "answer"
  },
@@ -587,15 +595,15 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q2",
-  "line": 437,
-  "next_id": "ch01-ans-review-q4",
+  "line": 439,
+  "next_id": "ch01-ans-review-q3",
   "type": "answer"
  },
  "ch01-ans-review-q20": {
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q20",
-  "line": 537,
+  "line": 541,
   "next_id": "ch01-ans-review-q21",
   "type": "answer"
  },
@@ -603,7 +611,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q21",
-  "line": 543,
+  "line": 547,
   "next_id": "ch01-ans-review-q22",
   "type": "answer"
  },
@@ -611,7 +619,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q22",
-  "line": 549,
+  "line": 553,
   "next_id": "ch01-ans-review-q23",
   "type": "answer"
  },
@@ -619,7 +627,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q23",
-  "line": 555,
+  "line": 559,
   "next_id": "ch01-ans-review-q24",
   "type": "answer"
  },
@@ -627,15 +635,23 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q24",
-  "line": 561,
+  "line": 565,
   "next_id": null,
+  "type": "answer"
+ },
+ "ch01-ans-review-q3": {
+  "chapter": 1,
+  "file": "ans01-algebra.md",
+  "id": "ch01-ans-review-q3",
+  "line": 443,
+  "next_id": "ch01-ans-review-q4",
   "type": "answer"
  },
  "ch01-ans-review-q4": {
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q4",
-  "line": 443,
+  "line": 447,
   "next_id": "ch01-ans-review-q5",
   "type": "answer"
  },
@@ -643,7 +659,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q5",
-  "line": 447,
+  "line": 451,
   "next_id": "ch01-ans-review-q6",
   "type": "answer"
  },
@@ -651,7 +667,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q6",
-  "line": 453,
+  "line": 457,
   "next_id": "ch01-ans-review-q7",
   "type": "answer"
  },
@@ -659,7 +675,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q7",
-  "line": 459,
+  "line": 463,
   "next_id": "ch01-ans-review-q8",
   "type": "answer"
  },
@@ -667,7 +683,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q8",
-  "line": 463,
+  "line": 467,
   "next_id": "ch01-ans-review-q9",
   "type": "answer"
  },
@@ -675,7 +691,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q9",
-  "line": 469,
+  "line": 473,
   "next_id": "ch01-ans-review-q10",
   "type": "answer"
  },
@@ -1697,7 +1713,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2C-q10",
-  "line": 263,
+  "line": 273,
   "next_id": "ch02-ans-ex2D",
   "type": "answer"
  },
@@ -2370,6 +2386,14 @@
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2A-q4",
   "line": 267,
+  "next_id": "ch02-ex2A-q5",
+  "type": "question"
+ },
+ "ch02-ex2A-q5": {
+  "chapter": 2,
+  "file": "ch02-logarithmic-and-exponential-functions.md",
+  "id": "ch02-ex2A-q5",
+  "line": 277,
   "next_id": "ch02-ex2A-q6",
   "type": "question"
  },
@@ -2377,7 +2401,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2A-q6",
-  "line": 277,
+  "line": 290,
   "next_id": "ch02-ex2A-q7",
   "type": "question"
  },
@@ -2385,7 +2409,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2A-q7",
-  "line": 281,
+  "line": 294,
   "next_id": "ch02-kp-2.2",
   "type": "question"
  },
@@ -2394,7 +2418,7 @@
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2B",
   "kind": "exercise",
-  "line": 419,
+  "line": 432,
   "next_id": "ch02-ex2B-q1",
   "type": "exercise"
  },
@@ -2402,7 +2426,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2B-q1",
-  "line": 422,
+  "line": 435,
   "next_id": "ch02-ex2B-q2",
   "type": "question"
  },
@@ -2410,7 +2434,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2B-q2",
-  "line": 442,
+  "line": 455,
   "next_id": "ch02-ex2B-q3",
   "type": "question"
  },
@@ -2418,7 +2442,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2B-q3",
-  "line": 462,
+  "line": 475,
   "next_id": "ch02-ex2B-q4",
   "type": "question"
  },
@@ -2426,7 +2450,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2B-q4",
-  "line": 474,
+  "line": 487,
   "next_id": "ch02-ex2B-q5",
   "type": "question"
  },
@@ -2434,7 +2458,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2B-q5",
-  "line": 484,
+  "line": 497,
   "next_id": "ch02-ex2B-q6",
   "type": "question"
  },
@@ -2442,7 +2466,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2B-q6",
-  "line": 504,
+  "line": 517,
   "next_id": "ch02-ex2B-q7",
   "type": "question"
  },
@@ -2450,7 +2474,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2B-q7",
-  "line": 524,
+  "line": 537,
   "next_id": "ch02-ex2B-q8",
   "type": "question"
  },
@@ -2458,7 +2482,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2B-q8",
-  "line": 528,
+  "line": 541,
   "next_id": "ch02-ex2B-q9",
   "type": "question"
  },
@@ -2466,7 +2490,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2B-q9",
-  "line": 536,
+  "line": 549,
   "next_id": "ch02-kp-2.3",
   "type": "question"
  },
@@ -2475,7 +2499,7 @@
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2C",
   "kind": "exercise",
-  "line": 705,
+  "line": 718,
   "next_id": "ch02-ex2C-q1",
   "type": "exercise"
  },
@@ -2483,7 +2507,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2C-q1",
-  "line": 708,
+  "line": 721,
   "next_id": "ch02-ex2C-q2",
   "type": "question"
  },
@@ -2491,7 +2515,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2C-q10",
-  "line": 790,
+  "line": 803,
   "next_id": "ch02-ex2C-q11",
   "type": "question"
  },
@@ -2499,7 +2523,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2C-q11",
-  "line": 802,
+  "line": 815,
   "next_id": "ch02-we-2.10",
   "type": "question"
  },
@@ -2507,7 +2531,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2C-q2",
-  "line": 724,
+  "line": 737,
   "next_id": "ch02-ex2C-q3",
   "type": "question"
  },
@@ -2515,7 +2539,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2C-q3",
-  "line": 734,
+  "line": 747,
   "next_id": "ch02-ex2C-q4",
   "type": "question"
  },
@@ -2523,7 +2547,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2C-q4",
-  "line": 742,
+  "line": 755,
   "next_id": "ch02-ex2C-q5",
   "type": "question"
  },
@@ -2531,7 +2555,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2C-q5",
-  "line": 746,
+  "line": 759,
   "next_id": "ch02-ex2C-q6",
   "type": "question"
  },
@@ -2539,7 +2563,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2C-q6",
-  "line": 758,
+  "line": 771,
   "next_id": "ch02-ex2C-q7",
   "type": "question"
  },
@@ -2547,7 +2571,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2C-q7",
-  "line": 762,
+  "line": 775,
   "next_id": "ch02-ex2C-q8",
   "type": "question"
  },
@@ -2555,7 +2579,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2C-q8",
-  "line": 766,
+  "line": 779,
   "next_id": "ch02-ex2C-q9",
   "type": "question"
  },
@@ -2563,7 +2587,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2C-q9",
-  "line": 778,
+  "line": 791,
   "next_id": "ch02-ex2C-q10",
   "type": "question"
  },
@@ -2572,7 +2596,7 @@
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2D",
   "kind": "exercise",
-  "line": 883,
+  "line": 896,
   "next_id": "ch02-ex2D-q1",
   "type": "exercise"
  },
@@ -2580,7 +2604,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2D-q1",
-  "line": 886,
+  "line": 899,
   "next_id": "ch02-ex2D-q2",
   "type": "question"
  },
@@ -2588,7 +2612,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2D-q2",
-  "line": 898,
+  "line": 911,
   "next_id": "ch02-ex2D-q3",
   "type": "question"
  },
@@ -2596,7 +2620,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2D-q3",
-  "line": 910,
+  "line": 923,
   "next_id": "ch02-ex2D-q4",
   "type": "question"
  },
@@ -2604,7 +2628,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2D-q4",
-  "line": 922,
+  "line": 935,
   "next_id": "ch02-ex2D-q5",
   "type": "question"
  },
@@ -2612,7 +2636,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2D-q5",
-  "line": 934,
+  "line": 947,
   "next_id": "ch02-ex2D-q6",
   "type": "question"
  },
@@ -2620,7 +2644,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2D-q6",
-  "line": 946,
+  "line": 959,
   "next_id": "ch02-ex2D-q7",
   "type": "question"
  },
@@ -2628,7 +2652,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2D-q7",
-  "line": 980,
+  "line": 993,
   "next_id": "ch02-we-2.11",
   "type": "question"
  },
@@ -2637,7 +2661,7 @@
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2E",
   "kind": "exercise",
-  "line": 1069,
+  "line": 1082,
   "next_id": "ch02-ex2E-q1",
   "type": "exercise"
  },
@@ -2645,7 +2669,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2E-q1",
-  "line": 1072,
+  "line": 1085,
   "next_id": "ch02-ex2E-q2",
   "type": "question"
  },
@@ -2653,7 +2677,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2E-q10",
-  "line": 1176,
+  "line": 1189,
   "next_id": "ch02-ex2E-q11",
   "type": "question"
  },
@@ -2661,7 +2685,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2E-q11",
-  "line": 1180,
+  "line": 1193,
   "next_id": "ch02-ex2E-q12",
   "type": "question"
  },
@@ -2669,7 +2693,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2E-q12",
-  "line": 1200,
+  "line": 1213,
   "next_id": "ch02-ex2E-q13",
   "type": "question"
  },
@@ -2677,7 +2701,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2E-q13",
-  "line": 1208,
+  "line": 1221,
   "next_id": "ch02-we-2.13",
   "type": "question"
  },
@@ -2685,7 +2709,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2E-q2",
-  "line": 1100,
+  "line": 1113,
   "next_id": "ch02-ex2E-q3",
   "type": "question"
  },
@@ -2693,7 +2717,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2E-q3",
-  "line": 1106,
+  "line": 1119,
   "next_id": "ch02-ex2E-q4",
   "type": "question"
  },
@@ -2701,7 +2725,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2E-q4",
-  "line": 1122,
+  "line": 1135,
   "next_id": "ch02-ex2E-q5",
   "type": "question"
  },
@@ -2709,7 +2733,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2E-q5",
-  "line": 1126,
+  "line": 1139,
   "next_id": "ch02-ex2E-q6",
   "type": "question"
  },
@@ -2717,7 +2741,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2E-q6",
-  "line": 1138,
+  "line": 1151,
   "next_id": "ch02-ex2E-q7",
   "type": "question"
  },
@@ -2725,7 +2749,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2E-q7",
-  "line": 1142,
+  "line": 1155,
   "next_id": "ch02-ex2E-q8",
   "type": "question"
  },
@@ -2733,7 +2757,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2E-q8",
-  "line": 1154,
+  "line": 1167,
   "next_id": "ch02-ex2E-q9",
   "type": "question"
  },
@@ -2741,7 +2765,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2E-q9",
-  "line": 1166,
+  "line": 1179,
   "next_id": "ch02-ex2E-q10",
   "type": "question"
  },
@@ -2750,7 +2774,7 @@
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2F",
   "kind": "exercise",
-  "line": 1253,
+  "line": 1266,
   "next_id": "ch02-ex2F-q1",
   "type": "exercise"
  },
@@ -2758,7 +2782,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2F-q1",
-  "line": 1256,
+  "line": 1269,
   "next_id": "ch02-ex2F-q2",
   "type": "question"
  },
@@ -2766,7 +2790,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2F-q2",
-  "line": 1268,
+  "line": 1281,
   "next_id": "ch02-ex2F-q3",
   "type": "question"
  },
@@ -2774,7 +2798,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2F-q3",
-  "line": 1280,
+  "line": 1293,
   "next_id": "ch02-ex2F-q5",
   "type": "question"
  },
@@ -2782,7 +2806,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2F-q5",
-  "line": 1284,
+  "line": 1297,
   "next_id": "ch02-kp-2.5",
   "type": "question"
  },
@@ -2791,7 +2815,7 @@
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2G",
   "kind": "exercise",
-  "line": 1333,
+  "line": 1346,
   "next_id": "ch02-ex2G-q1",
   "type": "exercise"
  },
@@ -2799,7 +2823,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2G-q1",
-  "line": 1336,
+  "line": 1349,
   "next_id": "ch02-ex2G-q2",
   "type": "question"
  },
@@ -2807,7 +2831,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2G-q10",
-  "line": 1446,
+  "line": 1459,
   "next_id": "ch02-ex2G-q11",
   "type": "question"
  },
@@ -2815,7 +2839,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2G-q11",
-  "line": 1454,
+  "line": 1467,
   "next_id": "ch02-ex2G-q12",
   "type": "question"
  },
@@ -2823,7 +2847,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2G-q12",
-  "line": 1466,
+  "line": 1479,
   "next_id": "ch02-ex2G-q13",
   "type": "question"
  },
@@ -2831,7 +2855,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2G-q13",
-  "line": 1470,
+  "line": 1483,
   "next_id": "ch02-ex2G-q14",
   "type": "question"
  },
@@ -2839,7 +2863,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2G-q14",
-  "line": 1474,
+  "line": 1487,
   "next_id": "ch02-ex2G-q15",
   "type": "question"
  },
@@ -2847,7 +2871,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2G-q15",
-  "line": 1496,
+  "line": 1509,
   "next_id": "ch02-we-2.15",
   "type": "question"
  },
@@ -2855,7 +2879,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2G-q2",
-  "line": 1348,
+  "line": 1361,
   "next_id": "ch02-ex2G-q3",
   "type": "question"
  },
@@ -2863,7 +2887,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2G-q3",
-  "line": 1360,
+  "line": 1373,
   "next_id": "ch02-ex2G-q4",
   "type": "question"
  },
@@ -2871,7 +2895,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2G-q4",
-  "line": 1372,
+  "line": 1385,
   "next_id": "ch02-ex2G-q5",
   "type": "question"
  },
@@ -2879,7 +2903,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2G-q5",
-  "line": 1384,
+  "line": 1397,
   "next_id": "ch02-ex2G-q6",
   "type": "question"
  },
@@ -2887,7 +2911,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2G-q6",
-  "line": 1396,
+  "line": 1409,
   "next_id": "ch02-ex2G-q7",
   "type": "question"
  },
@@ -2895,7 +2919,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2G-q7",
-  "line": 1408,
+  "line": 1421,
   "next_id": "ch02-ex2G-q8",
   "type": "question"
  },
@@ -2903,7 +2927,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2G-q8",
-  "line": 1418,
+  "line": 1431,
   "next_id": "ch02-ex2G-q9",
   "type": "question"
  },
@@ -2911,7 +2935,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2G-q9",
-  "line": 1430,
+  "line": 1443,
   "next_id": "ch02-ex2G-q10",
   "type": "question"
  },
@@ -2920,7 +2944,7 @@
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2H",
   "kind": "exercise",
-  "line": 1675,
+  "line": 1688,
   "next_id": "ch02-ex2H-q1",
   "type": "exercise"
  },
@@ -2928,7 +2952,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2H-q1",
-  "line": 1678,
+  "line": 1691,
   "next_id": "ch02-ex2H-q2",
   "type": "question"
  },
@@ -2936,7 +2960,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2H-q2",
-  "line": 1698,
+  "line": 1711,
   "next_id": "ch02-ex2H-q3",
   "type": "question"
  },
@@ -2944,7 +2968,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2H-q3",
-  "line": 1704,
+  "line": 1717,
   "next_id": "ch02-ex2H-q4",
   "type": "question"
  },
@@ -2952,7 +2976,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2H-q4",
-  "line": 1710,
+  "line": 1723,
   "next_id": "ch02-ex2H-q5",
   "type": "question"
  },
@@ -2960,7 +2984,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2H-q5",
-  "line": 1718,
+  "line": 1731,
   "next_id": "ch02-ex2H-q6",
   "type": "question"
  },
@@ -2968,7 +2992,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2H-q6",
-  "line": 1726,
+  "line": 1739,
   "next_id": "ch02-ex2H-q7",
   "type": "question"
  },
@@ -2976,7 +3000,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2H-q7",
-  "line": 1730,
+  "line": 1743,
   "next_id": "ch02-ex2H-q8",
   "type": "question"
  },
@@ -2984,7 +3008,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ex2H-q8",
-  "line": 1746,
+  "line": 1759,
   "next_id": "ch02-review",
   "type": "question"
  },
@@ -3002,7 +3026,7 @@
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-kp-2.2",
   "kind": "key-point",
-  "line": 291,
+  "line": 304,
   "next_id": "ch02-we-2.4",
   "type": "key-point"
  },
@@ -3011,7 +3035,7 @@
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-kp-2.3",
   "kind": "key-point",
-  "line": 593,
+  "line": 606,
   "next_id": "ch02-kp-2.4",
   "type": "key-point"
  },
@@ -3020,7 +3044,7 @@
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-kp-2.4",
   "kind": "key-point",
-  "line": 615,
+  "line": 628,
   "next_id": "ch02-we-2.8",
   "type": "key-point"
  },
@@ -3029,7 +3053,7 @@
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-kp-2.5",
   "kind": "key-point",
-  "line": 1306,
+  "line": 1319,
   "next_id": "ch02-ex2G",
   "type": "key-point"
  },
@@ -3047,7 +3071,7 @@
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-review",
   "kind": "review",
-  "line": 1798,
+  "line": 1811,
   "next_id": "ch02-review-q1",
   "type": "exercise"
  },
@@ -3055,7 +3079,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-review-q1",
-  "line": 1801,
+  "line": 1814,
   "next_id": "ch02-review-q2",
   "type": "question"
  },
@@ -3063,7 +3087,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-review-q10",
-  "line": 1869,
+  "line": 1882,
   "next_id": "ch02-review-q11",
   "type": "question"
  },
@@ -3071,7 +3095,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-review-q11",
-  "line": 1881,
+  "line": 1894,
   "next_id": "ch02-review-q12",
   "type": "question"
  },
@@ -3079,7 +3103,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-review-q12",
-  "line": 1887,
+  "line": 1900,
   "next_id": "ch02-review-q13",
   "type": "question"
  },
@@ -3087,7 +3111,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-review-q13",
-  "line": 1893,
+  "line": 1906,
   "next_id": "ch02-review-q14",
   "type": "question"
  },
@@ -3095,7 +3119,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-review-q14",
-  "line": 1899,
+  "line": 1912,
   "next_id": "ch02-review-q15",
   "type": "question"
  },
@@ -3103,7 +3127,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-review-q15",
-  "line": 1907,
+  "line": 1920,
   "next_id": null,
   "type": "question"
  },
@@ -3111,7 +3135,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-review-q2",
-  "line": 1805,
+  "line": 1818,
   "next_id": "ch02-review-q3",
   "type": "question"
  },
@@ -3119,7 +3143,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-review-q3",
-  "line": 1809,
+  "line": 1822,
   "next_id": "ch02-review-q4",
   "type": "question"
  },
@@ -3127,7 +3151,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-review-q4",
-  "line": 1813,
+  "line": 1826,
   "next_id": "ch02-review-q5",
   "type": "question"
  },
@@ -3135,7 +3159,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-review-q5",
-  "line": 1825,
+  "line": 1838,
   "next_id": "ch02-review-q6",
   "type": "question"
  },
@@ -3143,7 +3167,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-review-q6",
-  "line": 1829,
+  "line": 1842,
   "next_id": "ch02-review-q7",
   "type": "question"
  },
@@ -3151,7 +3175,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-review-q7",
-  "line": 1833,
+  "line": 1846,
   "next_id": "ch02-review-q8",
   "type": "question"
  },
@@ -3159,7 +3183,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-review-q8",
-  "line": 1839,
+  "line": 1852,
   "next_id": "ch02-review-q9",
   "type": "question"
  },
@@ -3167,7 +3191,7 @@
   "chapter": 2,
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-review-q9",
-  "line": 1865,
+  "line": 1878,
   "next_id": "ch02-review-q10",
   "type": "question"
  },
@@ -3185,7 +3209,7 @@
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-we-2.10",
   "kind": "worked-example",
-  "line": 816,
+  "line": 829,
   "next_id": "ch02-ex2D",
   "type": "worked-example"
  },
@@ -3194,7 +3218,7 @@
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-we-2.11",
   "kind": "worked-example",
-  "line": 988,
+  "line": 1001,
   "next_id": "ch02-we-2.12",
   "type": "worked-example"
  },
@@ -3203,7 +3227,7 @@
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-we-2.12",
   "kind": "worked-example",
-  "line": 1032,
+  "line": 1045,
   "next_id": "ch02-ex2E",
   "type": "worked-example"
  },
@@ -3212,7 +3236,7 @@
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-we-2.13",
   "kind": "worked-example",
-  "line": 1226,
+  "line": 1239,
   "next_id": "ch02-we-2.14",
   "type": "worked-example"
  },
@@ -3221,7 +3245,7 @@
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-we-2.14",
   "kind": "worked-example",
-  "line": 1239,
+  "line": 1252,
   "next_id": "ch02-ex2F",
   "type": "worked-example"
  },
@@ -3230,7 +3254,7 @@
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-we-2.15",
   "kind": "worked-example",
-  "line": 1510,
+  "line": 1523,
   "next_id": "ch02-we-2.16",
   "type": "worked-example"
  },
@@ -3239,7 +3263,7 @@
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-we-2.16",
   "kind": "worked-example",
-  "line": 1552,
+  "line": 1565,
   "next_id": "ch02-we-2.17",
   "type": "worked-example"
  },
@@ -3248,7 +3272,7 @@
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-we-2.17",
   "kind": "worked-example",
-  "line": 1605,
+  "line": 1618,
   "next_id": "ch02-ex2H",
   "type": "worked-example"
  },
@@ -3275,7 +3299,7 @@
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-we-2.4",
   "kind": "worked-example",
-  "line": 309,
+  "line": 322,
   "next_id": "ch02-we-2.5",
   "type": "worked-example"
  },
@@ -3284,7 +3308,7 @@
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-we-2.5",
   "kind": "worked-example",
-  "line": 345,
+  "line": 358,
   "next_id": "ch02-we-2.6",
   "type": "worked-example"
  },
@@ -3293,7 +3317,7 @@
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-we-2.6",
   "kind": "worked-example",
-  "line": 376,
+  "line": 389,
   "next_id": "ch02-we-2.7",
   "type": "worked-example"
  },
@@ -3302,7 +3326,7 @@
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-we-2.7",
   "kind": "worked-example",
-  "line": 405,
+  "line": 418,
   "next_id": "ch02-ex2B",
   "type": "worked-example"
  },
@@ -3311,7 +3335,7 @@
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-we-2.8",
   "kind": "worked-example",
-  "line": 622,
+  "line": 635,
   "next_id": "ch02-we-2.9",
   "type": "worked-example"
  },
@@ -3320,7 +3344,7 @@
   "file": "ch02-logarithmic-and-exponential-functions.md",
   "id": "ch02-we-2.9",
   "kind": "worked-example",
-  "line": 662,
+  "line": 675,
   "next_id": "ch02-ex2C",
   "type": "worked-example"
  },
