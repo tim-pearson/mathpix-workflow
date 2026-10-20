@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-"""One shared maths-normalisation module for every generated page.
+"""One shared maths-normalisation module used by the data pipeline.
 
-The full-textbook pages (build_site.py) and the practice pages
-(build_practice.py) must get identical maths treatment, so every transform
-lives here and nowhere else.
+Every transform lives here and nowhere else, so the React data bundle
+(export_data.py) and any other consumer get identical maths treatment.
 
 Usage as a library:
     import math_normalize as mn

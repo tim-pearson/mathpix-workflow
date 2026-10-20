@@ -566,12 +566,18 @@ class FileProcessor:
 
     def _finish_blocks(self):
         """Close any block left open at EOF, then create the answer/question
-        ids that a correction mandates but no source line produced."""
+        ids that a correction mandates but no source line produced.
+
+        Created questions are inserted *in place* (in number order within
+        their block) rather than appended at the block end, so a question the
+        parser failed to recognise — e.g. an OCR-mangled heading that was
+        swallowed into the previous question — is reinserted where it belongs.
+        """
         for r in self._block_ranges:
             if len(r) == 2:
                 r.append(len(self.out))
         corr = self.ans_corr if not self.ch_side else self.q_corr
-        for base, _start, end in reversed(self._block_ranges):
+        for base, start, end in reversed(self._block_ranges):
             created = []
             for pid, body in sorted(corr.items()):
                 if body is DELETED or pid in self._emitted:
@@ -586,13 +592,26 @@ class FileProcessor:
                 self._emitted.add(pid)
                 self.corr_applied.add(pid)
                 self.corr_notes.append(f"{self.name}:{end + 1} [corr-create] {pid}")
-                created.append(ANCHOR.format(pid))
-                created.append(
-                    f"##### {'Question' if self.ch_side else 'Answer'} {n}")
-                created.extend(wrap_marks(bl) for bl in body)
-                created.append("")
-            if created:
-                self.out[end:end] = created
+                created.append((n, pid, body))
+            if not created:
+                continue
+            # Insert highest number first so earlier insertion points stay
+            # valid: each created question goes just before the anchor of the
+            # first existing question with a larger number (or at block end).
+            for n, pid, body in sorted(created, reverse=True):
+                at = end
+                anchor_re = re.compile(
+                    rf'^<a id="{re.escape(base)}-(?:q|ps|p|m)(\d+)"></a>$')
+                for i in range(start, end):
+                    am = anchor_re.match(self.out[i])
+                    if am and int(am.group(1)) > n:
+                        at = i
+                        break
+                block = [ANCHOR.format(pid),
+                         f"##### {'Question' if self.ch_side else 'Answer'} {n}"]
+                block.extend(wrap_marks(bl) for bl in body)
+                block.append("")
+                self.out[at:at] = block
 
     def answer_plain_line(self, line, line_no):
         """Answer-file plain lines: part labels and $N-in-maths question
@@ -694,6 +713,10 @@ class FileProcessor:
                     continue
                 if stripped.startswith("#"):
                     if re.match(r"^#{5}\s+(?:Answer|Question)\b", stripped):
+                        continue
+                    if EMPTY_H.match(stripped):
+                        # a stray empty heading (OCR artifact like "##") must
+                        # not stop the discard of an overridden body's leftovers
                         continue
                     self.skip_after = False
                     self.skip_pid = None

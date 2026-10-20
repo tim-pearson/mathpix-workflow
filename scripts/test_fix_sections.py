@@ -552,6 +552,35 @@ old body
     eq("##### Answer 4" in out, True, "Answer 4 kept")
 
 
+def test_corr_create_question_in_place():
+    # a question the parser missed (e.g. OCR-mangled heading swallowed into
+    # the previous question) is recreated in number order, not at block end
+    text = """# Chapter 1: Test
+
+## 1.1 Section
+
+<a id="ch01-test"></a>
+### EXERCISE 1T
+
+<a id="ch01-test-q1"></a>
+##### Question 1
+First question.
+
+<a id="ch01-test-q3"></a>
+##### Question 3
+Third question.
+"""
+    corr = {"ch01-ex1T-q2": ["Second question body."]}
+    fp, out = run_fp("ch01-test.md", text, q_corr=corr)
+    lines = out.split("\n")
+    i1, i2, i3 = (lines.index(h) for h in
+                  ("##### Question 1", "##### Question 2", "##### Question 3"))
+    eq(i1 < i2 < i3, True, "created question inserted in place, in order")
+    has_anchor = '<a id="ch01-ex1T-q2"></a>' in out
+    eq(has_anchor, True, "created question has its anchor")
+    eq("Second question body." in out, True, "created question body present")
+
+
 if __name__ == "__main__":
     test_form_tag()
     test_chapter_promotion_tagged()

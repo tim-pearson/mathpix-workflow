@@ -30,7 +30,12 @@ Never edit `split/`, `images/` or `frontend-data/` by hand — regenerate.
 - **Question/answer bodies the heuristics mis-attribute** — hand-curated in
   `scripts/corrections.json`, keyed by anchor id (see README "Corrections").
   Applied inside `fix_sections.py` on every run. This is the ONLY durable
-  place for hand edits to question/answer content.
+  place for hand edits to question/answer content. Corrections can create a
+  missing question in place (number-ordered) and trim a parent question's
+  body — used to repair questions whose OCR-mangled heading was merged into
+  the previous question (e.g. review/cross questions missing their exam
+  citation). `ch06-ans-review-q12/13/14` are left as orphans because
+  `#### FAST FORWARD` boxes inside the block break the split.
 - **Structural parsing** (headings, anchors, numbering) — `scripts/fix_sections.py`.
   It is idempotent; verify with `python scripts/fix_sections.py split --check`
   (expect `files that changed on re-run: 0`).
