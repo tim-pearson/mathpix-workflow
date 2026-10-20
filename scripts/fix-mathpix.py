@@ -42,7 +42,6 @@ def drop_leaders(s: str) -> str:
 
 def clean(s: str) -> str:
     s = drop_leaders(s)
-    s = re.sub(r"\$\\quad\s*", "$", s)
     s = re.sub(r"\{\s*\}\^", "^", s)
     s = re.sub(r"(\d)(significant)", r"\1 \2", s)
     return s

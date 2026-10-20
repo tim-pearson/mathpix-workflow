@@ -40,7 +40,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import math_normalize as mn
 
-BOOK_DEFAULT = Path("Maths Pure 2 & 3-clean_MD")
+BOOK_DEFAULT = Path("Maths Pure 2 & 3-clean_no_badges_covered_margins-p1-p352pages")
 OUT_DEFAULT = Path("frontend-data")
 WORKING_DEFAULT = Path("working")
 SCHEMA_VERSION = 1

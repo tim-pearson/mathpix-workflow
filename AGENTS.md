@@ -10,10 +10,10 @@ coursebook into a React (Vite + TS) reader app. The raw export →
 ## The pipeline (in order)
 
 ```sh
-python scripts/fix-mathpix.py  "Maths Pure 2 & 3-clean_MD/<raw>.md"   # -> -fixed.md
+python scripts/fix-mathpix.py  "Maths Pure 2 & 3-clean_no_badges_covered_margins-p1-p352pages/<raw>.md"  # -> -fixed.md
 python scripts/split_chapter.py "-fixed.md" -o ".../split"            # -> split/chNN-*.md etc.
 python scripts/fix_sections.py  ".../split"                            # headings + anchors + index.json
-python scripts/export_data.py   "Maths Pure 2 & 3-clean_MD"            # -> frontend-data/
+python scripts/export_data.py   "Maths Pure 2 & 3-clean_no_badges_covered_margins-p1-p352pages"  # -> frontend-data/
 ```
 
 Or all at once: `python build_frontend.py [--skip-docker] [--corrections PATH]`.

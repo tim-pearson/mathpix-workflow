@@ -38,7 +38,7 @@ import time
 import urllib.request
 from pathlib import Path
 
-BOOK_DEFAULT = Path("Maths Pure 2 & 3-clean_MD")
+BOOK_DEFAULT = Path("Maths Pure 2 & 3-clean_no_badges_covered_margins-p1-p352pages")
 SCRIPTS = Path(__file__).resolve().parent / "scripts"
 BACKEND = Path(__file__).resolve().parent / "backend"
 FRONTEND = Path(__file__).resolve().parent / "frontend"
