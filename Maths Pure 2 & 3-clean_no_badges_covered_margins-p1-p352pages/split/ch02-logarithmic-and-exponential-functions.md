@@ -274,6 +274,19 @@ Solve each of these equations, giving your answers correct to 3 significant figu
 
 **c** $\quad \log _{10} x=-1.4$
 
+<a id="ch02-ex2A-q5"></a>
+##### Question 4
+Without using a calculator, find the value of:
+
+**a** $\quad \log _{10}100$
+**b** $\quad \log _{10}0.0001$
+**c** $\quad \log _{10}(10 \sqrt{10})$
+**d** $\quad \log _{10}(\sqrt[3]{10})$
+**e** $\quad \log _{10}(100 \sqrt[3]{10})$
+**f** $\quad \log _{10}\left( \frac{100}{\sqrt{1000}} \right)$
+
+
+
 <a id="ch02-ex2A-q6"></a>
 ##### Question 6
 Given that the function f is defined as f : $x \mapsto 10^{x}-3$ for $x \in \mathbb{R}$, find an expression for $\mathrm{f}^{-1}(x)$.

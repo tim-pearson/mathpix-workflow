@@ -270,8 +270,8 @@ $z=\frac{1}{1-3 y^{3}}$
 
 **d** $\frac{5}{3}$
 
-11
-
+<a id="ch02-ans-ex2C-q10"></a>
+##### Answer 10
 $$
 \begin{align}
 & x=2 \log _{3} 2-2 \log _{2} 5, \\

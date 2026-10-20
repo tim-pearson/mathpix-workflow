@@ -305,6 +305,14 @@
   "file": "ans01-algebra.md",
   "id": "ch01-ans-ex1E-q11",
   "line": 364,
+  "next_id": "ch01-ans-ex1E-q12",
+  "type": "answer"
+ },
+ "ch01-ans-ex1E-q12": {
+  "chapter": 1,
+  "file": "ans01-algebra.md",
+  "id": "ch01-ans-ex1E-q12",
+  "line": 368,
   "next_id": "ch01-ans-ex1F",
   "type": "answer"
  },
@@ -377,7 +385,7 @@
   "file": "ans01-algebra.md",
   "id": "ch01-ans-ex1F",
   "kind": "exercise",
-  "line": 370,
+  "line": 373,
   "next_id": "ch01-ans-ex1F-q1",
   "type": "exercise"
  },
@@ -385,7 +393,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-ex1F-q1",
-  "line": 373,
+  "line": 376,
   "next_id": "ch01-ans-ex1F-q2",
   "type": "answer"
  },
@@ -393,7 +401,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-ex1F-q10",
-  "line": 425,
+  "line": 428,
   "next_id": "ch01-ans-review",
   "type": "answer"
  },
@@ -401,7 +409,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-ex1F-q2",
-  "line": 383,
+  "line": 386,
   "next_id": "ch01-ans-ex1F-q3",
   "type": "answer"
  },
@@ -409,7 +417,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-ex1F-q3",
-  "line": 389,
+  "line": 392,
   "next_id": "ch01-ans-ex1F-q4",
   "type": "answer"
  },
@@ -417,7 +425,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-ex1F-q4",
-  "line": 393,
+  "line": 396,
   "next_id": "ch01-ans-ex1F-q5",
   "type": "answer"
  },
@@ -425,7 +433,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-ex1F-q5",
-  "line": 397,
+  "line": 400,
   "next_id": "ch01-ans-ex1F-q6",
   "type": "answer"
  },
@@ -433,7 +441,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-ex1F-q6",
-  "line": 403,
+  "line": 406,
   "next_id": "ch01-ans-ex1F-q7",
   "type": "answer"
  },
@@ -441,7 +449,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-ex1F-q7",
-  "line": 409,
+  "line": 412,
   "next_id": "ch01-ans-ex1F-q8",
   "type": "answer"
  },
@@ -449,7 +457,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-ex1F-q8",
-  "line": 415,
+  "line": 418,
   "next_id": "ch01-ans-ex1F-q9",
   "type": "answer"
  },
@@ -457,7 +465,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-ex1F-q9",
-  "line": 421,
+  "line": 424,
   "next_id": "ch01-ans-ex1F-q10",
   "type": "answer"
  },
@@ -491,7 +499,7 @@
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review",
   "kind": "review",
-  "line": 429,
+  "line": 432,
   "next_id": "ch01-ans-review-q2",
   "type": "exercise"
  },
@@ -499,7 +507,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q10",
-  "line": 472,
+  "line": 475,
   "next_id": "ch01-ans-review-q11",
   "type": "answer"
  },
@@ -507,7 +515,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q11",
-  "line": 478,
+  "line": 481,
   "next_id": "ch01-ans-review-q12",
   "type": "answer"
  },
@@ -515,7 +523,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q12",
-  "line": 484,
+  "line": 487,
   "next_id": "ch01-ans-review-q13",
   "type": "answer"
  },
@@ -523,7 +531,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q13",
-  "line": 490,
+  "line": 493,
   "next_id": "ch01-ans-review-q14",
   "type": "answer"
  },
@@ -531,7 +539,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q14",
-  "line": 496,
+  "line": 499,
   "next_id": "ch01-ans-review-q15",
   "type": "answer"
  },
@@ -539,7 +547,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q15",
-  "line": 502,
+  "line": 505,
   "next_id": "ch01-ans-review-q16",
   "type": "answer"
  },
@@ -547,7 +555,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q16",
-  "line": 508,
+  "line": 511,
   "next_id": "ch01-ans-review-q17",
   "type": "answer"
  },
@@ -555,7 +563,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q17",
-  "line": 514,
+  "line": 517,
   "next_id": "ch01-ans-review-q18",
   "type": "answer"
  },
@@ -563,7 +571,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q18",
-  "line": 520,
+  "line": 523,
   "next_id": "ch01-ans-review-q19",
   "type": "answer"
  },
@@ -571,7 +579,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q19",
-  "line": 526,
+  "line": 529,
   "next_id": "ch01-ans-review-q20",
   "type": "answer"
  },
@@ -579,7 +587,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q2",
-  "line": 434,
+  "line": 437,
   "next_id": "ch01-ans-review-q4",
   "type": "answer"
  },
@@ -587,7 +595,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q20",
-  "line": 534,
+  "line": 537,
   "next_id": "ch01-ans-review-q21",
   "type": "answer"
  },
@@ -595,7 +603,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q21",
-  "line": 540,
+  "line": 543,
   "next_id": "ch01-ans-review-q22",
   "type": "answer"
  },
@@ -603,7 +611,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q22",
-  "line": 546,
+  "line": 549,
   "next_id": "ch01-ans-review-q23",
   "type": "answer"
  },
@@ -611,7 +619,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q23",
-  "line": 552,
+  "line": 555,
   "next_id": "ch01-ans-review-q24",
   "type": "answer"
  },
@@ -619,7 +627,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q24",
-  "line": 558,
+  "line": 561,
   "next_id": null,
   "type": "answer"
  },
@@ -627,7 +635,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q4",
-  "line": 440,
+  "line": 443,
   "next_id": "ch01-ans-review-q5",
   "type": "answer"
  },
@@ -635,7 +643,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q5",
-  "line": 444,
+  "line": 447,
   "next_id": "ch01-ans-review-q6",
   "type": "answer"
  },
@@ -643,7 +651,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q6",
-  "line": 450,
+  "line": 453,
   "next_id": "ch01-ans-review-q7",
   "type": "answer"
  },
@@ -651,7 +659,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q7",
-  "line": 456,
+  "line": 459,
   "next_id": "ch01-ans-review-q8",
   "type": "answer"
  },
@@ -659,7 +667,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q8",
-  "line": 460,
+  "line": 463,
   "next_id": "ch01-ans-review-q9",
   "type": "answer"
  },
@@ -667,7 +675,7 @@
   "chapter": 1,
   "file": "ans01-algebra.md",
   "id": "ch01-ans-review-q9",
-  "line": 466,
+  "line": 469,
   "next_id": "ch01-ans-review-q10",
   "type": "answer"
  },

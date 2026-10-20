@@ -365,6 +365,9 @@ $a=-2, b=1$
 ##### Answer 11
 Proof
 
+<a id="ch01-ans-ex1E-q12"></a>
+##### Answer 12
+
 $120<k<5$
 
 <a id="ch01-ans-ex1F"></a>
