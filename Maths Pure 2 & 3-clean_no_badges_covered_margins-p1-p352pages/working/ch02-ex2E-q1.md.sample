@@ -1,0 +1,25 @@
+# ch02-ex2E-q1
+
+Question: Solve, giving your answers correct to 3 significant figures.
+
+**a** $5^{x}=18$
+
+**b** $2^{x}=35$
+
+**c** $3^{2 x}=8$
+
+---
+
+**a**
+
+Take logs of both sides:
+
+$$
+\begin{aligned}
+\log 5^{x} & =\log 18 \\
+x \log 5 & =\log 18 \\
+x & =\frac{\log 18}{\log 5}
+\end{aligned}
+$$
+
+So $x=1.80$ to 3 significant figures.
