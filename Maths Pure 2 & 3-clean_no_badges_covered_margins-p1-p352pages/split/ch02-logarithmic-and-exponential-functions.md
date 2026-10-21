@@ -1294,6 +1294,10 @@ Solve the inequalities, giving your answer in terms of base 10 logarithms.
 ##### Question 3
 Solve $5^{x^{2}}>2^{x}$, giving your answer in terms of logarithms.
 
+<a id="ch02-ex2F-q4"></a>
+##### Question 4
+Prove that the solution to the inequality $3^{2x -1} \times 2 ^{1 - 3x} \ge 5$ is $x \ge \frac{\log(\frac{15}{2})}{\log\left(\frac{9}{8}\right)}$.
+
 <a id="ch02-ex2F-q5"></a>
 ##### Question 5
 In this question you are not allowed to use a calculator.
