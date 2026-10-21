@@ -90,10 +90,15 @@ b 2
 
 **g** $\frac{13 x^{2}+30 x-35}{\left(x^{2}+2 x+5\right)^{2}}$
 
-**h** $-\frac{2(x+4)\left(2 x^{2}+12 x-1\right)}{\left(x^{2}+1\right)^{4}}$ $2 \frac{1}{4}$
+**h** $-\frac{2(x+4)\left(2 x^{2}+12 x-1\right)}{\left(x^{2}+1\right)^{4}}$
+
+<a id="ch04-ans-ex4B-q2"></a>
+##### Answer 2
+$ \frac{1}{4}$
 
 <a id="ch04-ans-ex4B-q3"></a>
 ##### Answer 3
+
 (-6, -7), $(1,0)$
 
 <a id="ch04-ans-ex4B-q4"></a>
@@ -118,7 +123,9 @@ $y=9 x-4$
 ##### Answer 7
 3
 
-$83_{1}=x+7$
+<a id="ch04-ans-ex4B-q8"></a>
+##### Answer 8
+$3y=x+7$
 
 <a id="ch04-ans-ex4B-q9"></a>
 ##### Answer 9
@@ -185,7 +192,27 @@ $83_{1}=x+7$
 
 **h** $3 x \mathrm{e}^{3 x}+3 \mathrm{e}^{6 x}+\mathrm{e}^{3 x}$
 
-**i** $\frac{2 x^{2} \mathrm{e}^{x}+5 x \mathrm{e}^{x}+2 x \mathrm{e}^{2 x}-\mathrm{e}^{x}-2}{\left(\mathrm{e}^{x}+2\right)^{2}}$ $5-\frac{4}{9}$ $6\left(-1,-\frac{1}{\mathrm{e}}\right)$ $7 y=3 x+3,(-1,0)$ $8\left(3,-\mathrm{e}^{3}\right)$ minimum $9\left(1, \mathrm{e}^{2}\right)$ minimum
+**i** $\frac{2 x^{2} \mathrm{e}^{x}+5 x \mathrm{e}^{x}+2 x \mathrm{e}^{2 x}-\mathrm{e}^{x}-2}{\left(\mathrm{e}^{x}+2\right)^{2}}$
+
+<a id="ch04-ans-ex4C-q5"></a>
+##### Answer 5
+$-\frac{4}{9}$
+
+<a id="ch04-ans-ex4C-q6"></a>
+##### Answer 6
+$\left(-1,-\frac{1}{\mathrm{e}}\right)$
+
+<a id="ch04-ans-ex4C-q7"></a>
+##### Answer 7
+$y=3x+3,\;(-1,0)$
+
+<a id="ch04-ans-ex4C-q8"></a>
+##### Answer 8
+$\left(3,-\mathrm{e}^{3}\right)$ minimum
+
+<a id="ch04-ans-ex4C-q9"></a>
+##### Answer 9
+$\left(1,\mathrm{e}^{2}\right)$ minimum
 
 <a id="ch04-ans-ex4C-q10"></a>
 ##### Answer 10
@@ -197,13 +224,19 @@ $83_{1}=x+7$
 ##### Answer 11
 $x=1-\frac{1}{\sqrt{2}}, x=1+\frac{1}{\sqrt{2}}$
 
-$12\left(\frac{1}{2}, 2\right)$
+<a id="ch04-ans-ex4C-q12"></a>
+##### Answer 12
+
+$\left(\frac{1}{2}, 2\right)$
 
 <a id="ch04-ans-ex4C-q13"></a>
 ##### Answer 13
 Proof
 
-$143+3 \ln 3$
+<a id="ch04-ans-ex4C-q14"></a>
+##### Answer 14
+
+$3+3 \ln 3$
 
 <a id="ch04-ans-ex4D"></a>
 ### EXERCISE 4D
