@@ -418,7 +418,9 @@ $\frac{1}{2}(1+\cos 4 x)$
 
 **b** $\sin 3 x \equiv 3 \sin x-4 \sin ^{3} x$
 
-$1035.3^{\circ}, 60^{\circ}, 120^{\circ}, 144.7^{\circ}$
+<a id="ch03-ans-ex3C-q10"></a>
+##### Answer 10
+$35.3^{\circ}, 60^{\circ}, 120^{\circ}, 144.7^{\circ}$
 
 <a id="ch03-ans-ex3C-q11"></a>
 ##### Answer 11
@@ -452,7 +454,10 @@ $1035.3^{\circ}, 60^{\circ}, 120^{\circ}, 144.7^{\circ}$
 ##### Answer 15
 $\frac{2 \pi}{3}<\theta<\frac{4 \pi}{3}$
 
-$16210^{\circ} \leqslant \theta \leqslant 330^{\circ}$
+<a id="ch03-ans-ex3C-q16"></a>
+##### Answer 16
+
+$210^{\circ} \leqslant \theta \leqslant 330^{\circ}$
 
 <a id="ch03-ans-ex3C-q17"></a>
 ##### Answer 17
@@ -464,7 +469,10 @@ Proof
 
 **b** $0^{\circ}<x<45^{\circ}$ or $120^{\circ}<x<135^{\circ}$
 
-$1945^{\circ}<\theta<135^{\circ}$ or $225^{\circ}<\theta<315^{\circ}$
+<a id="ch03-ans-ex3C-q19"></a>
+##### Answer 19
+
+$45^{\circ}<\theta<135^{\circ}$ or $225^{\circ}<\theta<315^{\circ}$
 
 <a id="ch03-ans-ex3D"></a>
 ### EXERCISE 3D

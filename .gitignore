@@ -36,3 +36,4 @@ images/
 # progress-tracking backend (dev-mode SQLite file; production uses a volume)
 progress.db
 backend/__pycache__/
+backend/backend.log

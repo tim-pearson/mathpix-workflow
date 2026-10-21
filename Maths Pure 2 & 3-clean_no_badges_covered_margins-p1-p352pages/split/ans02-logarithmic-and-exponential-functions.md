@@ -270,8 +270,8 @@ $z=\frac{1}{1-3 y^{3}}$
 
 **d** $\frac{5}{3}$
 
-<a id="ch02-ans-ex2C-q10"></a>
-##### Answer 10
+<a id="ch02-ans-ex2C-q11"></a>
+##### Answer 11
 $$
 \begin{align}
 & x=2 \log _{3} 2-2 \log _{2} 5, \\
@@ -442,7 +442,9 @@ $\quad \log _{10} x=3, \log _{10} y=-2$
 
 **c** 1.98
 
-$100,20^{0.8}$
+<a id="ch02-ans-ex2E-q10"></a>
+##### Answer 10
+$0,20^{0.8}$
 
 <a id="ch02-ans-ex2E-q11"></a>
 ##### Answer 11
@@ -634,7 +636,9 @@ $\mathrm{f}^{-1}(x)=\ln \left(\frac{x-2}{5}\right)$
 
 **b** $x=2 \ln 2, y=-\frac{1}{5} \ln 2$
 
-$15-\frac{1}{2}<x \leqslant 3$
+<a id="ch02-ans-ex2G-q15"></a>
+##### Answer 15
+$-\frac{1}{2}<x \leqslant 3$
 
 <a id="ch02-ans-ex2H"></a>
 ### EXERCISE 2H
@@ -758,8 +762,9 @@ $x<-\frac{\log \left(\frac{3}{2}\right)}{\log 8}$
 <a id="ch02-ans-review-q4"></a>
 ##### Answer 4
 20.1
-
-$5-1, \frac{2 \log 2-\log 3}{\log 2}$
+<a id="ch02-ans-review-q5"></a>
+##### Answer 5
+$-1, \frac{2 \log 2-\log 3}{\log 2}$
 
 <a id="ch02-ans-review-q6"></a>
 ##### Answer 6

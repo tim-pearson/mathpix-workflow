@@ -1713,6 +1713,14 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2C-q10",
+  "line": 263,
+  "next_id": "ch02-ans-ex2C-q11",
+  "type": "answer"
+ },
+ "ch02-ans-ex2C-q11": {
+  "chapter": 2,
+  "file": "ans02-logarithmic-and-exponential-functions.md",
+  "id": "ch02-ans-ex2C-q11",
   "line": 273,
   "next_id": "ch02-ans-ex2D",
   "type": "answer"
@@ -1863,11 +1871,19 @@
   "next_id": "ch02-ans-ex2E-q2",
   "type": "answer"
  },
+ "ch02-ans-ex2E-q10": {
+  "chapter": 2,
+  "file": "ans02-logarithmic-and-exponential-functions.md",
+  "id": "ch02-ans-ex2E-q10",
+  "line": 445,
+  "next_id": "ch02-ans-ex2E-q11",
+  "type": "answer"
+ },
  "ch02-ans-ex2E-q11": {
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2E-q11",
-  "line": 447,
+  "line": 449,
   "next_id": "ch02-ans-ex2E-q12",
   "type": "answer"
  },
@@ -1875,7 +1891,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2E-q12",
-  "line": 465,
+  "line": 467,
   "next_id": "ch02-ans-ex2E-q13",
   "type": "answer"
  },
@@ -1883,7 +1899,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2E-q13",
-  "line": 471,
+  "line": 473,
   "next_id": "ch02-ans-ex2F",
   "type": "answer"
  },
@@ -1948,7 +1964,7 @@
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2E-q9",
   "line": 437,
-  "next_id": "ch02-ans-ex2E-q11",
+  "next_id": "ch02-ans-ex2E-q10",
   "type": "answer"
  },
  "ch02-ans-ex2F": {
@@ -1956,7 +1972,7 @@
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2F",
   "kind": "exercise",
-  "line": 475,
+  "line": 477,
   "next_id": "ch02-ans-ex2F-q1",
   "type": "exercise"
  },
@@ -1964,7 +1980,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2F-q1",
-  "line": 478,
+  "line": 480,
   "next_id": "ch02-ans-ex2F-q2",
   "type": "answer"
  },
@@ -1972,7 +1988,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2F-q2",
-  "line": 488,
+  "line": 490,
   "next_id": "ch02-ans-ex2F-q3",
   "type": "answer"
  },
@@ -1980,7 +1996,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2F-q3",
-  "line": 498,
+  "line": 500,
   "next_id": "ch02-ans-ex2F-q4",
   "type": "answer"
  },
@@ -1988,7 +2004,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2F-q4",
-  "line": 502,
+  "line": 504,
   "next_id": "ch02-ans-ex2F-q5",
   "type": "answer"
  },
@@ -1996,7 +2012,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2F-q5",
-  "line": 506,
+  "line": 508,
   "next_id": "ch02-ans-ex2G",
   "type": "answer"
  },
@@ -2005,7 +2021,7 @@
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2G",
   "kind": "exercise",
-  "line": 512,
+  "line": 514,
   "next_id": "ch02-ans-ex2G-q1",
   "type": "exercise"
  },
@@ -2013,7 +2029,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2G-q1",
-  "line": 515,
+  "line": 517,
   "next_id": "ch02-ans-ex2G-q2",
   "type": "answer"
  },
@@ -2021,7 +2037,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2G-q10",
-  "line": 607,
+  "line": 609,
   "next_id": "ch02-ans-ex2G-q11",
   "type": "answer"
  },
@@ -2029,7 +2045,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2G-q11",
-  "line": 613,
+  "line": 615,
   "next_id": "ch02-ans-ex2G-q12",
   "type": "answer"
  },
@@ -2037,7 +2053,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2G-q12",
-  "line": 623,
+  "line": 625,
   "next_id": "ch02-ans-ex2G-q13",
   "type": "answer"
  },
@@ -2045,7 +2061,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2G-q13",
-  "line": 627,
+  "line": 629,
   "next_id": "ch02-ans-ex2G-q14",
   "type": "answer"
  },
@@ -2053,7 +2069,15 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2G-q14",
-  "line": 631,
+  "line": 633,
+  "next_id": "ch02-ans-ex2G-q15",
+  "type": "answer"
+ },
+ "ch02-ans-ex2G-q15": {
+  "chapter": 2,
+  "file": "ans02-logarithmic-and-exponential-functions.md",
+  "id": "ch02-ans-ex2G-q15",
+  "line": 639,
   "next_id": "ch02-ans-ex2H",
   "type": "answer"
  },
@@ -2061,7 +2085,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2G-q2",
-  "line": 525,
+  "line": 527,
   "next_id": "ch02-ans-ex2G-q3",
   "type": "answer"
  },
@@ -2069,7 +2093,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2G-q3",
-  "line": 535,
+  "line": 537,
   "next_id": "ch02-ans-ex2G-q4",
   "type": "answer"
  },
@@ -2077,7 +2101,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2G-q4",
-  "line": 545,
+  "line": 547,
   "next_id": "ch02-ans-ex2G-q5",
   "type": "answer"
  },
@@ -2085,7 +2109,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2G-q5",
-  "line": 555,
+  "line": 557,
   "next_id": "ch02-ans-ex2G-q6",
   "type": "answer"
  },
@@ -2093,7 +2117,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2G-q6",
-  "line": 565,
+  "line": 567,
   "next_id": "ch02-ans-ex2G-q7",
   "type": "answer"
  },
@@ -2101,7 +2125,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2G-q7",
-  "line": 575,
+  "line": 577,
   "next_id": "ch02-ans-ex2G-q8",
   "type": "answer"
  },
@@ -2109,7 +2133,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2G-q8",
-  "line": 583,
+  "line": 585,
   "next_id": "ch02-ans-ex2G-q9",
   "type": "answer"
  },
@@ -2117,7 +2141,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2G-q9",
-  "line": 593,
+  "line": 595,
   "next_id": "ch02-ans-ex2G-q10",
   "type": "answer"
  },
@@ -2126,7 +2150,7 @@
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2H",
   "kind": "exercise",
-  "line": 639,
+  "line": 643,
   "next_id": "ch02-ans-ex2H-q1",
   "type": "exercise"
  },
@@ -2134,7 +2158,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2H-q1",
-  "line": 642,
+  "line": 646,
   "next_id": "ch02-ans-ex2H-q2",
   "type": "answer"
  },
@@ -2142,7 +2166,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2H-q2",
-  "line": 697,
+  "line": 701,
   "next_id": "ch02-ans-ex2H-q3",
   "type": "answer"
  },
@@ -2150,7 +2174,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2H-q3",
-  "line": 701,
+  "line": 705,
   "next_id": "ch02-ans-ex2H-q4",
   "type": "answer"
  },
@@ -2158,7 +2182,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2H-q4",
-  "line": 705,
+  "line": 709,
   "next_id": "ch02-ans-ex2H-q5",
   "type": "answer"
  },
@@ -2166,7 +2190,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2H-q5",
-  "line": 711,
+  "line": 715,
   "next_id": "ch02-ans-ex2H-q6",
   "type": "answer"
  },
@@ -2174,7 +2198,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2H-q6",
-  "line": 717,
+  "line": 721,
   "next_id": "ch02-ans-ex2H-q7",
   "type": "answer"
  },
@@ -2182,7 +2206,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2H-q7",
-  "line": 721,
+  "line": 725,
   "next_id": "ch02-ans-ex2H-q8",
   "type": "answer"
  },
@@ -2190,7 +2214,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-ex2H-q8",
-  "line": 731,
+  "line": 735,
   "next_id": "ch02-ans-review",
   "type": "answer"
  },
@@ -2232,7 +2256,7 @@
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-review",
   "kind": "review",
-  "line": 743,
+  "line": 747,
   "next_id": "ch02-ans-review-q1",
   "type": "exercise"
  },
@@ -2240,7 +2264,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-review-q1",
-  "line": 746,
+  "line": 750,
   "next_id": "ch02-ans-review-q2",
   "type": "answer"
  },
@@ -2248,7 +2272,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-review-q10",
-  "line": 782,
+  "line": 787,
   "next_id": "ch02-ans-review-q11",
   "type": "answer"
  },
@@ -2256,7 +2280,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-review-q11",
-  "line": 788,
+  "line": 793,
   "next_id": "ch02-ans-review-q12",
   "type": "answer"
  },
@@ -2264,7 +2288,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-review-q12",
-  "line": 792,
+  "line": 797,
   "next_id": "ch02-ans-review-q13",
   "type": "answer"
  },
@@ -2272,7 +2296,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-review-q13",
-  "line": 796,
+  "line": 801,
   "next_id": "ch02-ans-review-q14",
   "type": "answer"
  },
@@ -2280,7 +2304,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-review-q14",
-  "line": 800,
+  "line": 805,
   "next_id": "ch02-ans-review-q15",
   "type": "answer"
  },
@@ -2288,7 +2312,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-review-q15",
-  "line": 806,
+  "line": 811,
   "next_id": null,
   "type": "answer"
  },
@@ -2296,7 +2320,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-review-q2",
-  "line": 750,
+  "line": 754,
   "next_id": "ch02-ans-review-q3",
   "type": "answer"
  },
@@ -2304,7 +2328,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-review-q3",
-  "line": 754,
+  "line": 758,
   "next_id": "ch02-ans-review-q4",
   "type": "answer"
  },
@@ -2312,7 +2336,15 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-review-q4",
-  "line": 758,
+  "line": 762,
+  "next_id": "ch02-ans-review-q5",
+  "type": "answer"
+ },
+ "ch02-ans-review-q5": {
+  "chapter": 2,
+  "file": "ans02-logarithmic-and-exponential-functions.md",
+  "id": "ch02-ans-review-q5",
+  "line": 765,
   "next_id": "ch02-ans-review-q6",
   "type": "answer"
  },
@@ -2320,7 +2352,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-review-q6",
-  "line": 764,
+  "line": 769,
   "next_id": "ch02-ans-review-q7",
   "type": "answer"
  },
@@ -2328,7 +2360,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-review-q7",
-  "line": 768,
+  "line": 773,
   "next_id": "ch02-ans-review-q8",
   "type": "answer"
  },
@@ -2336,7 +2368,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-review-q8",
-  "line": 772,
+  "line": 777,
   "next_id": "ch02-ans-review-q9",
   "type": "answer"
  },
@@ -2344,7 +2376,7 @@
   "chapter": 2,
   "file": "ans02-logarithmic-and-exponential-functions.md",
   "id": "ch02-ans-review-q9",
-  "line": 778,
+  "line": 783,
   "next_id": "ch02-ans-review-q10",
   "type": "answer"
  },
@@ -3361,7 +3393,7 @@
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross",
   "kind": "cross",
-  "line": 738,
+  "line": 746,
   "next_id": "ch03-ans-cross-q1",
   "type": "exercise"
  },
@@ -3369,7 +3401,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q1",
-  "line": 741,
+  "line": 749,
   "next_id": "ch03-ans-cross-q2",
   "type": "answer"
  },
@@ -3377,7 +3409,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q10",
-  "line": 785,
+  "line": 793,
   "next_id": "ch03-ans-cross-q11",
   "type": "answer"
  },
@@ -3385,7 +3417,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q11",
-  "line": 791,
+  "line": 799,
   "next_id": "ch03-ans-cross-q12",
   "type": "answer"
  },
@@ -3393,7 +3425,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q12",
-  "line": 797,
+  "line": 805,
   "next_id": "ch03-ans-cross-q13",
   "type": "answer"
  },
@@ -3401,7 +3433,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q13",
-  "line": 803,
+  "line": 811,
   "next_id": "ch03-ans-cross-q14",
   "type": "answer"
  },
@@ -3409,7 +3441,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q14",
-  "line": 809,
+  "line": 817,
   "next_id": "ch03-ans-cross-q15",
   "type": "answer"
  },
@@ -3417,7 +3449,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q15",
-  "line": 817,
+  "line": 825,
   "next_id": "ch03-ans-cross-q16",
   "type": "answer"
  },
@@ -3425,7 +3457,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q16",
-  "line": 823,
+  "line": 831,
   "next_id": "ch03-ans-cross-q17",
   "type": "answer"
  },
@@ -3433,7 +3465,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q17",
-  "line": 829,
+  "line": 837,
   "next_id": "ch03-ans-cross-q18",
   "type": "answer"
  },
@@ -3441,7 +3473,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q18",
-  "line": 835,
+  "line": 843,
   "next_id": "ch03-ans-cross-q19",
   "type": "answer"
  },
@@ -3449,7 +3481,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q19",
-  "line": 841,
+  "line": 849,
   "next_id": "ch03-ans-cross-q20",
   "type": "answer"
  },
@@ -3457,7 +3489,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q2",
-  "line": 745,
+  "line": 753,
   "next_id": "ch03-ans-cross-q3",
   "type": "answer"
  },
@@ -3465,7 +3497,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q20",
-  "line": 849,
+  "line": 857,
   "next_id": "ch03-ans-cross-q21",
   "type": "answer"
  },
@@ -3473,7 +3505,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q21",
-  "line": 855,
+  "line": 863,
   "next_id": "ch03-ans-cross-q22",
   "type": "answer"
  },
@@ -3481,7 +3513,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q22",
-  "line": 863,
+  "line": 871,
   "next_id": null,
   "type": "answer"
  },
@@ -3489,7 +3521,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q3",
-  "line": 749,
+  "line": 757,
   "next_id": "ch03-ans-cross-q4",
   "type": "answer"
  },
@@ -3497,7 +3529,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q4",
-  "line": 755,
+  "line": 763,
   "next_id": "ch03-ans-cross-q5",
   "type": "answer"
  },
@@ -3505,7 +3537,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q5",
-  "line": 761,
+  "line": 769,
   "next_id": "ch03-ans-cross-q6",
   "type": "answer"
  },
@@ -3513,7 +3545,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q6",
-  "line": 765,
+  "line": 773,
   "next_id": "ch03-ans-cross-q7",
   "type": "answer"
  },
@@ -3521,7 +3553,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q7",
-  "line": 771,
+  "line": 779,
   "next_id": "ch03-ans-cross-q8",
   "type": "answer"
  },
@@ -3529,7 +3561,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q8",
-  "line": 777,
+  "line": 785,
   "next_id": "ch03-ans-cross-q9",
   "type": "answer"
  },
@@ -3537,7 +3569,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q9",
-  "line": 781,
+  "line": 789,
   "next_id": "ch03-ans-cross-q10",
   "type": "answer"
  },
@@ -3824,11 +3856,19 @@
   "next_id": "ch03-ans-ex3C-q2",
   "type": "answer"
  },
+ "ch03-ans-ex3C-q10": {
+  "chapter": 3,
+  "file": "ans03-trigonometry.md",
+  "id": "ch03-ans-ex3C-q10",
+  "line": 421,
+  "next_id": "ch03-ans-ex3C-q11",
+  "type": "answer"
+ },
  "ch03-ans-ex3C-q11": {
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3C-q11",
-  "line": 423,
+  "line": 425,
   "next_id": "ch03-ans-ex3C-q12",
   "type": "answer"
  },
@@ -3836,7 +3876,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3C-q12",
-  "line": 429,
+  "line": 431,
   "next_id": "ch03-ans-ex3C-q13",
   "type": "answer"
  },
@@ -3844,7 +3884,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3C-q13",
-  "line": 435,
+  "line": 437,
   "next_id": "ch03-ans-ex3C-q14",
   "type": "answer"
  },
@@ -3852,7 +3892,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3C-q14",
-  "line": 441,
+  "line": 443,
   "next_id": "ch03-ans-ex3C-q15",
   "type": "answer"
  },
@@ -3860,7 +3900,15 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3C-q15",
-  "line": 451,
+  "line": 453,
+  "next_id": "ch03-ans-ex3C-q16",
+  "type": "answer"
+ },
+ "ch03-ans-ex3C-q16": {
+  "chapter": 3,
+  "file": "ans03-trigonometry.md",
+  "id": "ch03-ans-ex3C-q16",
+  "line": 457,
   "next_id": "ch03-ans-ex3C-q17",
   "type": "answer"
  },
@@ -3868,7 +3916,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3C-q17",
-  "line": 457,
+  "line": 462,
   "next_id": "ch03-ans-ex3C-q18",
   "type": "answer"
  },
@@ -3876,7 +3924,15 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3C-q18",
-  "line": 461,
+  "line": 466,
+  "next_id": "ch03-ans-ex3C-q19",
+  "type": "answer"
+ },
+ "ch03-ans-ex3C-q19": {
+  "chapter": 3,
+  "file": "ans03-trigonometry.md",
+  "id": "ch03-ans-ex3C-q19",
+  "line": 472,
   "next_id": "ch03-ans-ex3D",
   "type": "answer"
  },
@@ -3941,7 +3997,7 @@
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3C-q9",
   "line": 415,
-  "next_id": "ch03-ans-ex3C-q11",
+  "next_id": "ch03-ans-ex3C-q10",
   "type": "answer"
  },
  "ch03-ans-ex3D": {
@@ -3949,7 +4005,7 @@
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3D",
   "kind": "exercise",
-  "line": 469,
+  "line": 477,
   "next_id": "ch03-ans-ex3D-q1",
   "type": "exercise"
  },
@@ -3957,7 +4013,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3D-q1",
-  "line": 472,
+  "line": 480,
   "next_id": "ch03-ans-ex3D-q2",
   "type": "answer"
  },
@@ -3965,7 +4021,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3D-q2",
-  "line": 490,
+  "line": 498,
   "next_id": "ch03-ans-ex3D-q3",
   "type": "answer"
  },
@@ -3973,7 +4029,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3D-q3",
-  "line": 508,
+  "line": 516,
   "next_id": "ch03-ans-ex3D-q4",
   "type": "answer"
  },
@@ -3981,7 +4037,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3D-q4",
-  "line": 514,
+  "line": 522,
   "next_id": "ch03-ans-ex3D-q5",
   "type": "answer"
  },
@@ -3989,7 +4045,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3D-q5",
-  "line": 518,
+  "line": 526,
   "next_id": "ch03-ans-ex3D-q6",
   "type": "answer"
  },
@@ -3997,7 +4053,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3D-q6",
-  "line": 522,
+  "line": 530,
   "next_id": "ch03-ans-ex3E",
   "type": "answer"
  },
@@ -4006,7 +4062,7 @@
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3E",
   "kind": "exercise",
-  "line": 526,
+  "line": 534,
   "next_id": "ch03-ans-ex3E-q1",
   "type": "exercise"
  },
@@ -4014,7 +4070,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3E-q1",
-  "line": 529,
+  "line": 537,
   "next_id": "ch03-ans-ex3E-q2",
   "type": "answer"
  },
@@ -4022,7 +4078,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3E-q10",
-  "line": 595,
+  "line": 603,
   "next_id": "ch03-ans-ex3E-q11",
   "type": "answer"
  },
@@ -4030,7 +4086,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3E-q11",
-  "line": 603,
+  "line": 611,
   "next_id": "ch03-ans-ex3E-q12",
   "type": "answer"
  },
@@ -4038,7 +4094,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3E-q12",
-  "line": 611,
+  "line": 619,
   "next_id": "ch03-ans-ex3E-q13",
   "type": "answer"
  },
@@ -4046,7 +4102,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3E-q13",
-  "line": 619,
+  "line": 627,
   "next_id": "ch03-ans-ex3E-q14",
   "type": "answer"
  },
@@ -4054,7 +4110,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3E-q14",
-  "line": 625,
+  "line": 633,
   "next_id": "ch03-ans-review",
   "type": "answer"
  },
@@ -4062,7 +4118,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3E-q2",
-  "line": 535,
+  "line": 543,
   "next_id": "ch03-ans-ex3E-q3",
   "type": "answer"
  },
@@ -4070,7 +4126,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3E-q3",
-  "line": 541,
+  "line": 549,
   "next_id": "ch03-ans-ex3E-q4",
   "type": "answer"
  },
@@ -4078,7 +4134,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3E-q4",
-  "line": 549,
+  "line": 557,
   "next_id": "ch03-ans-ex3E-q5",
   "type": "answer"
  },
@@ -4086,7 +4142,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3E-q5",
-  "line": 557,
+  "line": 565,
   "next_id": "ch03-ans-ex3E-q6",
   "type": "answer"
  },
@@ -4094,7 +4150,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3E-q6",
-  "line": 565,
+  "line": 573,
   "next_id": "ch03-ans-ex3E-q7",
   "type": "answer"
  },
@@ -4102,7 +4158,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3E-q7",
-  "line": 571,
+  "line": 579,
   "next_id": "ch03-ans-ex3E-q8",
   "type": "answer"
  },
@@ -4110,7 +4166,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3E-q8",
-  "line": 579,
+  "line": 587,
   "next_id": "ch03-ans-ex3E-q9",
   "type": "answer"
  },
@@ -4118,7 +4174,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3E-q9",
-  "line": 587,
+  "line": 595,
   "next_id": "ch03-ans-ex3E-q10",
   "type": "answer"
  },
@@ -4160,7 +4216,7 @@
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review",
   "kind": "review",
-  "line": 631,
+  "line": 639,
   "next_id": "ch03-ans-review-q1",
   "type": "exercise"
  },
@@ -4168,7 +4224,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review-q1",
-  "line": 634,
+  "line": 642,
   "next_id": "ch03-ans-review-q2",
   "type": "answer"
  },
@@ -4176,7 +4232,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review-q10",
-  "line": 678,
+  "line": 686,
   "next_id": "ch03-ans-review-q11",
   "type": "answer"
  },
@@ -4184,7 +4240,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review-q11",
-  "line": 684,
+  "line": 692,
   "next_id": "ch03-ans-review-q12",
   "type": "answer"
  },
@@ -4192,7 +4248,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review-q12",
-  "line": 694,
+  "line": 702,
   "next_id": "ch03-ans-review-q13",
   "type": "answer"
  },
@@ -4200,7 +4256,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review-q13",
-  "line": 702,
+  "line": 710,
   "next_id": "ch03-ans-review-q14",
   "type": "answer"
  },
@@ -4208,7 +4264,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review-q14",
-  "line": 710,
+  "line": 718,
   "next_id": "ch03-ans-review-q15",
   "type": "answer"
  },
@@ -4216,7 +4272,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review-q15",
-  "line": 718,
+  "line": 726,
   "next_id": "ch03-ans-review-q16",
   "type": "answer"
  },
@@ -4224,7 +4280,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review-q16",
-  "line": 724,
+  "line": 732,
   "next_id": "ch03-ans-review-q17",
   "type": "answer"
  },
@@ -4232,7 +4288,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review-q17",
-  "line": 730,
+  "line": 738,
   "next_id": "ch03-ans-cross",
   "type": "answer"
  },
@@ -4240,7 +4296,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review-q2",
-  "line": 638,
+  "line": 646,
   "next_id": "ch03-ans-review-q3",
   "type": "answer"
  },
@@ -4248,7 +4304,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review-q3",
-  "line": 642,
+  "line": 650,
   "next_id": "ch03-ans-review-q4",
   "type": "answer"
  },
@@ -4256,7 +4312,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review-q4",
-  "line": 646,
+  "line": 654,
   "next_id": "ch03-ans-review-q5",
   "type": "answer"
  },
@@ -4264,7 +4320,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review-q5",
-  "line": 650,
+  "line": 658,
   "next_id": "ch03-ans-review-q6",
   "type": "answer"
  },
@@ -4272,7 +4328,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review-q6",
-  "line": 654,
+  "line": 662,
   "next_id": "ch03-ans-review-q7",
   "type": "answer"
  },
@@ -4280,7 +4336,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review-q7",
-  "line": 660,
+  "line": 668,
   "next_id": "ch03-ans-review-q8",
   "type": "answer"
  },
@@ -4288,7 +4344,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review-q8",
-  "line": 666,
+  "line": 674,
   "next_id": "ch03-ans-review-q9",
   "type": "answer"
  },
@@ -4296,7 +4352,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review-q9",
-  "line": 672,
+  "line": 680,
   "next_id": "ch03-ans-review-q10",
   "type": "answer"
  },
@@ -5444,6 +5500,22 @@
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4A-q4",
   "line": 55,
+  "next_id": "ch04-ans-ex4A-q5",
+  "type": "answer"
+ },
+ "ch04-ans-ex4A-q5": {
+  "chapter": 4,
+  "file": "ans04-differentiation.md",
+  "id": "ch04-ans-ex4A-q5",
+  "line": 59,
+  "next_id": "ch04-ans-ex4A-q6",
+  "type": "answer"
+ },
+ "ch04-ans-ex4A-q6": {
+  "chapter": 4,
+  "file": "ans04-differentiation.md",
+  "id": "ch04-ans-ex4A-q6",
+  "line": 63,
   "next_id": "ch04-ans-ex4A-q7",
   "type": "answer"
  },
@@ -5451,7 +5523,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4A-q7",
-  "line": 63,
+  "line": 66,
   "next_id": "ch04-ans-ex4B",
   "type": "answer"
  },
@@ -5460,7 +5532,7 @@
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4B",
   "kind": "exercise",
-  "line": 71,
+  "line": 74,
   "next_id": "ch04-ans-ex4B-q1",
   "type": "exercise"
  },
@@ -5468,7 +5540,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4B-q1",
-  "line": 74,
+  "line": 77,
   "next_id": "ch04-ans-ex4B-q3",
   "type": "answer"
  },
@@ -5476,7 +5548,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4B-q3",
-  "line": 92,
+  "line": 95,
   "next_id": "ch04-ans-ex4B-q4",
   "type": "answer"
  },
@@ -5484,7 +5556,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4B-q4",
-  "line": 96,
+  "line": 99,
   "next_id": "ch04-ans-ex4B-q5",
   "type": "answer"
  },
@@ -5492,7 +5564,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4B-q5",
-  "line": 100,
+  "line": 103,
   "next_id": "ch04-ans-ex4B-q6",
   "type": "answer"
  },
@@ -5500,7 +5572,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4B-q6",
-  "line": 104,
+  "line": 107,
   "next_id": "ch04-ans-ex4B-q7",
   "type": "answer"
  },
@@ -5508,7 +5580,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4B-q7",
-  "line": 114,
+  "line": 117,
   "next_id": "ch04-ans-ex4B-q9",
   "type": "answer"
  },
@@ -5516,7 +5588,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4B-q9",
-  "line": 120,
+  "line": 123,
   "next_id": "ch04-ans-ex4C",
   "type": "answer"
  },
@@ -5525,7 +5597,7 @@
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4C",
   "kind": "exercise",
-  "line": 126,
+  "line": 129,
   "next_id": "ch04-ans-ex4C-q1",
   "type": "exercise"
  },
@@ -5533,7 +5605,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4C-q1",
-  "line": 129,
+  "line": 132,
   "next_id": "ch04-ans-ex4C-q2",
   "type": "answer"
  },
@@ -5541,7 +5613,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4C-q10",
-  "line": 187,
+  "line": 190,
   "next_id": "ch04-ans-ex4C-q11",
   "type": "answer"
  },
@@ -5549,7 +5621,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4C-q11",
-  "line": 193,
+  "line": 196,
   "next_id": "ch04-ans-ex4C-q13",
   "type": "answer"
  },
@@ -5557,7 +5629,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4C-q13",
-  "line": 199,
+  "line": 202,
   "next_id": "ch04-ans-ex4D",
   "type": "answer"
  },
@@ -5565,7 +5637,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4C-q2",
-  "line": 155,
+  "line": 158,
   "next_id": "ch04-ans-ex4C-q3",
   "type": "answer"
  },
@@ -5573,7 +5645,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4C-q3",
-  "line": 163,
+  "line": 166,
   "next_id": "ch04-ans-ex4C-q4",
   "type": "answer"
  },
@@ -5581,7 +5653,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4C-q4",
-  "line": 167,
+  "line": 170,
   "next_id": "ch04-ans-ex4C-q10",
   "type": "answer"
  },
@@ -5590,7 +5662,7 @@
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4D",
   "kind": "exercise",
-  "line": 205,
+  "line": 208,
   "next_id": "ch04-ans-ex4D-q1",
   "type": "exercise"
  },
@@ -5598,7 +5670,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4D-q1",
-  "line": 208,
+  "line": 211,
   "next_id": "ch04-ans-ex4D-q2",
   "type": "answer"
  },
@@ -5606,7 +5678,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4D-q10",
-  "line": 282,
+  "line": 285,
   "next_id": "ch04-ans-ex4D-q11",
   "type": "answer"
  },
@@ -5614,7 +5686,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4D-q11",
-  "line": 302,
+  "line": 305,
   "next_id": "ch04-ans-ex4D-q12",
   "type": "answer"
  },
@@ -5622,7 +5694,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4D-q12",
-  "line": 310,
+  "line": 313,
   "next_id": "ch04-ans-ex4E",
   "type": "answer"
  },
@@ -5630,7 +5702,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4D-q2",
-  "line": 234,
+  "line": 237,
   "next_id": "ch04-ans-ex4D-q3",
   "type": "answer"
  },
@@ -5638,7 +5710,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4D-q3",
-  "line": 246,
+  "line": 249,
   "next_id": "ch04-ans-ex4D-q4",
   "type": "answer"
  },
@@ -5646,7 +5718,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4D-q4",
-  "line": 266,
+  "line": 269,
   "next_id": "ch04-ans-ex4D-q5",
   "type": "answer"
  },
@@ -5654,7 +5726,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4D-q5",
-  "line": 274,
+  "line": 277,
   "next_id": "ch04-ans-ex4D-q10",
   "type": "answer"
  },
@@ -5663,7 +5735,7 @@
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4E",
   "kind": "exercise",
-  "line": 314,
+  "line": 317,
   "next_id": "ch04-ans-ex4E-q1",
   "type": "exercise"
  },
@@ -5671,7 +5743,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4E-q1",
-  "line": 317,
+  "line": 320,
   "next_id": "ch04-ans-ex4E-q2",
   "type": "answer"
  },
@@ -5679,7 +5751,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4E-q10",
-  "line": 427,
+  "line": 430,
   "next_id": "ch04-ans-ex4E-q11",
   "type": "answer"
  },
@@ -5687,7 +5759,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4E-q11",
-  "line": 431,
+  "line": 434,
   "next_id": "ch04-ans-ex4E-q12",
   "type": "answer"
  },
@@ -5695,7 +5767,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4E-q12",
-  "line": 435,
+  "line": 438,
   "next_id": "ch04-ans-ex4E-q13",
   "type": "answer"
  },
@@ -5703,7 +5775,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4E-q13",
-  "line": 439,
+  "line": 442,
   "next_id": "ch04-ans-ex4E-q14",
   "type": "answer"
  },
@@ -5711,7 +5783,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4E-q14",
-  "line": 443,
+  "line": 446,
   "next_id": "ch04-ans-ex4E-q15",
   "type": "answer"
  },
@@ -5719,7 +5791,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4E-q15",
-  "line": 447,
+  "line": 450,
   "next_id": "ch04-ans-ex4E-q16",
   "type": "answer"
  },
@@ -5727,7 +5799,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4E-q16",
-  "line": 451,
+  "line": 454,
   "next_id": "ch04-ans-ex4F",
   "type": "answer"
  },
@@ -5735,7 +5807,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4E-q2",
-  "line": 337,
+  "line": 340,
   "next_id": "ch04-ans-ex4E-q3",
   "type": "answer"
  },
@@ -5743,7 +5815,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4E-q3",
-  "line": 351,
+  "line": 354,
   "next_id": "ch04-ans-ex4E-q4",
   "type": "answer"
  },
@@ -5751,7 +5823,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4E-q4",
-  "line": 377,
+  "line": 380,
   "next_id": "ch04-ans-ex4E-q5",
   "type": "answer"
  },
@@ -5759,7 +5831,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4E-q5",
-  "line": 403,
+  "line": 406,
   "next_id": "ch04-ans-ex4E-q6",
   "type": "answer"
  },
@@ -5767,7 +5839,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4E-q6",
-  "line": 407,
+  "line": 410,
   "next_id": "ch04-ans-ex4E-q7",
   "type": "answer"
  },
@@ -5775,7 +5847,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4E-q7",
-  "line": 411,
+  "line": 414,
   "next_id": "ch04-ans-ex4E-q8",
   "type": "answer"
  },
@@ -5783,7 +5855,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4E-q8",
-  "line": 415,
+  "line": 418,
   "next_id": "ch04-ans-ex4E-q9",
   "type": "answer"
  },
@@ -5791,7 +5863,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4E-q9",
-  "line": 419,
+  "line": 422,
   "next_id": "ch04-ans-ex4E-q10",
   "type": "answer"
  },
@@ -5800,7 +5872,7 @@
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4F",
   "kind": "exercise",
-  "line": 455,
+  "line": 458,
   "next_id": "ch04-ans-ex4F-q1",
   "type": "exercise"
  },
@@ -5808,7 +5880,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4F-q1",
-  "line": 458,
+  "line": 461,
   "next_id": "ch04-ans-ex4F-q2",
   "type": "answer"
  },
@@ -5816,7 +5888,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4F-q11",
-  "line": 538,
+  "line": 541,
   "next_id": "ch04-ans-ex4F-q12",
   "type": "answer"
  },
@@ -5824,7 +5896,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4F-q12",
-  "line": 542,
+  "line": 545,
   "next_id": "ch04-ans-ex4F-q13",
   "type": "answer"
  },
@@ -5832,7 +5904,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4F-q13",
-  "line": 546,
+  "line": 549,
   "next_id": "ch04-ans-ex4F-q14",
   "type": "answer"
  },
@@ -5840,7 +5912,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4F-q14",
-  "line": 550,
+  "line": 553,
   "next_id": "ch04-ans-ex4G",
   "type": "answer"
  },
@@ -5848,7 +5920,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4F-q2",
-  "line": 484,
+  "line": 487,
   "next_id": "ch04-ans-ex4F-q4",
   "type": "answer"
  },
@@ -5856,7 +5928,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4F-q4",
-  "line": 504,
+  "line": 507,
   "next_id": "ch04-ans-ex4F-q5",
   "type": "answer"
  },
@@ -5864,7 +5936,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4F-q5",
-  "line": 508,
+  "line": 511,
   "next_id": "ch04-ans-ex4F-q6",
   "type": "answer"
  },
@@ -5872,7 +5944,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4F-q6",
-  "line": 512,
+  "line": 515,
   "next_id": "ch04-ans-ex4F-q7",
   "type": "answer"
  },
@@ -5880,7 +5952,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4F-q7",
-  "line": 516,
+  "line": 519,
   "next_id": "ch04-ans-ex4F-q8",
   "type": "answer"
  },
@@ -5888,7 +5960,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4F-q8",
-  "line": 522,
+  "line": 525,
   "next_id": "ch04-ans-ex4F-q9",
   "type": "answer"
  },
@@ -5896,7 +5968,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4F-q9",
-  "line": 530,
+  "line": 533,
   "next_id": "ch04-ans-ex4F-q11",
   "type": "answer"
  },
@@ -5905,7 +5977,7 @@
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4G",
   "kind": "exercise",
-  "line": 554,
+  "line": 557,
   "next_id": "ch04-ans-ex4G-q1",
   "type": "exercise"
  },
@@ -5913,7 +5985,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4G-q1",
-  "line": 557,
+  "line": 560,
   "next_id": "ch04-ans-ex4G-q3",
   "type": "answer"
  },
@@ -5921,7 +5993,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4G-q10",
-  "line": 617,
+  "line": 620,
   "next_id": "ch04-ans-ex4G-q11",
   "type": "answer"
  },
@@ -5929,7 +6001,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4G-q11",
-  "line": 625,
+  "line": 628,
   "next_id": "ch04-ans-review",
   "type": "answer"
  },
@@ -5937,7 +6009,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4G-q3",
-  "line": 585,
+  "line": 588,
   "next_id": "ch04-ans-ex4G-q5",
   "type": "answer"
  },
@@ -5945,7 +6017,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4G-q5",
-  "line": 591,
+  "line": 594,
   "next_id": "ch04-ans-ex4G-q6",
   "type": "answer"
  },
@@ -5953,7 +6025,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4G-q6",
-  "line": 595,
+  "line": 598,
   "next_id": "ch04-ans-ex4G-q7",
   "type": "answer"
  },
@@ -5961,7 +6033,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4G-q7",
-  "line": 601,
+  "line": 604,
   "next_id": "ch04-ans-ex4G-q8",
   "type": "answer"
  },
@@ -5969,7 +6041,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4G-q8",
-  "line": 607,
+  "line": 610,
   "next_id": "ch04-ans-ex4G-q9",
   "type": "answer"
  },
@@ -5977,7 +6049,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4G-q9",
-  "line": 613,
+  "line": 616,
   "next_id": "ch04-ans-ex4G-q10",
   "type": "answer"
  },
@@ -6019,7 +6091,7 @@
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-review",
   "kind": "review",
-  "line": 631,
+  "line": 634,
   "next_id": "ch04-ans-review-q1",
   "type": "exercise"
  },
@@ -6027,7 +6099,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-review-q1",
-  "line": 634,
+  "line": 637,
   "next_id": "ch04-ans-review-q2",
   "type": "answer"
  },
@@ -6035,7 +6107,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-review-q10",
-  "line": 690,
+  "line": 693,
   "next_id": "ch04-ans-review-q11",
   "type": "answer"
  },
@@ -6043,7 +6115,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-review-q11",
-  "line": 696,
+  "line": 699,
   "next_id": "ch04-ans-review-q12",
   "type": "answer"
  },
@@ -6051,7 +6123,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-review-q12",
-  "line": 700,
+  "line": 703,
   "next_id": "ch04-ans-review-q13",
   "type": "answer"
  },
@@ -6059,7 +6131,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-review-q13",
-  "line": 706,
+  "line": 709,
   "next_id": null,
   "type": "answer"
  },
@@ -6067,7 +6139,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-review-q2",
-  "line": 640,
+  "line": 643,
   "next_id": "ch04-ans-review-q3",
   "type": "answer"
  },
@@ -6075,7 +6147,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-review-q3",
-  "line": 646,
+  "line": 649,
   "next_id": "ch04-ans-review-q4",
   "type": "answer"
  },
@@ -6083,7 +6155,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-review-q4",
-  "line": 654,
+  "line": 657,
   "next_id": "ch04-ans-review-q5",
   "type": "answer"
  },
@@ -6091,7 +6163,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-review-q5",
-  "line": 660,
+  "line": 663,
   "next_id": "ch04-ans-review-q6",
   "type": "answer"
  },
@@ -6099,7 +6171,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-review-q6",
-  "line": 666,
+  "line": 669,
   "next_id": "ch04-ans-review-q7",
   "type": "answer"
  },
@@ -6107,7 +6179,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-review-q7",
-  "line": 674,
+  "line": 677,
   "next_id": "ch04-ans-review-q8",
   "type": "answer"
  },
@@ -6115,7 +6187,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-review-q8",
-  "line": 678,
+  "line": 681,
   "next_id": "ch04-ans-review-q9",
   "type": "answer"
  },
@@ -6123,7 +6195,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-review-q9",
-  "line": 686,
+  "line": 689,
   "next_id": "ch04-ans-review-q10",
   "type": "answer"
  },

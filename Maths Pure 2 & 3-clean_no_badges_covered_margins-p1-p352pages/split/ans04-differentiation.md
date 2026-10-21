@@ -54,12 +54,15 @@ $16 x+y=32$
 
 <a id="ch04-ans-ex4A-q4"></a>
 ##### Answer 4
-5
+$5$
 
-$5-1, \frac{3}{5}, 3$
+<a id="ch04-ans-ex4A-q5"></a>
+##### Answer 5
+$-1, \frac{3}{5}, 3$
 
-$6-\frac{1}{3}$
-
+<a id="ch04-ans-ex4A-q6"></a>
+##### Answer 6
+$-\frac{1}{3}$
 <a id="ch04-ans-ex4A-q7"></a>
 ##### Answer 7
 a
