@@ -329,7 +329,9 @@ $\frac{1}{2}$
 
 **f** 74.1°
 
-$1522.5^{\circ}, 112.5^{\circ}$
+<a id="ch03-ans-ex3B-q15"></a>
+##### Answer 14
+$22.5^{\circ}, 112.5^{\circ}$
 
 <a id="ch03-ans-ex3B-q16"></a>
 ##### Answer 16

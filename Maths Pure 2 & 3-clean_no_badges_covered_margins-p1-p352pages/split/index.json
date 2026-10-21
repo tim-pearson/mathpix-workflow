@@ -3361,7 +3361,7 @@
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross",
   "kind": "cross",
-  "line": 736,
+  "line": 738,
   "next_id": "ch03-ans-cross-q1",
   "type": "exercise"
  },
@@ -3369,7 +3369,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q1",
-  "line": 739,
+  "line": 741,
   "next_id": "ch03-ans-cross-q2",
   "type": "answer"
  },
@@ -3377,7 +3377,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q10",
-  "line": 783,
+  "line": 785,
   "next_id": "ch03-ans-cross-q11",
   "type": "answer"
  },
@@ -3385,7 +3385,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q11",
-  "line": 789,
+  "line": 791,
   "next_id": "ch03-ans-cross-q12",
   "type": "answer"
  },
@@ -3393,7 +3393,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q12",
-  "line": 795,
+  "line": 797,
   "next_id": "ch03-ans-cross-q13",
   "type": "answer"
  },
@@ -3401,7 +3401,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q13",
-  "line": 801,
+  "line": 803,
   "next_id": "ch03-ans-cross-q14",
   "type": "answer"
  },
@@ -3409,7 +3409,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q14",
-  "line": 807,
+  "line": 809,
   "next_id": "ch03-ans-cross-q15",
   "type": "answer"
  },
@@ -3417,7 +3417,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q15",
-  "line": 815,
+  "line": 817,
   "next_id": "ch03-ans-cross-q16",
   "type": "answer"
  },
@@ -3425,7 +3425,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q16",
-  "line": 821,
+  "line": 823,
   "next_id": "ch03-ans-cross-q17",
   "type": "answer"
  },
@@ -3433,7 +3433,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q17",
-  "line": 827,
+  "line": 829,
   "next_id": "ch03-ans-cross-q18",
   "type": "answer"
  },
@@ -3441,7 +3441,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q18",
-  "line": 833,
+  "line": 835,
   "next_id": "ch03-ans-cross-q19",
   "type": "answer"
  },
@@ -3449,7 +3449,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q19",
-  "line": 839,
+  "line": 841,
   "next_id": "ch03-ans-cross-q20",
   "type": "answer"
  },
@@ -3457,7 +3457,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q2",
-  "line": 743,
+  "line": 745,
   "next_id": "ch03-ans-cross-q3",
   "type": "answer"
  },
@@ -3465,7 +3465,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q20",
-  "line": 847,
+  "line": 849,
   "next_id": "ch03-ans-cross-q21",
   "type": "answer"
  },
@@ -3473,7 +3473,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q21",
-  "line": 853,
+  "line": 855,
   "next_id": "ch03-ans-cross-q22",
   "type": "answer"
  },
@@ -3481,7 +3481,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q22",
-  "line": 861,
+  "line": 863,
   "next_id": null,
   "type": "answer"
  },
@@ -3489,7 +3489,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q3",
-  "line": 747,
+  "line": 749,
   "next_id": "ch03-ans-cross-q4",
   "type": "answer"
  },
@@ -3497,7 +3497,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q4",
-  "line": 753,
+  "line": 755,
   "next_id": "ch03-ans-cross-q5",
   "type": "answer"
  },
@@ -3505,7 +3505,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q5",
-  "line": 759,
+  "line": 761,
   "next_id": "ch03-ans-cross-q6",
   "type": "answer"
  },
@@ -3513,7 +3513,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q6",
-  "line": 763,
+  "line": 765,
   "next_id": "ch03-ans-cross-q7",
   "type": "answer"
  },
@@ -3521,7 +3521,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q7",
-  "line": 769,
+  "line": 771,
   "next_id": "ch03-ans-cross-q8",
   "type": "answer"
  },
@@ -3529,7 +3529,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q8",
-  "line": 775,
+  "line": 777,
   "next_id": "ch03-ans-cross-q9",
   "type": "answer"
  },
@@ -3537,7 +3537,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-cross-q9",
-  "line": 779,
+  "line": 781,
   "next_id": "ch03-ans-cross-q10",
   "type": "answer"
  },
@@ -3716,6 +3716,14 @@
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3B-q14",
   "line": 318,
+  "next_id": "ch03-ans-ex3B-q15",
+  "type": "answer"
+ },
+ "ch03-ans-ex3B-q15": {
+  "chapter": 3,
+  "file": "ans03-trigonometry.md",
+  "id": "ch03-ans-ex3B-q15",
+  "line": 332,
   "next_id": "ch03-ans-ex3B-q16",
   "type": "answer"
  },
@@ -3723,7 +3731,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3B-q16",
-  "line": 334,
+  "line": 336,
   "next_id": "ch03-ans-ex3B-q17",
   "type": "answer"
  },
@@ -3731,7 +3739,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3B-q17",
-  "line": 338,
+  "line": 340,
   "next_id": "ch03-ans-ex3C",
   "type": "answer"
  },
@@ -3804,7 +3812,7 @@
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3C",
   "kind": "exercise",
-  "line": 342,
+  "line": 344,
   "next_id": "ch03-ans-ex3C-q1",
   "type": "exercise"
  },
@@ -3812,7 +3820,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3C-q1",
-  "line": 345,
+  "line": 347,
   "next_id": "ch03-ans-ex3C-q2",
   "type": "answer"
  },
@@ -3820,7 +3828,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3C-q11",
-  "line": 421,
+  "line": 423,
   "next_id": "ch03-ans-ex3C-q12",
   "type": "answer"
  },
@@ -3828,7 +3836,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3C-q12",
-  "line": 427,
+  "line": 429,
   "next_id": "ch03-ans-ex3C-q13",
   "type": "answer"
  },
@@ -3836,7 +3844,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3C-q13",
-  "line": 433,
+  "line": 435,
   "next_id": "ch03-ans-ex3C-q14",
   "type": "answer"
  },
@@ -3844,7 +3852,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3C-q14",
-  "line": 439,
+  "line": 441,
   "next_id": "ch03-ans-ex3C-q15",
   "type": "answer"
  },
@@ -3852,7 +3860,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3C-q15",
-  "line": 449,
+  "line": 451,
   "next_id": "ch03-ans-ex3C-q17",
   "type": "answer"
  },
@@ -3860,7 +3868,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3C-q17",
-  "line": 455,
+  "line": 457,
   "next_id": "ch03-ans-ex3C-q18",
   "type": "answer"
  },
@@ -3868,7 +3876,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3C-q18",
-  "line": 459,
+  "line": 461,
   "next_id": "ch03-ans-ex3D",
   "type": "answer"
  },
@@ -3876,7 +3884,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3C-q2",
-  "line": 353,
+  "line": 355,
   "next_id": "ch03-ans-ex3C-q3",
   "type": "answer"
  },
@@ -3884,7 +3892,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3C-q3",
-  "line": 363,
+  "line": 365,
   "next_id": "ch03-ans-ex3C-q4",
   "type": "answer"
  },
@@ -3892,7 +3900,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3C-q4",
-  "line": 373,
+  "line": 375,
   "next_id": "ch03-ans-ex3C-q5",
   "type": "answer"
  },
@@ -3900,7 +3908,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3C-q5",
-  "line": 383,
+  "line": 385,
   "next_id": "ch03-ans-ex3C-q6",
   "type": "answer"
  },
@@ -3908,7 +3916,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3C-q6",
-  "line": 387,
+  "line": 389,
   "next_id": "ch03-ans-ex3C-q7",
   "type": "answer"
  },
@@ -3916,7 +3924,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3C-q7",
-  "line": 395,
+  "line": 397,
   "next_id": "ch03-ans-ex3C-q8",
   "type": "answer"
  },
@@ -3924,7 +3932,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3C-q8",
-  "line": 409,
+  "line": 411,
   "next_id": "ch03-ans-ex3C-q9",
   "type": "answer"
  },
@@ -3932,7 +3940,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3C-q9",
-  "line": 413,
+  "line": 415,
   "next_id": "ch03-ans-ex3C-q11",
   "type": "answer"
  },
@@ -3941,7 +3949,7 @@
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3D",
   "kind": "exercise",
-  "line": 467,
+  "line": 469,
   "next_id": "ch03-ans-ex3D-q1",
   "type": "exercise"
  },
@@ -3949,7 +3957,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3D-q1",
-  "line": 470,
+  "line": 472,
   "next_id": "ch03-ans-ex3D-q2",
   "type": "answer"
  },
@@ -3957,7 +3965,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3D-q2",
-  "line": 488,
+  "line": 490,
   "next_id": "ch03-ans-ex3D-q3",
   "type": "answer"
  },
@@ -3965,7 +3973,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3D-q3",
-  "line": 506,
+  "line": 508,
   "next_id": "ch03-ans-ex3D-q4",
   "type": "answer"
  },
@@ -3973,7 +3981,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3D-q4",
-  "line": 512,
+  "line": 514,
   "next_id": "ch03-ans-ex3D-q5",
   "type": "answer"
  },
@@ -3981,7 +3989,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3D-q5",
-  "line": 516,
+  "line": 518,
   "next_id": "ch03-ans-ex3D-q6",
   "type": "answer"
  },
@@ -3989,7 +3997,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3D-q6",
-  "line": 520,
+  "line": 522,
   "next_id": "ch03-ans-ex3E",
   "type": "answer"
  },
@@ -3998,7 +4006,7 @@
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3E",
   "kind": "exercise",
-  "line": 524,
+  "line": 526,
   "next_id": "ch03-ans-ex3E-q1",
   "type": "exercise"
  },
@@ -4006,7 +4014,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3E-q1",
-  "line": 527,
+  "line": 529,
   "next_id": "ch03-ans-ex3E-q2",
   "type": "answer"
  },
@@ -4014,7 +4022,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3E-q10",
-  "line": 593,
+  "line": 595,
   "next_id": "ch03-ans-ex3E-q11",
   "type": "answer"
  },
@@ -4022,7 +4030,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3E-q11",
-  "line": 601,
+  "line": 603,
   "next_id": "ch03-ans-ex3E-q12",
   "type": "answer"
  },
@@ -4030,7 +4038,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3E-q12",
-  "line": 609,
+  "line": 611,
   "next_id": "ch03-ans-ex3E-q13",
   "type": "answer"
  },
@@ -4038,7 +4046,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3E-q13",
-  "line": 617,
+  "line": 619,
   "next_id": "ch03-ans-ex3E-q14",
   "type": "answer"
  },
@@ -4046,7 +4054,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3E-q14",
-  "line": 623,
+  "line": 625,
   "next_id": "ch03-ans-review",
   "type": "answer"
  },
@@ -4054,7 +4062,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3E-q2",
-  "line": 533,
+  "line": 535,
   "next_id": "ch03-ans-ex3E-q3",
   "type": "answer"
  },
@@ -4062,7 +4070,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3E-q3",
-  "line": 539,
+  "line": 541,
   "next_id": "ch03-ans-ex3E-q4",
   "type": "answer"
  },
@@ -4070,7 +4078,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3E-q4",
-  "line": 547,
+  "line": 549,
   "next_id": "ch03-ans-ex3E-q5",
   "type": "answer"
  },
@@ -4078,7 +4086,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3E-q5",
-  "line": 555,
+  "line": 557,
   "next_id": "ch03-ans-ex3E-q6",
   "type": "answer"
  },
@@ -4086,7 +4094,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3E-q6",
-  "line": 563,
+  "line": 565,
   "next_id": "ch03-ans-ex3E-q7",
   "type": "answer"
  },
@@ -4094,7 +4102,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3E-q7",
-  "line": 569,
+  "line": 571,
   "next_id": "ch03-ans-ex3E-q8",
   "type": "answer"
  },
@@ -4102,7 +4110,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3E-q8",
-  "line": 577,
+  "line": 579,
   "next_id": "ch03-ans-ex3E-q9",
   "type": "answer"
  },
@@ -4110,7 +4118,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-ex3E-q9",
-  "line": 585,
+  "line": 587,
   "next_id": "ch03-ans-ex3E-q10",
   "type": "answer"
  },
@@ -4152,7 +4160,7 @@
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review",
   "kind": "review",
-  "line": 629,
+  "line": 631,
   "next_id": "ch03-ans-review-q1",
   "type": "exercise"
  },
@@ -4160,7 +4168,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review-q1",
-  "line": 632,
+  "line": 634,
   "next_id": "ch03-ans-review-q2",
   "type": "answer"
  },
@@ -4168,7 +4176,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review-q10",
-  "line": 676,
+  "line": 678,
   "next_id": "ch03-ans-review-q11",
   "type": "answer"
  },
@@ -4176,7 +4184,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review-q11",
-  "line": 682,
+  "line": 684,
   "next_id": "ch03-ans-review-q12",
   "type": "answer"
  },
@@ -4184,7 +4192,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review-q12",
-  "line": 692,
+  "line": 694,
   "next_id": "ch03-ans-review-q13",
   "type": "answer"
  },
@@ -4192,7 +4200,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review-q13",
-  "line": 700,
+  "line": 702,
   "next_id": "ch03-ans-review-q14",
   "type": "answer"
  },
@@ -4200,7 +4208,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review-q14",
-  "line": 708,
+  "line": 710,
   "next_id": "ch03-ans-review-q15",
   "type": "answer"
  },
@@ -4208,7 +4216,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review-q15",
-  "line": 716,
+  "line": 718,
   "next_id": "ch03-ans-review-q16",
   "type": "answer"
  },
@@ -4216,7 +4224,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review-q16",
-  "line": 722,
+  "line": 724,
   "next_id": "ch03-ans-review-q17",
   "type": "answer"
  },
@@ -4224,7 +4232,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review-q17",
-  "line": 728,
+  "line": 730,
   "next_id": "ch03-ans-cross",
   "type": "answer"
  },
@@ -4232,7 +4240,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review-q2",
-  "line": 636,
+  "line": 638,
   "next_id": "ch03-ans-review-q3",
   "type": "answer"
  },
@@ -4240,7 +4248,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review-q3",
-  "line": 640,
+  "line": 642,
   "next_id": "ch03-ans-review-q4",
   "type": "answer"
  },
@@ -4248,7 +4256,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review-q4",
-  "line": 644,
+  "line": 646,
   "next_id": "ch03-ans-review-q5",
   "type": "answer"
  },
@@ -4256,7 +4264,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review-q5",
-  "line": 648,
+  "line": 650,
   "next_id": "ch03-ans-review-q6",
   "type": "answer"
  },
@@ -4264,7 +4272,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review-q6",
-  "line": 652,
+  "line": 654,
   "next_id": "ch03-ans-review-q7",
   "type": "answer"
  },
@@ -4272,7 +4280,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review-q7",
-  "line": 658,
+  "line": 660,
   "next_id": "ch03-ans-review-q8",
   "type": "answer"
  },
@@ -4280,7 +4288,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review-q8",
-  "line": 664,
+  "line": 666,
   "next_id": "ch03-ans-review-q9",
   "type": "answer"
  },
@@ -4288,7 +4296,7 @@
   "chapter": 3,
   "file": "ans03-trigonometry.md",
   "id": "ch03-ans-review-q9",
-  "line": 670,
+  "line": 672,
   "next_id": "ch03-ans-review-q10",
   "type": "answer"
  },
