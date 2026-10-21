@@ -311,10 +311,23 @@ $$
 ##### Answer 5
 -8
 
-$62+4 \ln 10,3+2 \ln 10$
 
-$7\left(\frac{1}{\sqrt{\mathbf{e}}},-\frac{1}{2 \mathbf{e}}\right)$, minimum $8\left(\mathrm{e}, \frac{1}{\mathrm{e}}\right)$, maximum $9 y=5 x-5$
+<a id="ch04-ans-ex4D-q6"></a>
+##### Answer 6
+$2+4 \ln 10,3+2 \ln 10$
 
+<a id="ch04-ans-ex4D-q7"></a>
+##### Answer 7
+$\left(\frac{1}{\sqrt{\mathbf{e}}},-\frac{1}{2 \mathbf{e}}\right)$
+
+
+<a id="ch04-ans-ex4D-q8"></a>
+##### Answer 8
+minimum $\left(\mathrm{e}, \frac{1}{\mathrm{e}}\right)$
+
+<a id="ch04-ans-ex4D-q9"></a>
+##### Answer 9
+maximum $y=5x-5$
 <a id="ch04-ans-ex4D-q10"></a>
 ##### Answer 10
 **a** $\frac{5}{2(5 x-1)}$
@@ -486,7 +499,11 @@ $x=\frac{\pi}{12}$, minimum
 
 <a id="ch04-ans-ex4E-q16"></a>
 ##### Answer 16
-$x=\frac{\pi}{6}$ maximum, $x=\frac{5 \pi}{6}$ minimum, $x=\frac{7 \pi}{6}$ maximum, $x=\frac{11 \pi}{6}$ minimum 170.452
+$x=\frac{\pi}{6}$ maximum, $x=\frac{5 \pi}{6}$ minimum, $x=\frac{7 \pi}{6}$ maximum, $x=\frac{11 \pi}{6}$ minimum
+
+<a id="ch04-ans-ex4E-q17"></a>
+##### Answer 17
+0.452
 
 <a id="ch04-ans-ex4F"></a>
 ### EXERCISE 4F
@@ -535,7 +552,9 @@ $x=\frac{\pi}{6}$ maximum, $x=\frac{5 \pi}{6}$ minimum, $x=\frac{7 \pi}{6}$ maxi
 
 **h** $\frac{y(5 x y+1)}{x(2-5 x y)}$
 
-$3-\frac{11}{25}$
+<a id="ch04-ans-ex4F-q3"></a>
+##### Answer 3
+$-\frac{11}{25}$
 
 <a id="ch04-ans-ex4F-q4"></a>
 ##### Answer 4
@@ -569,7 +588,9 @@ $y=\frac{3}{8} x+\frac{5}{8}$
 
 **b** $(1,2)$
 
-$10-\frac{44}{21}$
+<a id="ch04-ans-ex4F-q10"></a>
+##### Answer 10
+$-\frac{44}{21}$
 
 <a id="ch04-ans-ex4F-q11"></a>
 ##### Answer 11
@@ -616,13 +637,18 @@ $\mathrm{e}^{-1}$
 
 **l** $\frac{4}{\sqrt{t}}$
 
-$2-3, \frac{1}{3}$
+<a id="ch04-ans-ex4G-q2"></a>
+##### Answer 2
+
+$-3, \frac{1}{3}$
 
 <a id="ch04-ans-ex4G-q3"></a>
 ##### Answer 3
 $3 \sqrt{3}$
 
-$4(2,4)$
+<a id="ch04-ans-ex4G-q4"></a>
+##### Answer 4
+$(2,4)$
 
 <a id="ch04-ans-ex4G-q5"></a>
 ##### Answer 5

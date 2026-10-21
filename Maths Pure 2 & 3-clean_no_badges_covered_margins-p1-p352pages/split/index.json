@@ -5750,7 +5750,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4D-q10",
-  "line": 318,
+  "line": 331,
   "next_id": "ch04-ans-ex4D-q11",
   "type": "answer"
  },
@@ -5758,7 +5758,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4D-q11",
-  "line": 338,
+  "line": 351,
   "next_id": "ch04-ans-ex4D-q12",
   "type": "answer"
  },
@@ -5766,7 +5766,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4D-q12",
-  "line": 346,
+  "line": 359,
   "next_id": "ch04-ans-ex4E",
   "type": "answer"
  },
@@ -5799,6 +5799,38 @@
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4D-q5",
   "line": 310,
+  "next_id": "ch04-ans-ex4D-q6",
+  "type": "answer"
+ },
+ "ch04-ans-ex4D-q6": {
+  "chapter": 4,
+  "file": "ans04-differentiation.md",
+  "id": "ch04-ans-ex4D-q6",
+  "line": 315,
+  "next_id": "ch04-ans-ex4D-q7",
+  "type": "answer"
+ },
+ "ch04-ans-ex4D-q7": {
+  "chapter": 4,
+  "file": "ans04-differentiation.md",
+  "id": "ch04-ans-ex4D-q7",
+  "line": 319,
+  "next_id": "ch04-ans-ex4D-q8",
+  "type": "answer"
+ },
+ "ch04-ans-ex4D-q8": {
+  "chapter": 4,
+  "file": "ans04-differentiation.md",
+  "id": "ch04-ans-ex4D-q8",
+  "line": 324,
+  "next_id": "ch04-ans-ex4D-q9",
+  "type": "answer"
+ },
+ "ch04-ans-ex4D-q9": {
+  "chapter": 4,
+  "file": "ans04-differentiation.md",
+  "id": "ch04-ans-ex4D-q9",
+  "line": 328,
   "next_id": "ch04-ans-ex4D-q10",
   "type": "answer"
  },
@@ -5807,7 +5839,7 @@
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4E",
   "kind": "exercise",
-  "line": 350,
+  "line": 363,
   "next_id": "ch04-ans-ex4E-q1",
   "type": "exercise"
  },
@@ -5815,7 +5847,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4E-q1",
-  "line": 353,
+  "line": 366,
   "next_id": "ch04-ans-ex4E-q2",
   "type": "answer"
  },
@@ -5823,7 +5855,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4E-q10",
-  "line": 463,
+  "line": 476,
   "next_id": "ch04-ans-ex4E-q11",
   "type": "answer"
  },
@@ -5831,7 +5863,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4E-q11",
-  "line": 467,
+  "line": 480,
   "next_id": "ch04-ans-ex4E-q12",
   "type": "answer"
  },
@@ -5839,7 +5871,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4E-q12",
-  "line": 471,
+  "line": 484,
   "next_id": "ch04-ans-ex4E-q13",
   "type": "answer"
  },
@@ -5847,7 +5879,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4E-q13",
-  "line": 475,
+  "line": 488,
   "next_id": "ch04-ans-ex4E-q14",
   "type": "answer"
  },
@@ -5855,7 +5887,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4E-q14",
-  "line": 479,
+  "line": 492,
   "next_id": "ch04-ans-ex4E-q15",
   "type": "answer"
  },
@@ -5863,7 +5895,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4E-q15",
-  "line": 483,
+  "line": 496,
   "next_id": "ch04-ans-ex4E-q16",
   "type": "answer"
  },
@@ -5871,7 +5903,15 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4E-q16",
-  "line": 487,
+  "line": 500,
+  "next_id": "ch04-ans-ex4E-q17",
+  "type": "answer"
+ },
+ "ch04-ans-ex4E-q17": {
+  "chapter": 4,
+  "file": "ans04-differentiation.md",
+  "id": "ch04-ans-ex4E-q17",
+  "line": 504,
   "next_id": "ch04-ans-ex4F",
   "type": "answer"
  },
@@ -5879,7 +5919,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4E-q2",
-  "line": 373,
+  "line": 386,
   "next_id": "ch04-ans-ex4E-q3",
   "type": "answer"
  },
@@ -5887,7 +5927,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4E-q3",
-  "line": 387,
+  "line": 400,
   "next_id": "ch04-ans-ex4E-q4",
   "type": "answer"
  },
@@ -5895,7 +5935,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4E-q4",
-  "line": 413,
+  "line": 426,
   "next_id": "ch04-ans-ex4E-q5",
   "type": "answer"
  },
@@ -5903,7 +5943,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4E-q5",
-  "line": 439,
+  "line": 452,
   "next_id": "ch04-ans-ex4E-q6",
   "type": "answer"
  },
@@ -5911,7 +5951,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4E-q6",
-  "line": 443,
+  "line": 456,
   "next_id": "ch04-ans-ex4E-q7",
   "type": "answer"
  },
@@ -5919,7 +5959,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4E-q7",
-  "line": 447,
+  "line": 460,
   "next_id": "ch04-ans-ex4E-q8",
   "type": "answer"
  },
@@ -5927,7 +5967,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4E-q8",
-  "line": 451,
+  "line": 464,
   "next_id": "ch04-ans-ex4E-q9",
   "type": "answer"
  },
@@ -5935,7 +5975,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4E-q9",
-  "line": 455,
+  "line": 468,
   "next_id": "ch04-ans-ex4E-q10",
   "type": "answer"
  },
@@ -5944,7 +5984,7 @@
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4F",
   "kind": "exercise",
-  "line": 491,
+  "line": 508,
   "next_id": "ch04-ans-ex4F-q1",
   "type": "exercise"
  },
@@ -5952,15 +5992,23 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4F-q1",
-  "line": 494,
+  "line": 511,
   "next_id": "ch04-ans-ex4F-q2",
+  "type": "answer"
+ },
+ "ch04-ans-ex4F-q10": {
+  "chapter": 4,
+  "file": "ans04-differentiation.md",
+  "id": "ch04-ans-ex4F-q10",
+  "line": 591,
+  "next_id": "ch04-ans-ex4F-q11",
   "type": "answer"
  },
  "ch04-ans-ex4F-q11": {
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4F-q11",
-  "line": 574,
+  "line": 595,
   "next_id": "ch04-ans-ex4F-q12",
   "type": "answer"
  },
@@ -5968,7 +6016,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4F-q12",
-  "line": 578,
+  "line": 599,
   "next_id": "ch04-ans-ex4F-q13",
   "type": "answer"
  },
@@ -5976,7 +6024,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4F-q13",
-  "line": 582,
+  "line": 603,
   "next_id": "ch04-ans-ex4F-q14",
   "type": "answer"
  },
@@ -5984,7 +6032,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4F-q14",
-  "line": 586,
+  "line": 607,
   "next_id": "ch04-ans-ex4G",
   "type": "answer"
  },
@@ -5992,7 +6040,15 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4F-q2",
-  "line": 520,
+  "line": 537,
+  "next_id": "ch04-ans-ex4F-q3",
+  "type": "answer"
+ },
+ "ch04-ans-ex4F-q3": {
+  "chapter": 4,
+  "file": "ans04-differentiation.md",
+  "id": "ch04-ans-ex4F-q3",
+  "line": 555,
   "next_id": "ch04-ans-ex4F-q4",
   "type": "answer"
  },
@@ -6000,7 +6056,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4F-q4",
-  "line": 540,
+  "line": 559,
   "next_id": "ch04-ans-ex4F-q5",
   "type": "answer"
  },
@@ -6008,7 +6064,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4F-q5",
-  "line": 544,
+  "line": 563,
   "next_id": "ch04-ans-ex4F-q6",
   "type": "answer"
  },
@@ -6016,7 +6072,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4F-q6",
-  "line": 548,
+  "line": 567,
   "next_id": "ch04-ans-ex4F-q7",
   "type": "answer"
  },
@@ -6024,7 +6080,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4F-q7",
-  "line": 552,
+  "line": 571,
   "next_id": "ch04-ans-ex4F-q8",
   "type": "answer"
  },
@@ -6032,7 +6088,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4F-q8",
-  "line": 558,
+  "line": 577,
   "next_id": "ch04-ans-ex4F-q9",
   "type": "answer"
  },
@@ -6040,8 +6096,8 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4F-q9",
-  "line": 566,
-  "next_id": "ch04-ans-ex4F-q11",
+  "line": 585,
+  "next_id": "ch04-ans-ex4F-q10",
   "type": "answer"
  },
  "ch04-ans-ex4G": {
@@ -6049,7 +6105,7 @@
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4G",
   "kind": "exercise",
-  "line": 590,
+  "line": 611,
   "next_id": "ch04-ans-ex4G-q1",
   "type": "exercise"
  },
@@ -6057,15 +6113,15 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4G-q1",
-  "line": 593,
-  "next_id": "ch04-ans-ex4G-q3",
+  "line": 614,
+  "next_id": "ch04-ans-ex4G-q2",
   "type": "answer"
  },
  "ch04-ans-ex4G-q10": {
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4G-q10",
-  "line": 653,
+  "line": 679,
   "next_id": "ch04-ans-ex4G-q11",
   "type": "answer"
  },
@@ -6073,15 +6129,31 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4G-q11",
-  "line": 661,
+  "line": 687,
   "next_id": "ch04-ans-review",
+  "type": "answer"
+ },
+ "ch04-ans-ex4G-q2": {
+  "chapter": 4,
+  "file": "ans04-differentiation.md",
+  "id": "ch04-ans-ex4G-q2",
+  "line": 640,
+  "next_id": "ch04-ans-ex4G-q3",
   "type": "answer"
  },
  "ch04-ans-ex4G-q3": {
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4G-q3",
-  "line": 621,
+  "line": 645,
+  "next_id": "ch04-ans-ex4G-q4",
+  "type": "answer"
+ },
+ "ch04-ans-ex4G-q4": {
+  "chapter": 4,
+  "file": "ans04-differentiation.md",
+  "id": "ch04-ans-ex4G-q4",
+  "line": 649,
   "next_id": "ch04-ans-ex4G-q5",
   "type": "answer"
  },
@@ -6089,7 +6161,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4G-q5",
-  "line": 627,
+  "line": 653,
   "next_id": "ch04-ans-ex4G-q6",
   "type": "answer"
  },
@@ -6097,7 +6169,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4G-q6",
-  "line": 631,
+  "line": 657,
   "next_id": "ch04-ans-ex4G-q7",
   "type": "answer"
  },
@@ -6105,7 +6177,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4G-q7",
-  "line": 637,
+  "line": 663,
   "next_id": "ch04-ans-ex4G-q8",
   "type": "answer"
  },
@@ -6113,7 +6185,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4G-q8",
-  "line": 643,
+  "line": 669,
   "next_id": "ch04-ans-ex4G-q9",
   "type": "answer"
  },
@@ -6121,7 +6193,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-ex4G-q9",
-  "line": 649,
+  "line": 675,
   "next_id": "ch04-ans-ex4G-q10",
   "type": "answer"
  },
@@ -6163,7 +6235,7 @@
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-review",
   "kind": "review",
-  "line": 667,
+  "line": 693,
   "next_id": "ch04-ans-review-q1",
   "type": "exercise"
  },
@@ -6171,7 +6243,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-review-q1",
-  "line": 670,
+  "line": 696,
   "next_id": "ch04-ans-review-q2",
   "type": "answer"
  },
@@ -6179,7 +6251,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-review-q10",
-  "line": 726,
+  "line": 752,
   "next_id": "ch04-ans-review-q11",
   "type": "answer"
  },
@@ -6187,7 +6259,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-review-q11",
-  "line": 732,
+  "line": 758,
   "next_id": "ch04-ans-review-q12",
   "type": "answer"
  },
@@ -6195,7 +6267,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-review-q12",
-  "line": 736,
+  "line": 762,
   "next_id": "ch04-ans-review-q13",
   "type": "answer"
  },
@@ -6203,7 +6275,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-review-q13",
-  "line": 742,
+  "line": 768,
   "next_id": null,
   "type": "answer"
  },
@@ -6211,7 +6283,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-review-q2",
-  "line": 676,
+  "line": 702,
   "next_id": "ch04-ans-review-q3",
   "type": "answer"
  },
@@ -6219,7 +6291,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-review-q3",
-  "line": 682,
+  "line": 708,
   "next_id": "ch04-ans-review-q4",
   "type": "answer"
  },
@@ -6227,7 +6299,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-review-q4",
-  "line": 690,
+  "line": 716,
   "next_id": "ch04-ans-review-q5",
   "type": "answer"
  },
@@ -6235,7 +6307,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-review-q5",
-  "line": 696,
+  "line": 722,
   "next_id": "ch04-ans-review-q6",
   "type": "answer"
  },
@@ -6243,7 +6315,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-review-q6",
-  "line": 702,
+  "line": 728,
   "next_id": "ch04-ans-review-q7",
   "type": "answer"
  },
@@ -6251,7 +6323,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-review-q7",
-  "line": 710,
+  "line": 736,
   "next_id": "ch04-ans-review-q8",
   "type": "answer"
  },
@@ -6259,7 +6331,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-review-q8",
-  "line": 714,
+  "line": 740,
   "next_id": "ch04-ans-review-q9",
   "type": "answer"
  },
@@ -6267,7 +6339,7 @@
   "chapter": 4,
   "file": "ans04-differentiation.md",
   "id": "ch04-ans-review-q9",
-  "line": 722,
+  "line": 748,
   "next_id": "ch04-ans-review-q10",
   "type": "answer"
  },
@@ -6568,6 +6640,14 @@
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4D-q11",
   "line": 854,
+  "next_id": "ch04-ex4D-q12",
+  "type": "question"
+ },
+ "ch04-ex4D-q12": {
+  "chapter": 4,
+  "file": "ch04-differentiation.md",
+  "id": "ch04-ex4D-q12",
+  "line": 868,
   "next_id": "ch04-kp-4.7",
   "type": "question"
  },
@@ -6640,7 +6720,7 @@
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4E",
   "kind": "exercise",
-  "line": 1084,
+  "line": 1086,
   "next_id": "ch04-ex4E-q1",
   "type": "exercise"
  },
@@ -6648,7 +6728,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4E-q1",
-  "line": 1087,
+  "line": 1089,
   "next_id": "ch04-ex4E-q2",
   "type": "question"
  },
@@ -6656,7 +6736,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4E-q10",
-  "line": 1205,
+  "line": 1207,
   "next_id": "ch04-ex4E-q11",
   "type": "question"
  },
@@ -6664,7 +6744,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4E-q11",
-  "line": 1209,
+  "line": 1211,
   "next_id": "ch04-ex4E-q12",
   "type": "question"
  },
@@ -6672,7 +6752,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4E-q12",
-  "line": 1213,
+  "line": 1215,
   "next_id": "ch04-ex4E-q13",
   "type": "question"
  },
@@ -6680,7 +6760,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4E-q13",
-  "line": 1217,
+  "line": 1219,
   "next_id": "ch04-ex4E-q14",
   "type": "question"
  },
@@ -6688,7 +6768,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4E-q14",
-  "line": 1221,
+  "line": 1223,
   "next_id": "ch04-ex4E-q15",
   "type": "question"
  },
@@ -6696,7 +6776,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4E-q15",
-  "line": 1225,
+  "line": 1227,
   "next_id": "ch04-ex4E-q16",
   "type": "question"
  },
@@ -6704,7 +6784,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4E-q16",
-  "line": 1229,
+  "line": 1231,
   "next_id": "ch04-ex4E-q17",
   "type": "question"
  },
@@ -6712,7 +6792,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4E-q17",
-  "line": 1233,
+  "line": 1235,
   "next_id": "ch04-we-4.11",
   "type": "question"
  },
@@ -6720,7 +6800,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4E-q2",
-  "line": 1109,
+  "line": 1111,
   "next_id": "ch04-ex4E-q3",
   "type": "question"
  },
@@ -6728,7 +6808,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4E-q3",
-  "line": 1125,
+  "line": 1127,
   "next_id": "ch04-ex4E-q4",
   "type": "question"
  },
@@ -6736,7 +6816,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4E-q4",
-  "line": 1153,
+  "line": 1155,
   "next_id": "ch04-ex4E-q5",
   "type": "question"
  },
@@ -6744,7 +6824,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4E-q5",
-  "line": 1181,
+  "line": 1183,
   "next_id": "ch04-ex4E-q6",
   "type": "question"
  },
@@ -6752,7 +6832,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4E-q6",
-  "line": 1185,
+  "line": 1187,
   "next_id": "ch04-ex4E-q7",
   "type": "question"
  },
@@ -6760,7 +6840,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4E-q7",
-  "line": 1189,
+  "line": 1191,
   "next_id": "ch04-ex4E-q8",
   "type": "question"
  },
@@ -6768,7 +6848,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4E-q8",
-  "line": 1193,
+  "line": 1195,
   "next_id": "ch04-ex4E-q9",
   "type": "question"
  },
@@ -6776,7 +6856,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4E-q9",
-  "line": 1197,
+  "line": 1199,
   "next_id": "ch04-ex4E-q10",
   "type": "question"
  },
@@ -6785,7 +6865,7 @@
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4F",
   "kind": "exercise",
-  "line": 1365,
+  "line": 1367,
   "next_id": "ch04-ex4F-q1",
   "type": "exercise"
  },
@@ -6793,7 +6873,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4F-q1",
-  "line": 1368,
+  "line": 1370,
   "next_id": "ch04-ex4F-q2",
   "type": "question"
  },
@@ -6801,7 +6881,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4F-q10",
-  "line": 1458,
+  "line": 1460,
   "next_id": "ch04-ex4F-q11",
   "type": "question"
  },
@@ -6809,7 +6889,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4F-q11",
-  "line": 1462,
+  "line": 1464,
   "next_id": "ch04-ex4F-q12",
   "type": "question"
  },
@@ -6817,7 +6897,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4F-q12",
-  "line": 1466,
+  "line": 1468,
   "next_id": "ch04-ex4F-q13",
   "type": "question"
  },
@@ -6825,7 +6905,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4F-q13",
-  "line": 1470,
+  "line": 1472,
   "next_id": "ch04-ex4F-q14",
   "type": "question"
  },
@@ -6833,7 +6913,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4F-q14",
-  "line": 1474,
+  "line": 1476,
   "next_id": "ch04-we-4.14",
   "type": "question"
  },
@@ -6841,7 +6921,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4F-q2",
-  "line": 1396,
+  "line": 1398,
   "next_id": "ch04-ex4F-q3",
   "type": "question"
  },
@@ -6849,7 +6929,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4F-q3",
-  "line": 1416,
+  "line": 1418,
   "next_id": "ch04-ex4F-q4",
   "type": "question"
  },
@@ -6857,7 +6937,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4F-q4",
-  "line": 1420,
+  "line": 1422,
   "next_id": "ch04-ex4F-q5",
   "type": "question"
  },
@@ -6865,7 +6945,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4F-q5",
-  "line": 1424,
+  "line": 1426,
   "next_id": "ch04-ex4F-q6",
   "type": "question"
  },
@@ -6873,7 +6953,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4F-q6",
-  "line": 1428,
+  "line": 1430,
   "next_id": "ch04-ex4F-q7",
   "type": "question"
  },
@@ -6881,7 +6961,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4F-q7",
-  "line": 1432,
+  "line": 1434,
   "next_id": "ch04-ex4F-q8",
   "type": "question"
  },
@@ -6889,7 +6969,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4F-q8",
-  "line": 1440,
+  "line": 1442,
   "next_id": "ch04-ex4F-q9",
   "type": "question"
  },
@@ -6897,7 +6977,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4F-q9",
-  "line": 1450,
+  "line": 1452,
   "next_id": "ch04-ex4F-q10",
   "type": "question"
  },
@@ -6906,7 +6986,7 @@
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4G",
   "kind": "exercise",
-  "line": 1596,
+  "line": 1598,
   "next_id": "ch04-ex4G-q1",
   "type": "exercise"
  },
@@ -6914,7 +6994,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4G-q1",
-  "line": 1599,
+  "line": 1601,
   "next_id": "ch04-ex4G-q2",
   "type": "question"
  },
@@ -6922,7 +7002,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4G-q10",
-  "line": 1671,
+  "line": 1673,
   "next_id": "ch04-ex4G-q11",
   "type": "question"
  },
@@ -6930,7 +7010,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4G-q11",
-  "line": 1681,
+  "line": 1683,
   "next_id": "ch04-review",
   "type": "question"
  },
@@ -6938,7 +7018,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4G-q2",
-  "line": 1627,
+  "line": 1629,
   "next_id": "ch04-ex4G-q3",
   "type": "question"
  },
@@ -6946,7 +7026,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4G-q3",
-  "line": 1631,
+  "line": 1633,
   "next_id": "ch04-ex4G-q4",
   "type": "question"
  },
@@ -6954,7 +7034,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4G-q4",
-  "line": 1635,
+  "line": 1637,
   "next_id": "ch04-ex4G-q5",
   "type": "question"
  },
@@ -6962,7 +7042,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4G-q5",
-  "line": 1639,
+  "line": 1641,
   "next_id": "ch04-ex4G-q6",
   "type": "question"
  },
@@ -6970,7 +7050,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4G-q6",
-  "line": 1643,
+  "line": 1645,
   "next_id": "ch04-ex4G-q7",
   "type": "question"
  },
@@ -6978,7 +7058,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4G-q7",
-  "line": 1651,
+  "line": 1653,
   "next_id": "ch04-ex4G-q8",
   "type": "question"
  },
@@ -6986,7 +7066,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4G-q8",
-  "line": 1659,
+  "line": 1661,
   "next_id": "ch04-ex4G-q9",
   "type": "question"
  },
@@ -6994,7 +7074,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-ex4G-q9",
-  "line": 1667,
+  "line": 1669,
   "next_id": "ch04-ex4G-q10",
   "type": "question"
  },
@@ -7057,7 +7137,7 @@
   "file": "ch04-differentiation.md",
   "id": "ch04-kp-4.7",
   "kind": "key-point",
-  "line": 901,
+  "line": 903,
   "next_id": "ch04-kp-4.8",
   "type": "key-point"
  },
@@ -7066,7 +7146,7 @@
   "file": "ch04-differentiation.md",
   "id": "ch04-kp-4.8",
   "kind": "key-point",
-  "line": 927,
+  "line": 929,
   "next_id": "ch04-we-4.9",
   "type": "key-point"
  },
@@ -7075,7 +7155,7 @@
   "file": "ch04-differentiation.md",
   "id": "ch04-kp-4.9",
   "kind": "key-point",
-  "line": 1007,
+  "line": 1009,
   "next_id": "ch04-we-4.10",
   "type": "key-point"
  },
@@ -7093,7 +7173,7 @@
   "file": "ch04-differentiation.md",
   "id": "ch04-review",
   "kind": "review",
-  "line": 1715,
+  "line": 1717,
   "next_id": "ch04-review-q1",
   "type": "exercise"
  },
@@ -7101,7 +7181,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-review-q1",
-  "line": 1718,
+  "line": 1720,
   "next_id": "ch04-review-q2",
   "type": "question"
  },
@@ -7109,7 +7189,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-review-q10",
-  "line": 1816,
+  "line": 1818,
   "next_id": "ch04-review-q11",
   "type": "question"
  },
@@ -7117,7 +7197,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-review-q11",
-  "line": 1824,
+  "line": 1826,
   "next_id": "ch04-review-q12",
   "type": "question"
  },
@@ -7125,7 +7205,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-review-q12",
-  "line": 1832,
+  "line": 1834,
   "next_id": "ch04-review-q13",
   "type": "question"
  },
@@ -7133,7 +7213,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-review-q13",
-  "line": 1842,
+  "line": 1844,
   "next_id": null,
   "type": "question"
  },
@@ -7141,7 +7221,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-review-q2",
-  "line": 1732,
+  "line": 1734,
   "next_id": "ch04-review-q3",
   "type": "question"
  },
@@ -7149,7 +7229,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-review-q3",
-  "line": 1742,
+  "line": 1744,
   "next_id": "ch04-review-q4",
   "type": "question"
  },
@@ -7157,7 +7237,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-review-q4",
-  "line": 1754,
+  "line": 1756,
   "next_id": "ch04-review-q5",
   "type": "question"
  },
@@ -7165,7 +7245,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-review-q5",
-  "line": 1764,
+  "line": 1766,
   "next_id": "ch04-review-q6",
   "type": "question"
  },
@@ -7173,7 +7253,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-review-q6",
-  "line": 1774,
+  "line": 1776,
   "next_id": "ch04-review-q7",
   "type": "question"
  },
@@ -7181,7 +7261,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-review-q7",
-  "line": 1786,
+  "line": 1788,
   "next_id": "ch04-review-q8",
   "type": "question"
  },
@@ -7189,7 +7269,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-review-q8",
-  "line": 1794,
+  "line": 1796,
   "next_id": "ch04-review-q9",
   "type": "question"
  },
@@ -7197,7 +7277,7 @@
   "chapter": 4,
   "file": "ch04-differentiation.md",
   "id": "ch04-review-q9",
-  "line": 1808,
+  "line": 1810,
   "next_id": "ch04-review-q10",
   "type": "question"
  },
@@ -7215,7 +7295,7 @@
   "file": "ch04-differentiation.md",
   "id": "ch04-we-4.10",
   "kind": "worked-example",
-  "line": 1023,
+  "line": 1025,
   "next_id": "ch04-ex4E",
   "type": "worked-example"
  },
@@ -7224,7 +7304,7 @@
   "file": "ch04-differentiation.md",
   "id": "ch04-we-4.11",
   "kind": "worked-example",
-  "line": 1247,
+  "line": 1249,
   "next_id": "ch04-we-4.12",
   "type": "worked-example"
  },
@@ -7233,7 +7313,7 @@
   "file": "ch04-differentiation.md",
   "id": "ch04-we-4.12",
   "kind": "worked-example",
-  "line": 1291,
+  "line": 1293,
   "next_id": "ch04-we-4.13",
   "type": "worked-example"
  },
@@ -7242,7 +7322,7 @@
   "file": "ch04-differentiation.md",
   "id": "ch04-we-4.13",
   "kind": "worked-example",
-  "line": 1318,
+  "line": 1320,
   "next_id": "ch04-ex4F",
   "type": "worked-example"
  },
@@ -7251,7 +7331,7 @@
   "file": "ch04-differentiation.md",
   "id": "ch04-we-4.14",
   "kind": "worked-example",
-  "line": 1519,
+  "line": 1521,
   "next_id": "ch04-we-4.15",
   "type": "worked-example"
  },
@@ -7260,7 +7340,7 @@
   "file": "ch04-differentiation.md",
   "id": "ch04-we-4.15",
   "kind": "worked-example",
-  "line": 1556,
+  "line": 1558,
   "next_id": "ch04-ex4G",
   "type": "worked-example"
  },
@@ -7332,7 +7412,7 @@
   "file": "ch04-differentiation.md",
   "id": "ch04-we-4.9",
   "kind": "worked-example",
-  "line": 934,
+  "line": 936,
   "next_id": "ch04-kp-4.9",
   "type": "worked-example"
  },

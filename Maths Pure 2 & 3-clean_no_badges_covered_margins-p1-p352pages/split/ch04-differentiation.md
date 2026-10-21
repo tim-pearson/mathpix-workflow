@@ -865,7 +865,9 @@ Find $\frac{\mathrm{d} y}{\mathrm{~d} x}$, in terms of $x$, for each of the foll
 
 Take the natural logarithm of both sides of the equation before differentiating.
 
-**12** A curve has equation $x=\frac{1}{5}\left[\mathrm{e}^{y(2 x-3)}+4\right]$. Find the value of $\frac{\mathrm{d} y}{\mathrm{~d} x}$ when $x=1$.
+<a id="ch04-ex4D-q12"></a>
+##### Question 11
+A curve has equation $x=\frac{1}{5}\left[\mathrm{e}^{y(2 x-3)}+4\right]$. Find the value of $\frac{\mathrm{d} y}{\mathrm{~d} x}$ when $x=1$.
 
 ## 4.5 Derivatives of trigonometric functions
 
